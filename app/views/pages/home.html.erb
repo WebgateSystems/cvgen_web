@@ -1,0 +1,102 @@
+<% content_for :title, t("brand") %>
+<% content_for :body_class, "landing-body" %>
+
+<div class="landing">
+  <header class="landing-nav">
+    <a class="brand" href="<%= root_path %>"><%= t("brand") %></a>
+
+    <div class="landing-nav__controls">
+      <div class="dropdown">
+        <button class="ctrl-btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+          <i class="bi bi-translate" aria-hidden="true"></i>
+          <span><%= I18n.locale.to_s.upcase %></span>
+        </button>
+        <ul class="dropdown-menu dropdown-menu-end">
+          <li><%= link_to "English", locale_path(locale: :en), class: "dropdown-item #{'active' if I18n.locale == :en}" %></li>
+          <li><%= link_to "Polski", locale_path(locale: :pl), class: "dropdown-item #{'active' if I18n.locale == :pl}" %></li>
+        </ul>
+      </div>
+
+      <div class="dropdown">
+        <button class="ctrl-btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+          <i class="bi bi-circle-half" aria-hidden="true"></i>
+          <span data-theme-target="label"><%= t("nav.theme_system") %></span>
+        </button>
+        <ul class="dropdown-menu dropdown-menu-end">
+          <li><button type="button" class="dropdown-item" data-action="theme#system"><%= t("nav.theme_system") %></button></li>
+          <li><button type="button" class="dropdown-item" data-action="theme#light"><%= t("nav.theme_light") %></button></li>
+          <li><button type="button" class="dropdown-item" data-action="theme#dark"><%= t("nav.theme_dark") %></button></li>
+        </ul>
+      </div>
+
+      <div class="landing-nav__auth">
+        <%= link_to t("nav.sign_in"), new_user_session_path, class: "link-quiet" %>
+        <%= link_to t("nav.sign_up"), new_user_registration_path, class: "btn-ink" %>
+      </div>
+    </div>
+  </header>
+
+  <main class="landing-hero">
+    <div class="landing-hero__copy">
+      <p class="brand-mark"><%= t("brand") %></p>
+      <p class="eyebrow"><%= t("landing.eyebrow") %></p>
+      <h1><%= t("landing.headline") %></h1>
+      <p class="lead"><%= t("landing.lead") %></p>
+
+      <div class="cta-row">
+        <%= link_to t("landing.cta_primary"), new_user_registration_path, class: "btn-ink btn-ink--lg" %>
+        <%= link_to t("landing.cta_secondary"), new_user_session_path, class: "btn-ghost btn-ghost--lg" %>
+      </div>
+
+      <div class="social-block">
+        <p class="social-block__title"><%= t("landing.social_title") %></p>
+        <div class="social-row">
+          <%= link_to new_user_registration_path(provider: "google"), class: "social-btn", aria: { label: t("landing.social_google") } do %>
+            <i class="bi bi-google" aria-hidden="true"></i>
+            <span><%= t("landing.social_google") %></span>
+          <% end %>
+          <%= link_to new_user_registration_path(provider: "apple"), class: "social-btn", aria: { label: t("landing.social_apple") } do %>
+            <i class="bi bi-apple" aria-hidden="true"></i>
+            <span><%= t("landing.social_apple") %></span>
+          <% end %>
+          <%= link_to new_user_registration_path(provider: "facebook"), class: "social-btn", aria: { label: t("landing.social_facebook") } do %>
+            <i class="bi bi-facebook" aria-hidden="true"></i>
+            <span><%= t("landing.social_facebook") %></span>
+          <% end %>
+        </div>
+        <p class="social-block__hint"><%= t("landing.social_hint") %></p>
+      </div>
+    </div>
+
+    <div class="landing-hero__stage" aria-hidden="true">
+      <div class="doc-plane">
+        <div class="doc-plane__glow"></div>
+        <article class="doc-sheet">
+          <header class="doc-sheet__head">
+            <span class="doc-sheet__label"><%= t("landing.visual_label") %></span>
+            <strong>Alex Rivera</strong>
+            <em><%= t("landing.visual_role") %></em>
+          </header>
+          <div class="doc-sheet__rule"></div>
+          <ul class="doc-sheet__lines">
+            <li></li><li></li><li></li><li class="short"></li>
+          </ul>
+          <div class="doc-sheet__offer">
+            <span><%= t("landing.visual_company") %></span>
+            <span class="pill">PDF</span>
+          </div>
+        </article>
+        <article class="doc-sheet doc-sheet--letter">
+          <header class="doc-sheet__head">
+            <span class="doc-sheet__label">Cover letter</span>
+            <strong><%= t("landing.visual_company") %></strong>
+          </header>
+          <div class="doc-sheet__rule"></div>
+          <ul class="doc-sheet__lines">
+            <li></li><li></li><li class="short"></li><li></li><li class="short"></li>
+          </ul>
+        </article>
+      </div>
+    </div>
+  </main>
+</div>

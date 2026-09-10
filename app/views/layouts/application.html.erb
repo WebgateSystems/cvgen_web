@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="<%= I18n.locale %>" data-controller="theme"
+      data-label-system="<%= t('nav.theme_system') %>"
+      data-label-light="<%= t('nav.theme_light') %>"
+      data-label-dark="<%= t('nav.theme_dark') %>">
+  <head>
+    <title><%= content_for?(:title) ? yield(:title) : t("brand") %></title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="application-name" content="<%= t('brand') %>">
+    <meta name="mobile-web-app-capable" content="yes">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <script>
+      (function () {
+        var pref = localStorage.getItem("cvgen-theme") || "system";
+        var dark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+        var theme = pref === "light" || pref === "dark" ? pref : (dark ? "dark" : "light");
+        document.documentElement.setAttribute("data-bs-theme", theme);
+        document.documentElement.setAttribute("data-theme-preference", pref);
+      })();
+    </script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Sora:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <%= yield :head %>
+
+    <link rel="icon" href="/icon.png" type="image/png">
+    <link rel="icon" href="/icon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="/icon.png">
+
+    <%= stylesheet_link_tag "application", "cvgen", "data-turbo-track": "reload" %>
+    <%= javascript_importmap_tags %>
+  </head>
+
+  <body class="<%= content_for?(:body_class) ? yield(:body_class) : '' %>">
+    <% if notice.present? %>
+      <div class="alert alert-success rounded-0 mb-0 text-center" role="status"><%= notice %></div>
+    <% end %>
+    <% if alert.present? %>
+      <div class="alert alert-danger rounded-0 mb-0 text-center" role="alert"><%= alert %></div>
+    <% end %>
+    <%= yield %>
+  </body>
+</html>

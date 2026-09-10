@@ -1,0 +1,30 @@
+pl:
+  brand: "CVGen"
+  nav:
+    sign_in: "Zaloguj się"
+    sign_up: "Załóż konto"
+    theme: "Motyw"
+    theme_system: "Systemowy"
+    theme_light: "Jasny"
+    theme_dark: "Ciemny"
+    language: "Język"
+  landing:
+    eyebrow: "Studio CV i listów motywacyjnych"
+    headline: "Dopasuj każdą aplikację bez pisania od zera."
+    lead: "Wgraj historię zawodową raz. Wygeneruj CV i list motywacyjny pod konkretną ofertę — i pobierz PDF."
+    cta_primary: "Zacznij za darmo"
+    cta_secondary: "Zaloguj się"
+    social_title: "Albo kontynuuj przez"
+    social_google: "Google"
+    social_apple: "Apple"
+    social_facebook: "Facebook"
+    social_hint: "Logowanie społecznościowe podłączysz jednym kliknięciem po rejestracji."
+    visual_label: "PDF pod ofertę"
+    visual_role: "Senior Rails Engineer"
+    visual_company: "Acme Platform"
+  devise:
+    shared:
+      links:
+        sign_in: "Zaloguj się"
+        sign_up: "Załóż konto"
+        forgot: "Nie pamiętasz hasła?"

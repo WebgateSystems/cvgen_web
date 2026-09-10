@@ -1,0 +1,48 @@
+<div class="auth-shell">
+  <div class="auth-card">
+    <a class="brand brand--auth" href="<%= root_path %>"><%= t("brand") %></a>
+    <h1 class="auth-title"><%= t("nav.sign_in") %></h1>
+
+    <%= form_for(resource, as: resource_name, url: session_path(resource_name), html: { class: "auth-form" }) do |f| %>
+      <div class="mb-3">
+        <%= f.label :email, class: "form-label" %>
+        <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "form-control" %>
+      </div>
+
+      <div class="mb-3">
+        <%= f.label :password, class: "form-label" %>
+        <%= f.password_field :password, autocomplete: "current-password", class: "form-control" %>
+      </div>
+
+      <% if devise_mapping.rememberable? %>
+        <div class="form-check mb-3">
+          <%= f.check_box :remember_me, class: "form-check-input" %>
+          <%= f.label :remember_me, class: "form-check-label" %>
+        </div>
+      <% end %>
+
+      <%= f.submit t("nav.sign_in"), class: "btn-ink w-100" %>
+    <% end %>
+
+    <div class="social-block mt-4">
+      <p class="social-block__title"><%= t("landing.social_title") %></p>
+      <div class="social-row">
+        <%= link_to new_user_session_path(provider: "google"), class: "social-btn" do %>
+          <i class="bi bi-google" aria-hidden="true"></i><span><%= t("landing.social_google") %></span>
+        <% end %>
+        <%= link_to new_user_session_path(provider: "apple"), class: "social-btn" do %>
+          <i class="bi bi-apple" aria-hidden="true"></i><span><%= t("landing.social_apple") %></span>
+        <% end %>
+        <%= link_to new_user_session_path(provider: "facebook"), class: "social-btn" do %>
+          <i class="bi bi-facebook" aria-hidden="true"></i><span><%= t("landing.social_facebook") %></span>
+        <% end %>
+      </div>
+    </div>
+
+    <p class="auth-links mt-4 mb-0">
+      <%= link_to t("nav.sign_up"), new_registration_path(resource_name), class: "link-quiet" %>
+      ·
+      <%= link_to t("devise.shared.links.forgot"), new_password_path(resource_name), class: "link-quiet" %>
+    </p>
+  </div>
+</div>

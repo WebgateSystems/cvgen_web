@@ -1,0 +1,30 @@
+en:
+  brand: "CVGen"
+  nav:
+    sign_in: "Log in"
+    sign_up: "Sign up"
+    theme: "Theme"
+    theme_system: "System"
+    theme_light: "Light"
+    theme_dark: "Dark"
+    language: "Language"
+  landing:
+    eyebrow: "CV & cover letter studio"
+    headline: "Tailor every application without rewriting from scratch."
+    lead: "Import your career story once. Generate a focused CV and cover letter for any role — then ship the PDF."
+    cta_primary: "Start free"
+    cta_secondary: "Log in"
+    social_title: "Or continue with"
+    social_google: "Google"
+    social_apple: "Apple"
+    social_facebook: "Facebook"
+    social_hint: "Social sign-in connects in one tap after you create an account."
+    visual_label: "Offer-ready PDF"
+    visual_role: "Senior Rails Engineer"
+    visual_company: "Acme Platform"
+  devise:
+    shared:
+      links:
+        sign_in: "Log in"
+        sign_up: "Sign up"
+        forgot: "Forgot your password?"
