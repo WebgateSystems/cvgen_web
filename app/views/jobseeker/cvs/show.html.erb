@@ -1,0 +1,125 @@
+<% content_for :title, t("jobseeker.cvs.title") %>
+
+<h1 class="admin-h1"><%= t("jobseeker.cvs.title") %></h1>
+<p class="admin-lead"><%= t("jobseeker.cvs.lead") %></p>
+
+<% if @profiles.empty? || @themes.empty? %>
+  <p class="text-secondary mb-3"><%= t("jobseeker.cvs.empty") %></p>
+  <div class="d-flex flex-wrap gap-2">
+    <%= link_to t("jobseeker.profiles.new"), new_jobseeker_profile_path, class: "btn-ink" %>
+    <%= link_to t("jobseeker.themes.upload"), new_jobseeker_theme_path, class: "btn-ghost" %>
+  </div>
+<% else %>
+  <%= tag.div class: "cv-studio",
+        data: {
+          controller: "cv-studio",
+          cv_studio_preview_url_value: jobseeker_cv_preview_path,
+          cv_studio_versions_value: @versions_by_profile,
+          cv_studio_generator_profiles_value: @generator_profile_options
+        } do %>
+    <div class="cv-studio__form">
+      <%= form_with model: @build, scope: :cv_build, url: jobseeker_cv_preview_path, method: :get, html: {
+            data: { cv_studio_target: "form", action: "change->cv-studio#onChange submit->cv-studio#preventSubmit", turbo: false }
+          } do |f| %>
+        <div class="mb-3">
+          <%= f.label :cv_profile_id, t("jobseeker.cvs.profile"), class: "form-label" %>
+          <%= f.select :cv_profile_id,
+                options_from_collection_for_select(@profiles, :id, :name, @build.cv_profile_id),
+                {},
+                class: "form-select",
+                data: { cv_studio_target: "profile" } %>
+        </div>
+
+        <div class="mb-3">
+          <%= f.label :cv_profile_version_id, t("jobseeker.cvs.version"), class: "form-label" %>
+          <%= f.select :cv_profile_version_id,
+                options_for_select(
+                  Array(@versions_by_profile[@build.cv_profile_id.to_s]).map { |version| [version[:label], version[:id]] },
+                  @build.cv_profile_version_id.to_s
+                ),
+                {},
+                class: "form-select",
+                data: { cv_studio_target: "version" } %>
+        </div>
+
+        <div class="mb-3">
+          <%= f.label :theme_id, t("jobseeker.cvs.theme"), class: "form-label" %>
+          <%= f.select :theme_id, theme_options_for_select(@themes, @build.theme_id), {}, class: "form-select", data: { cv_studio_target: "theme" } %>
+        </div>
+
+        <details class="cv-studio__advanced mb-3">
+          <summary><%= t("jobseeker.cvs.advanced") %></summary>
+          <p class="form-text"><%= t("jobseeker.cvs.advanced_hint") %></p>
+
+          <div class="mb-3">
+            <%= f.label :generator_profile, t("jobseeker.cvs.generator_profile"), class: "form-label" %>
+            <%= f.select :generator_profile,
+                  options_for_select(@generator_profiles, @build.generator_profile),
+                  {},
+                  class: "form-select",
+                  data: { cv_studio_target: "generatorProfile" } %>
+            <div class="form-text"><%= t("jobseeker.cvs.generator_profile_hint") %></div>
+          </div>
+
+          <div class="mb-3">
+            <%= f.label :layout, t("jobseeker.cvs.layout"), class: "form-label" %>
+            <%= f.select :layout, options_for_select(@layouts, @build.layout), {}, class: "form-select", data: { cv_studio_target: "layout" } %>
+          </div>
+
+          <div class="mb-3">
+            <%= f.label :scale, t("jobseeker.cvs.scale"), class: "form-label" %>
+            <%= f.number_field :scale, class: "form-control", min: 0.6, max: 1.4, step: 0.05, data: { cv_studio_target: "scale" } %>
+          </div>
+
+          <div class="form-check mb-3">
+            <%= f.check_box :fit, { class: "form-check-input", include_hidden: false, data: { cv_studio_target: "fit" } }, "true", "false" %>
+            <%= f.label :fit, t("jobseeker.cvs.fit"), class: "form-check-label" %>
+            <div class="form-text"><%= t("jobseeker.cvs.fit_hint") %></div>
+          </div>
+
+          <div class="mb-3">
+            <%= f.label :max_pages, t("jobseeker.cvs.max_pages"), class: "form-label" %>
+            <%= f.number_field :max_pages, class: "form-control", min: 1, max: 8, data: { cv_studio_target: "maxPages" } %>
+          </div>
+
+          <div class="mb-3">
+            <%= f.label :max_experience_items, t("jobseeker.cvs.max_experience"), class: "form-label" %>
+            <%= f.number_field :max_experience_items, class: "form-control", min: 1, max: 30, data: { cv_studio_target: "maxExperience" } %>
+            <div class="form-text"><%= t("jobseeker.cvs.max_experience_hint") %></div>
+          </div>
+
+          <div class="mb-3">
+            <%= f.label :include_skills, t("jobseeker.cvs.include_skills"), class: "form-label" %>
+            <%= f.text_field :include_skills, class: "form-control", data: { cv_studio_target: "includeSkills" } %>
+            <div class="form-text"><%= t("jobseeker.cvs.include_skills_hint") %></div>
+          </div>
+
+          <div class="mb-3">
+            <%= f.label :exclude, t("jobseeker.cvs.exclude"), class: "form-label" %>
+            <%= f.text_field :exclude, class: "form-control", data: { cv_studio_target: "exclude" } %>
+            <div class="form-text"><%= t("jobseeker.cvs.exclude_hint") %></div>
+          </div>
+        </details>
+
+        <div class="cv-studio__cli mb-3">
+          <div class="d-flex justify-content-between align-items-center mb-1">
+            <span class="form-label mb-0"><%= t("jobseeker.cvs.cli") %></span>
+            <button type="button" class="btn btn-sm btn-outline-secondary" data-action="cv-studio#copyCommand"><%= t("jobseeker.cvs.copy") %></button>
+          </div>
+          <pre class="cv-studio__command" data-cv-studio-target="command"><%= @build.cli_command %></pre>
+          <p class="form-text mb-0"><%= t("jobseeker.cvs.cli_hint") %></p>
+        </div>
+
+        <div class="d-flex flex-wrap gap-2">
+          <a class="btn-ink" data-cv-studio-target="download" href="#"><%= t("jobseeker.cvs.download") %></a>
+        </div>
+      <% end %>
+    </div>
+
+    <div class="cv-studio__preview">
+      <div class="cv-studio__error" data-cv-studio-target="error" hidden></div>
+      <iframe title="<%= t("jobseeker.cvs.preview") %>" data-cv-studio-target="iframe" hidden></iframe>
+      <p class="cv-studio__placeholder" data-cv-studio-target="placeholder" data-loading="<%= t("jobseeker.cvs.generating") %>"><%= t("jobseeker.cvs.preview_placeholder") %></p>
+    </div>
+  <% end %>
+<% end %>

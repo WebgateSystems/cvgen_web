@@ -95,6 +95,10 @@ body {
   margin-left: 0.35rem;
 }
 
+.landing-nav__auth form {
+  margin: 0;
+}
+
 .ctrl-btn {
   display: inline-flex;
   align-items: center;
@@ -473,3 +477,235 @@ body {
 .auth-links {
   font-size: 0.92rem;
 }
+
+.nav-user {
+  font-size: 0.82rem;
+  color: var(--cv-ink-soft);
+  max-width: 14rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.btn-ink--compact {
+  padding: 0.4rem 0.9rem;
+  font-size: 0.85rem;
+}
+
+.admin-body {
+  min-height: 100vh;
+  background: var(--cv-paper);
+  color: var(--cv-ink);
+}
+
+.admin-shell {
+  display: grid;
+  grid-template-columns: 240px minmax(0, 1fr);
+  min-height: 100vh;
+}
+
+.admin-sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 1.4rem 1rem;
+  border-right: 1px solid var(--cv-line);
+  background: var(--cv-sheet);
+}
+
+.brand--admin {
+  font-size: 1.35rem;
+  margin-bottom: 0.3rem;
+}
+
+.admin-sidebar__label {
+  margin: 0 0.4rem 0.6rem;
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--cv-ink-soft);
+}
+
+.admin-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.admin-nav__link,
+.admin-nav__link--btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.55rem 0.7rem;
+  border-radius: 0.7rem;
+  color: var(--cv-ink);
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 0.92rem;
+  background: transparent;
+  border: 0;
+  width: 100%;
+  text-align: left;
+}
+
+.admin-nav__link:hover,
+.admin-nav__link.is-active {
+  background: color-mix(in srgb, var(--cv-accent) 14%, transparent);
+  color: var(--cv-ink);
+}
+
+.admin-sidebar__foot {
+  margin-top: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.admin-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.7rem;
+  padding: 0.9rem 1.5rem;
+  border-bottom: 1px solid var(--cv-line);
+}
+
+.admin-content {
+  padding: 1.5rem 1.6rem 2.5rem;
+}
+
+.admin-h1 {
+  font-family: "Fraunces", Georgia, serif;
+  font-size: 1.8rem;
+  margin-bottom: 0.4rem;
+}
+
+.admin-lead {
+  color: var(--cv-ink-soft);
+  margin-bottom: 1.4rem;
+}
+
+.admin-stat {
+  border: 1px solid var(--cv-line);
+  border-radius: 1rem;
+  padding: 1rem 1.1rem;
+  background: var(--cv-sheet);
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.admin-stat span {
+  font-size: 0.8rem;
+  color: var(--cv-ink-soft);
+}
+
+.admin-stat strong {
+  font-family: "Fraunces", Georgia, serif;
+  font-size: 1.8rem;
+}
+
+.admin-table-wrap {
+  border: 1px solid var(--cv-line);
+  border-radius: 1rem;
+  overflow: hidden;
+  background: var(--cv-sheet);
+}
+
+.admin-form {
+  max-width: 32rem;
+}
+
+.admin-form .form-control,
+.admin-form .form-select {
+  border-radius: 0.75rem;
+  border-color: var(--cv-line);
+  background: var(--cv-sheet);
+  color: var(--cv-ink);
+}
+
+.cv-studio {
+  display: grid;
+  grid-template-columns: minmax(260px, 360px) minmax(0, 1fr);
+  gap: 1.5rem;
+  align-items: start;
+}
+
+.cv-studio__form .form-control,
+.cv-studio__form .form-select {
+  border-radius: 0.75rem;
+  border-color: var(--cv-line);
+  background: var(--cv-sheet);
+  color: var(--cv-ink);
+}
+
+.cv-studio__advanced {
+  border: 1px solid var(--cv-line);
+  border-radius: 0.85rem;
+  padding: 0.7rem 0.9rem;
+  background: var(--cv-sheet);
+}
+
+.cv-studio__advanced summary {
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.cv-studio__advanced[open] summary {
+  margin-bottom: 0.75rem;
+}
+
+.cv-studio__command {
+  margin: 0;
+  padding: 0.75rem 0.9rem;
+  border-radius: 0.75rem;
+  border: 1px solid var(--cv-line);
+  background: var(--cv-paper-deep);
+  font-size: 0.78rem;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.cv-studio__preview {
+  min-height: 80vh;
+  border: 1px solid var(--cv-line);
+  border-radius: 1rem;
+  overflow: hidden;
+  background: var(--cv-sheet);
+  position: relative;
+}
+
+.cv-studio__preview iframe {
+  width: 100%;
+  height: 80vh;
+  border: 0;
+  background: white;
+}
+
+.cv-studio__placeholder,
+.cv-studio__error {
+  margin: 0;
+  padding: 2rem 1.5rem;
+  color: var(--cv-ink-soft);
+}
+
+.cv-studio__error {
+  color: #b42318;
+}
+
+@media (max-width: 900px) {
+  .admin-shell {
+    grid-template-columns: 1fr;
+  }
+
+  .admin-sidebar {
+    border-right: 0;
+    border-bottom: 1px solid var(--cv-line);
+  }
+
+  .cv-studio {
+    grid-template-columns: 1fr;
+  }
+}
+

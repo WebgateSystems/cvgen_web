@@ -30,8 +30,19 @@
       </div>
 
       <div class="landing-nav__auth">
-        <%= link_to t("nav.sign_in"), new_user_session_path, class: "link-quiet" %>
-        <%= link_to t("nav.sign_up"), new_user_registration_path, class: "btn-ink" %>
+        <% if user_signed_in? %>
+          <% if current_user.admin? %>
+            <%= link_to t("nav.admin"), admin_root_path, class: "link-quiet" %>
+          <% end %>
+          <% if current_user.can_use_jobseeker_studio? %>
+            <%= link_to t("nav.studio"), jobseeker_root_path, class: "link-quiet" %>
+          <% end %>
+          <span class="nav-user"><%= current_user.email %></span>
+          <%= button_to t("nav.sign_out"), destroy_user_session_path, method: :delete, class: "btn-ink btn-ink--compact" %>
+        <% else %>
+          <%= link_to t("nav.sign_in"), new_user_session_path, class: "link-quiet" %>
+          <%= link_to t("nav.sign_up"), new_user_registration_path, class: "btn-ink" %>
+        <% end %>
       </div>
     </div>
   </header>
@@ -44,28 +55,39 @@
       <p class="lead"><%= t("landing.lead") %></p>
 
       <div class="cta-row">
-        <%= link_to t("landing.cta_primary"), new_user_registration_path, class: "btn-ink btn-ink--lg" %>
-        <%= link_to t("landing.cta_secondary"), new_user_session_path, class: "btn-ghost btn-ghost--lg" %>
+        <% if user_signed_in? %>
+          <% if current_user.admin? %>
+            <%= link_to t("landing.cta_admin"), admin_root_path, class: "btn-ink btn-ink--lg" %>
+            <%= link_to t("landing.cta_studio"), jobseeker_root_path, class: "btn-ghost btn-ghost--lg" %>
+          <% elsif current_user.can_use_jobseeker_studio? %>
+            <%= link_to t("landing.cta_signed_in"), jobseeker_root_path, class: "btn-ink btn-ink--lg" %>
+          <% end %>
+        <% else %>
+          <%= link_to t("landing.cta_primary"), new_user_registration_path, class: "btn-ink btn-ink--lg" %>
+          <%= link_to t("landing.cta_secondary"), new_user_session_path, class: "btn-ghost btn-ghost--lg" %>
+        <% end %>
       </div>
 
-      <div class="social-block">
-        <p class="social-block__title"><%= t("landing.social_title") %></p>
-        <div class="social-row">
-          <%= link_to new_user_registration_path(provider: "google"), class: "social-btn", aria: { label: t("landing.social_google") } do %>
-            <i class="bi bi-google" aria-hidden="true"></i>
-            <span><%= t("landing.social_google") %></span>
-          <% end %>
-          <%= link_to new_user_registration_path(provider: "apple"), class: "social-btn", aria: { label: t("landing.social_apple") } do %>
-            <i class="bi bi-apple" aria-hidden="true"></i>
-            <span><%= t("landing.social_apple") %></span>
-          <% end %>
-          <%= link_to new_user_registration_path(provider: "facebook"), class: "social-btn", aria: { label: t("landing.social_facebook") } do %>
-            <i class="bi bi-facebook" aria-hidden="true"></i>
-            <span><%= t("landing.social_facebook") %></span>
-          <% end %>
+      <% unless user_signed_in? %>
+        <div class="social-block">
+          <p class="social-block__title"><%= t("landing.social_title") %></p>
+          <div class="social-row">
+            <%= link_to new_user_registration_path(provider: "google"), class: "social-btn", aria: { label: t("landing.social_google") } do %>
+              <i class="bi bi-google" aria-hidden="true"></i>
+              <span><%= t("landing.social_google") %></span>
+            <% end %>
+            <%= link_to new_user_registration_path(provider: "apple"), class: "social-btn", aria: { label: t("landing.social_apple") } do %>
+              <i class="bi bi-apple" aria-hidden="true"></i>
+              <span><%= t("landing.social_apple") %></span>
+            <% end %>
+            <%= link_to new_user_registration_path(provider: "facebook"), class: "social-btn", aria: { label: t("landing.social_facebook") } do %>
+              <i class="bi bi-facebook" aria-hidden="true"></i>
+              <span><%= t("landing.social_facebook") %></span>
+            <% end %>
+          </div>
+          <p class="social-block__hint"><%= t("landing.social_hint") %></p>
         </div>
-        <p class="social-block__hint"><%= t("landing.social_hint") %></p>
-      </div>
+      <% end %>
     </div>
 
     <div class="landing-hero__stage" aria-hidden="true">

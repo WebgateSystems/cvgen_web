@@ -1,0 +1,43 @@
+<%= form_with model: [:admin, user], class: "admin-form" do |f| %>
+  <% if user.errors.any? %>
+    <div class="alert alert-danger">
+      <ul class="mb-0">
+        <% user.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="mb-3">
+    <%= f.label :email, class: "form-label" %>
+    <%= f.email_field :email, class: "form-control", required: true %>
+  </div>
+
+  <div class="mb-3">
+    <%= f.label :role, t("admin.users.role"), class: "form-label" %>
+    <%= f.select :role,
+          User.roles.keys.map { |role| [t("roles.#{role}"), role] },
+          {},
+          class: "form-select" %>
+  </div>
+
+  <div class="mb-3">
+    <%= f.label :password, class: "form-label" %>
+    <%= f.password_field :password, class: "form-control", autocomplete: "new-password",
+          required: user.new_record? %>
+    <% if user.persisted? %>
+      <div class="form-text"><%= t("admin.users.password_hint") %></div>
+    <% end %>
+  </div>
+
+  <div class="mb-4">
+    <%= f.label :password_confirmation, class: "form-label" %>
+    <%= f.password_field :password_confirmation, class: "form-control", autocomplete: "new-password" %>
+  </div>
+
+  <div class="d-flex gap-2">
+    <%= f.submit t("admin.users.save"), class: "btn-ink" %>
+    <%= link_to t("admin.users.cancel"), admin_users_path, class: "btn-ghost" %>
+  </div>
+<% end %>

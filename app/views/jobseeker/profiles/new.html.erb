@@ -1,0 +1,6 @@
+<% content_for :title, t("jobseeker.profiles.new") %>
+
+<h1 class="admin-h1"><%= t("jobseeker.profiles.new") %></h1>
+<p class="admin-lead"><%= t("jobseeker.profiles.new_hint") %></p>
+
+<%= render "form", profile: @profile %>

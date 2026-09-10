@@ -10,19 +10,60 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_09_10_150338) do
+ActiveRecord::Schema[8.1].define(version: 2026_09_10_165000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
-  create_table "users", force: :cascade do |t|
+  create_table "cv_profile_versions", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.uuid "cv_profile_id", null: false
+    t.string "file", null: false
+    t.integer "number", null: false
+    t.string "tag"
+    t.datetime "updated_at", null: false
+    t.index ["cv_profile_id", "number"], name: "index_cv_profile_versions_on_cv_profile_id_and_number", unique: true
+    t.index ["cv_profile_id"], name: "index_cv_profile_versions_on_cv_profile_id"
+  end
+
+  create_table "cv_profiles", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.string "name", null: false
+    t.string "slug", null: false
+    t.datetime "updated_at", null: false
+    t.uuid "user_id", null: false
+    t.index ["user_id", "slug"], name: "index_cv_profiles_on_user_id_and_slug", unique: true
+    t.index ["user_id"], name: "index_cv_profiles_on_user_id"
+  end
+
+  create_table "themes", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.string "file", null: false
+    t.string "kind", default: "system", null: false
+    t.string "name", null: false
+    t.string "slug", null: false
+    t.datetime "updated_at", null: false
+    t.uuid "user_id"
+    t.index ["kind"], name: "index_themes_on_kind"
+    t.index ["slug"], name: "index_themes_on_slug", unique: true, where: "((kind)::text = 'system'::text)"
+    t.index ["user_id", "slug"], name: "index_themes_on_user_id_and_slug", unique: true, where: "((kind)::text = 'personal'::text)"
+    t.index ["user_id"], name: "index_themes_on_user_id"
+  end
+
+  create_table "users", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.datetime "created_at", null: false
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
     t.datetime "remember_created_at"
     t.datetime "reset_password_sent_at"
     t.string "reset_password_token"
+    t.string "role", default: "jobseeker", null: false
     t.datetime "updated_at", null: false
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+    t.index ["role"], name: "index_users_on_role"
   end
+
+  add_foreign_key "cv_profile_versions", "cv_profiles"
+  add_foreign_key "cv_profiles", "users"
+  add_foreign_key "themes", "users"
 end

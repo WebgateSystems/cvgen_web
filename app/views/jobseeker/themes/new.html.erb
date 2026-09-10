@@ -1,0 +1,6 @@
+<% content_for :title, t("jobseeker.themes.upload") %>
+
+<h1 class="admin-h1"><%= t("jobseeker.themes.upload") %></h1>
+<p class="admin-lead"><%= t("admin.themes.upload_hint") %></p>
+
+<%= render "form", theme: @theme %>

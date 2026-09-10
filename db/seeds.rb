@@ -1,11 +1,17 @@
 # frozen_string_literal: true
 
-admin_email = "rordev@webgate.pro"
-admin_password = "admin123!"
+def seed_user!(email:, password:, role:)
+  user = User.find_or_initialize_by(email: email)
+  user.password = password
+  user.password_confirmation = password
+  user.role = role
+  user.save!
+  puts "Seeded #{user.role} #{user.email} (id=#{user.id})"
+  user
+end
 
-user = User.find_or_initialize_by(email: admin_email)
-user.password = admin_password
-user.password_confirmation = admin_password
-user.save!
+seed_user!(email: "rordev@webgate.pro", password: "admin123!", role: :admin)
+seed_user!(email: "user@example.com", password: "password123!", role: :jobseeker)
+seed_user!(email: "hr@example.com", password: "password123!", role: :recruiter)
 
-puts "Seeded Devise user #{user.email} (id=#{user.id})"
+Theme.import_system_from_gem!

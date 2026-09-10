@@ -1,0 +1,49 @@
+<%= form_with model: [:admin, theme], class: "admin-form", html: { multipart: true } do |f| %>
+  <% if theme.errors.any? %>
+    <div class="alert alert-danger">
+      <ul class="mb-0">
+        <% theme.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="mb-3">
+    <%= f.label :name, class: "form-label" %>
+    <%= f.text_field :name, class: "form-control", required: true %>
+  </div>
+
+  <div class="mb-3">
+    <%= f.label :kind, t("admin.themes.kind"), class: "form-label" %>
+    <%= f.select :kind,
+          Theme.kinds.keys.map { |kind| [t("admin.themes.kinds.#{kind}"), kind] },
+          {},
+          class: "form-select" %>
+    <div class="form-text"><%= t("admin.themes.kind_hint") %></div>
+  </div>
+
+  <div class="mb-3">
+    <%= f.label :user_id, t("admin.themes.owner"), class: "form-label" %>
+    <%= f.collection_select :user_id, User.order(:email), :id, :email,
+          { include_blank: t("admin.themes.no_owner") },
+          class: "form-select" %>
+    <div class="form-text"><%= t("admin.themes.owner_hint") %></div>
+  </div>
+
+  <div class="mb-4">
+    <%= f.label :file, t("admin.themes.file"), class: "form-label" %>
+    <%= f.file_field :file, class: "form-control", accept: ".yaml,.yml", required: theme.new_record? %>
+    <% if theme.file.present? && theme.persisted? %>
+      <div class="form-text">
+        <%= t("admin.themes.current_file") %>:
+        <%= link_to File.basename(theme.file.url.to_s), theme.file.url, target: "_blank", rel: "noopener" %>
+      </div>
+    <% end %>
+  </div>
+
+  <div class="d-flex gap-2">
+    <%= f.submit t("admin.users.save"), class: "btn-ink" %>
+    <%= link_to t("admin.users.cancel"), admin_themes_path, class: "btn-ghost" %>
+  </div>
+<% end %>

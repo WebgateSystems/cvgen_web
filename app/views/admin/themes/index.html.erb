@@ -1,0 +1,51 @@
+<% content_for :title, t("admin.themes.title") %>
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+  <h1 class="admin-h1 mb-0"><%= t("admin.themes.title") %></h1>
+  <%= link_to t("admin.themes.new"), new_admin_theme_path, class: "btn-ink" %>
+</div>
+
+<p class="admin-lead"><%= t("admin.themes.lead") %></p>
+
+<div class="table-responsive admin-table-wrap">
+  <table class="table table-hover align-middle mb-0">
+    <thead>
+      <tr>
+        <th><%= t("admin.themes.name") %></th>
+        <th><%= t("admin.themes.kind") %></th>
+        <th><%= t("admin.themes.owner") %></th>
+        <th><%= t("admin.themes.file") %></th>
+        <th class="text-end"><%= t("admin.users.actions") %></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @themes.each do |theme| %>
+        <tr>
+          <td>
+            <strong><%= theme.name %></strong>
+            <div class="text-secondary small"><%= theme.slug %></div>
+          </td>
+          <td>
+            <span class="badge text-bg-<%= theme.system? ? 'dark' : 'info' %>">
+              <%= t("admin.themes.kinds.#{theme.kind}") %>
+            </span>
+          </td>
+          <td><%= theme.user&.email || "—" %></td>
+          <td>
+            <% if theme.file.present? %>
+              <%= link_to File.basename(theme.file.url.to_s), theme.file.url, target: "_blank", rel: "noopener" %>
+            <% end %>
+          </td>
+          <td class="text-end">
+            <div class="d-inline-flex gap-2 justify-content-end">
+              <%= link_to t("admin.users.edit"), edit_admin_theme_path(theme), class: "btn btn-sm btn-outline-secondary" %>
+              <%= button_to t("admin.users.delete"), admin_theme_path(theme), method: :delete,
+                    class: "btn btn-sm btn-outline-danger",
+                    form: { data: { turbo_confirm: t("admin.themes.confirm_delete") } } %>
+            </div>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

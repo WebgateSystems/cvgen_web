@@ -1,0 +1,43 @@
+<% content_for :title, t("admin.users.title") %>
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+  <h1 class="admin-h1 mb-0"><%= t("admin.users.title") %></h1>
+  <%= link_to t("admin.users.new"), new_admin_user_path, class: "btn-ink" %>
+</div>
+
+<div class="table-responsive admin-table-wrap">
+  <table class="table table-hover align-middle mb-0">
+    <thead>
+      <tr>
+        <th><%= t("admin.users.email") %></th>
+        <th><%= t("admin.users.role") %></th>
+        <th><%= t("admin.users.created") %></th>
+        <th class="text-end"><%= t("admin.users.actions") %></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @users.each do |user| %>
+        <tr>
+          <td>
+            <%= user.email %>
+            <% if user == current_user %>
+              <span class="badge text-bg-secondary"><%= t("admin.users.you") %></span>
+            <% end %>
+          </td>
+          <td><span class="badge text-bg-<%= user.admin? ? 'dark' : (user.recruiter? ? 'info' : 'success') %>"><%= t("roles.#{user.role}") %></span></td>
+          <td><%= l(user.created_at, format: :short) %></td>
+          <td class="text-end">
+            <div class="d-inline-flex gap-2 justify-content-end">
+              <%= link_to t("admin.users.edit"), edit_admin_user_path(user), class: "btn btn-sm btn-outline-secondary" %>
+              <% unless user == current_user %>
+                <%= button_to t("admin.users.delete"), admin_user_path(user), method: :delete,
+                      class: "btn btn-sm btn-outline-danger",
+                      form: { data: { turbo_confirm: t("admin.users.confirm_delete") } } %>
+              <% end %>
+            </div>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

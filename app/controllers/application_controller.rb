@@ -25,4 +25,25 @@ class ApplicationController < ActionController::Base
     value = parsed["locale"].to_s
     value if AVAILABLE_LOCALES.include?(value)
   end
+
+  def after_sign_in_path_for(resource)
+    return admin_root_path if resource.respond_to?(:admin?) && resource.admin?
+    return jobseeker_root_path if resource.respond_to?(:can_use_jobseeker_studio?) && resource.can_use_jobseeker_studio?
+
+    stored_location_for(resource) || root_path
+  end
+
+  def authenticate_admin!
+    authenticate_user!
+    return if current_user.admin?
+
+    redirect_to root_path, alert: t("admin.not_authorized")
+  end
+
+  def authenticate_jobseeker_studio!
+    authenticate_user!
+    return if current_user.can_use_jobseeker_studio?
+
+    redirect_to root_path, alert: t("jobseeker.not_authorized")
+  end
 end

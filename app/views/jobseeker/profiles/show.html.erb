@@ -1,0 +1,51 @@
+<% content_for :title, @profile.name %>
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+  <div>
+    <h1 class="admin-h1 mb-0"><%= @profile.name %></h1>
+    <p class="admin-lead mb-0"><%= t("jobseeker.profiles.show_lead") %></p>
+  </div>
+  <div class="d-flex flex-wrap gap-2">
+    <%= link_to t("jobseeker.versions.add"), new_jobseeker_profile_version_path(@profile), class: "btn-ink" %>
+    <%= link_to t("admin.users.edit"), edit_jobseeker_profile_path(@profile), class: "btn-ghost" %>
+  </div>
+</div>
+
+<div class="table-responsive admin-table-wrap">
+  <table class="table table-hover align-middle mb-0">
+    <thead>
+      <tr>
+        <th><%= t("jobseeker.versions.number") %></th>
+        <th><%= t("jobseeker.versions.tag") %></th>
+        <th><%= t("jobseeker.profiles.person") %></th>
+        <th><%= t("jobseeker.versions.file") %></th>
+        <th class="text-end"><%= t("admin.users.actions") %></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @versions.each do |version| %>
+        <tr>
+          <td><strong>v<%= version.number %></strong></td>
+          <td>
+            <% if version.tag.present? %>
+              <span class="badge text-bg-secondary"><%= version.tag %></span>
+            <% else %>
+              —
+            <% end %>
+          </td>
+          <td><%= version.person_name || "—" %></td>
+          <td>
+            <% if version.file.present? %>
+              <%= link_to File.basename(version.file.url.to_s), version.file.url, target: "_blank", rel: "noopener" %>
+            <% end %>
+          </td>
+          <td class="text-end">
+            <%= button_to t("admin.users.delete"), jobseeker_profile_version_path(@profile, version), method: :delete,
+                  class: "btn btn-sm btn-outline-danger",
+                  form: { data: { turbo_confirm: t("jobseeker.versions.confirm_delete") } } %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

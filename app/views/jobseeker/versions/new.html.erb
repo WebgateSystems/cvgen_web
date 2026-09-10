@@ -1,0 +1,32 @@
+<% content_for :title, t("jobseeker.versions.add") %>
+
+<h1 class="admin-h1"><%= t("jobseeker.versions.add") %></h1>
+<p class="admin-lead"><%= t("jobseeker.versions.add_hint", name: @profile.name) %></p>
+
+<%= form_with model: @version, url: jobseeker_profile_versions_path(@profile), class: "admin-form", html: { multipart: true } do |f| %>
+  <% if @version.errors.any? %>
+    <div class="alert alert-danger">
+      <ul class="mb-0">
+        <% @version.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="mb-3">
+    <%= f.label :file, t("jobseeker.versions.file"), class: "form-label" %>
+    <%= f.file_field :file, class: "form-control", accept: ".md,.markdown", required: true %>
+  </div>
+
+  <div class="mb-4">
+    <%= f.label :tag, t("jobseeker.versions.tag"), class: "form-label" %>
+    <%= f.text_field :tag, class: "form-control", placeholder: t("jobseeker.versions.tag_placeholder") %>
+    <div class="form-text"><%= t("jobseeker.versions.tag_hint") %></div>
+  </div>
+
+  <div class="d-flex gap-2">
+    <%= f.submit t("admin.users.save"), class: "btn-ink" %>
+    <%= link_to t("admin.users.cancel"), jobseeker_profile_path(@profile), class: "btn-ghost" %>
+  </div>
+<% end %>

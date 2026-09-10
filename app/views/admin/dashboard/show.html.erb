@@ -1,0 +1,41 @@
+<% content_for :title, t("admin.dashboard") %>
+
+<h1 class="admin-h1"><%= t("admin.dashboard") %></h1>
+<p class="admin-lead"><%= t("admin.dashboard_lead") %></p>
+
+<div class="row g-3 mb-4">
+  <div class="col-md-3">
+    <div class="admin-stat">
+      <span><%= t("admin.users.title") %></span>
+      <strong><%= @users_count %></strong>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="admin-stat">
+      <span><%= t("roles.admin") %></span>
+      <strong><%= @admins_count %></strong>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="admin-stat">
+      <span><%= t("roles.jobseeker") %></span>
+      <strong><%= @jobseekers_count %></strong>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="admin-stat">
+      <span><%= t("roles.recruiter") %></span>
+      <strong><%= @recruiters_count %></strong>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="admin-stat">
+      <span><%= t("admin.themes.title") %></span>
+      <strong><%= @themes_count %></strong>
+    </div>
+  </div>
+</div>
+
+<%= link_to t("admin.users.manage"), admin_users_path, class: "btn-ink" %>
+<%= link_to t("admin.themes.manage"), admin_themes_path, class: "btn-ghost ms-2" %>
+<%= link_to t("nav.studio"), jobseeker_root_path, class: "btn-ghost ms-2" %>

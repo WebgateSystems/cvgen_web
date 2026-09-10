@@ -1,0 +1,26 @@
+<% content_for :title, t("jobseeker.profiles.edit") %>
+
+<h1 class="admin-h1"><%= t("jobseeker.profiles.edit") %></h1>
+<p class="admin-lead"><%= t("jobseeker.profiles.edit_hint") %></p>
+
+<%= form_with model: @profile, url: jobseeker_profile_path(@profile), class: "admin-form" do |f| %>
+  <% if @profile.errors.any? %>
+    <div class="alert alert-danger">
+      <ul class="mb-0">
+        <% @profile.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="mb-4">
+    <%= f.label :name, t("jobseeker.profiles.name"), class: "form-label" %>
+    <%= f.text_field :name, class: "form-control", required: true, placeholder: t("jobseeker.profiles.name_placeholder") %>
+  </div>
+
+  <div class="d-flex gap-2">
+    <%= f.submit t("admin.users.save"), class: "btn-ink" %>
+    <%= link_to t("admin.users.cancel"), jobseeker_profile_path(@profile), class: "btn-ghost" %>
+  </div>
+<% end %>
