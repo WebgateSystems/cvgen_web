@@ -23,4 +23,12 @@ RSpec.describe User do
     user = create(:user)
     expect(user.id).to match(/\A[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}\z/i)
   end
+
+  it "keeps an explicit uuid and treats recruiters as HR" do
+    id = SecureRandom.uuid
+    user = create(:user, :recruiter, id: id)
+    expect(user.id).to eq(id)
+    expect(user.recruiter_or_hr?).to be(true)
+    expect(build(:user, :jobseeker).recruiter_or_hr?).to be(false)
+  end
 end

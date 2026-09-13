@@ -20,5 +20,14 @@ RSpec.describe CvProfile do
     expect(second.number).to eq(2)
     expect(second.tag).to eq("Initech")
     expect(profile.latest_version).to eq(second)
+    expect(profile.person_name).to eq("Test Person")
+  end
+
+  it "requires a version on create" do
+    profile = build(:cv_profile)
+    profile.versions.clear
+    expect(profile).not_to be_valid
+    expect(profile.latest_version).to be_nil
+    expect(profile.person_name).to be_nil
   end
 end
