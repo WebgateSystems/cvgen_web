@@ -17,6 +17,7 @@ Rails.application.routes.draw do
     end
     get "cv", to: "cvs#show", as: :cv
     get "cv/preview", to: "cvs#preview", as: :cv_preview
+    resources :applications
   end
 
   get "up" => "rails/health#show", as: :rails_health_check

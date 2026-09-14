@@ -6,6 +6,7 @@ module Jobseeker
       @personal_themes = current_user.themes.personal.order(:name)
       @system_themes_count = Theme.system.count
       @profiles = current_user.cv_profiles.includes(:versions).order(:name)
+      @applications_count = current_user.job_applications.count
     end
   end
 end

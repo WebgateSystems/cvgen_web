@@ -23,7 +23,7 @@ module Jobseeker
         redirect_to jobseeker_profile_path(@profile), notice: t("jobseeker.profiles.created")
       else
         @profile.versions.build if @profile.versions.empty?
-        render :new, status: :unprocessable_entity
+        render :new, status: :unprocessable_content
       end
     end
 
@@ -34,7 +34,7 @@ module Jobseeker
       if @profile.update(profile_params.except(:versions_attributes))
         redirect_to jobseeker_profile_path(@profile), notice: t("jobseeker.profiles.updated")
       else
-        render :edit, status: :unprocessable_entity
+        render :edit, status: :unprocessable_content
       end
     end
 

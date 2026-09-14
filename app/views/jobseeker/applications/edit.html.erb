@@ -1,0 +1,6 @@
+<% content_for :title, t("jobseeker.applications.edit") %>
+
+<h1 class="admin-h1"><%= t("jobseeker.applications.edit") %></h1>
+<p class="admin-lead"><%= t("jobseeker.applications.form_lead") %></p>
+
+<%= render "form", application: @application %>

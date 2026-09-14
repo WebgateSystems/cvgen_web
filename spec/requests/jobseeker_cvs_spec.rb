@@ -25,7 +25,7 @@ RSpec.describe "Jobseeker CV studio", type: :request do
 
   it "rejects an invalid preview" do
     get jobseeker_cv_preview_path, params: { cv_build: { layout: "modern-stack" } }
-    expect(response).to have_http_status(:unprocessable_entity)
+    expect(response).to have_http_status(:unprocessable_content)
   end
 
   it "returns a downloadable PDF" do
@@ -70,7 +70,7 @@ RSpec.describe "Jobseeker CV studio", type: :request do
       }
     }
 
-    expect(response).to have_http_status(:unprocessable_entity)
+    expect(response).to have_http_status(:unprocessable_content)
     expect(response.body).to include("typst missing")
   end
 end

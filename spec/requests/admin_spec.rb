@@ -43,7 +43,7 @@ RSpec.describe "Admin panel", type: :request do
   it "rejects an invalid user" do
     sign_in admin
     post admin_users_path, params: { user: { email: "", password: "x", role: "jobseeker" } }
-    expect(response).to have_http_status(:unprocessable_entity)
+    expect(response).to have_http_status(:unprocessable_content)
   end
 
   it "updates a user and ignores a blank password" do
@@ -64,7 +64,7 @@ RSpec.describe "Admin panel", type: :request do
     sign_in admin
     user = create(:user, :jobseeker)
     patch admin_user_path(user), params: { user: { email: "" } }
-    expect(response).to have_http_status(:unprocessable_entity)
+    expect(response).to have_http_status(:unprocessable_content)
   end
 
   it "does not demote the last admin" do
@@ -129,10 +129,10 @@ RSpec.describe "Admin panel", type: :request do
     expect(theme.reload.name).to eq("Admin Blue 2")
 
     post admin_themes_path, params: { theme: { name: "", kind: "system" } }
-    expect(response).to have_http_status(:unprocessable_entity)
+    expect(response).to have_http_status(:unprocessable_content)
 
     patch admin_theme_path(theme), params: { theme: { name: "" } }
-    expect(response).to have_http_status(:unprocessable_entity)
+    expect(response).to have_http_status(:unprocessable_content)
 
     expect { delete admin_theme_path(theme) }.to change(Theme, :count).by(-1)
   end

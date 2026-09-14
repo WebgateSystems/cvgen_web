@@ -13,7 +13,7 @@ module Jobseeker
       if @version.save
         redirect_to jobseeker_profile_path(@profile), notice: t("jobseeker.versions.created")
       else
-        render :new, status: :unprocessable_entity
+        render :new, status: :unprocessable_content
       end
     end
 

@@ -1,0 +1,114 @@
+<% content_for :title, t("jobseeker.applications.title") %>
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+  <h1 class="admin-h1 mb-0"><%= t("jobseeker.applications.title") %></h1>
+  <%= link_to t("jobseeker.applications.new"), new_jobseeker_application_path, class: "btn-ink" %>
+</div>
+
+<p class="admin-lead"><%= t("jobseeker.applications.lead") %></p>
+
+<div class="row g-3 mb-4">
+  <div class="col-6 col-md-3">
+    <div class="admin-stat">
+      <span><%= t("jobseeker.applications.total") %></span>
+      <strong><%= @counts_by_status.values.sum %></strong>
+    </div>
+  </div>
+  <% %w[applied interview offer].each do |status| %>
+    <div class="col-6 col-md-3">
+      <div class="admin-stat">
+        <span><%= t("jobseeker.applications.statuses.#{status}") %></span>
+        <strong><%= @counts_by_status[status].to_i %></strong>
+      </div>
+    </div>
+  <% end %>
+</div>
+
+<div data-controller="application-columns application-list"
+     data-action="application-list:loaded->application-columns#applyToTable"
+     data-application-columns-keys-value='<%= JobApplication::INDEX_COLUMNS.to_json %>'
+     data-application-columns-default-visible-value='<%= JobApplication::INDEX_DEFAULT_COLUMNS.to_json %>'
+     data-application-list-page-value="<%= @page %>"
+     data-application-list-has-more-value="<%= @has_more %>"
+     data-application-list-status-value="<%= @active_status %>"
+     data-list-url="<%= jobseeker_applications_path %>">
+  <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-4">
+    <div class="d-flex flex-wrap gap-2">
+      <%= link_to t("jobseeker.applications.all"), jobseeker_applications_path(application_index_params.except(:status)),
+            class: "btn btn-sm #{@active_status.blank? ? 'btn-dark' : 'btn-outline-secondary'}" %>
+      <% JobApplication.status_options.each do |status| %>
+        <%= link_to t("jobseeker.applications.statuses.#{status}"),
+              jobseeker_applications_path(application_index_params.merge(status: status)),
+              class: "btn btn-sm #{@active_status == status ? 'btn-dark' : 'btn-outline-secondary'}" %>
+      <% end %>
+    </div>
+
+    <div class="d-flex flex-wrap align-items-center gap-2">
+      <label class="visually-hidden" for="application-search"><%= t("jobseeker.applications.search") %></label>
+      <input id="application-search" type="search" class="form-control form-control-sm application-search"
+             placeholder="<%= t("jobseeker.applications.search_placeholder") %>"
+             value="<%= @q %>"
+             autocomplete="off"
+             data-application-list-target="query"
+             data-action="input->application-list#search">
+      <div class="dropdown">
+        <button class="btn btn-sm btn-outline-secondary" type="button"
+                data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
+          <i class="bi bi-layout-three-columns" aria-hidden="true"></i>
+          <%= t("jobseeker.applications.columns") %>
+        </button>
+        <div class="dropdown-menu dropdown-menu-end column-picker">
+          <p class="column-picker__hint"><%= t("jobseeker.applications.columns_hint") %></p>
+          <ul class="column-picker__list" data-application-columns-target="list"
+              data-action="dragover->application-columns#dragover drop->application-columns#drop">
+            <% JobApplication::INDEX_COLUMNS.each do |column| %>
+              <li class="column-picker__item" draggable="true" data-column="<%= column %>"
+                  data-application-columns-target="item"
+                  data-action="dragstart->application-columns#dragstart dragover->application-columns#dragover drop->application-columns#drop dragend->application-columns#dragend">
+                <i class="bi bi-grip-vertical column-picker__grip" aria-hidden="true"></i>
+                <label class="column-picker__label">
+                  <input type="checkbox"
+                         <%= "checked" if JobApplication::INDEX_DEFAULT_COLUMNS.include?(column) %>
+                         data-action="change->application-columns#toggle">
+                  <span><%= t("jobseeker.applications.#{column}") %></span>
+                </label>
+              </li>
+            <% end %>
+          </ul>
+          <button type="button" class="btn btn-sm btn-ghost mt-2" data-action="application-columns#reset">
+            <%= t("jobseeker.applications.reset_columns") %>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <% if current_user.job_applications.none? %>
+    <p class="text-secondary"><%= t("jobseeker.applications.empty") %></p>
+  <% else %>
+    <div class="table-responsive admin-table-wrap">
+      <table class="table table-hover align-middle mb-0 application-table" data-application-columns-target="table">
+        <thead>
+          <tr>
+            <% JobApplication::INDEX_COLUMNS.each do |column| %>
+              <th data-column="<%= column %>" <%= "hidden" unless JobApplication::INDEX_DEFAULT_COLUMNS.include?(column) %>
+                  class="<%= "application-table__col--#{column}" %>">
+                <%= t("jobseeker.applications.#{column}") %>
+              </th>
+            <% end %>
+            <th data-column="actions" class="text-end application-table__actions"><%= t("jobseeker.applications.actions") %></th>
+          </tr>
+        </thead>
+        <tbody data-application-list-target="rows">
+          <%= render "rows", applications: @applications %>
+        </tbody>
+      </table>
+    </div>
+    <p class="text-secondary mt-3 mb-0" data-application-list-target="empty" <%= "hidden" if @applications.any? %>>
+      <%= t("jobseeker.applications.no_matches") %>
+    </p>
+    <div class="application-list__sentinel" data-application-list-target="sentinel" aria-hidden="true"></div>
+  <% end %>
+</div>
+
+<%= turbo_frame_tag "application_modal" %>

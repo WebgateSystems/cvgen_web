@@ -1,0 +1,81 @@
+<%= form_with model: application,
+      url: (application.persisted? ? jobseeker_application_path(application) : jobseeker_applications_path),
+      class: "admin-form admin-form--wide" do |f| %>
+  <% if application.errors.any? %>
+    <div class="alert alert-danger">
+      <ul class="mb-0">
+        <% application.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="row g-3">
+    <div class="col-md-6">
+      <%= f.label :position, t("jobseeker.applications.position"), class: "form-label" %>
+      <%= f.text_field :position, class: "form-control", required: true,
+            placeholder: t("jobseeker.applications.position_placeholder") %>
+    </div>
+    <div class="col-md-6">
+      <%= f.label :company, t("jobseeker.applications.company"), class: "form-label" %>
+      <%= f.text_field :company, class: "form-control", required: true,
+            placeholder: t("jobseeker.applications.company_placeholder") %>
+    </div>
+    <div class="col-md-6">
+      <%= f.label :posted_on, t("jobseeker.applications.posted_on"), class: "form-label" %>
+      <%= f.date_field :posted_on, class: "form-control" %>
+    </div>
+    <div class="col-md-6">
+      <%= f.label :status, t("jobseeker.applications.status"), class: "form-label" %>
+      <%= f.select :status,
+            JobApplication.status_options.map { |status| [ t("jobseeker.applications.statuses.#{status}"), status ] },
+            {},
+            class: "form-select" %>
+    </div>
+    <div class="col-md-6">
+      <%= f.label :expected_salary, t("jobseeker.applications.expected_salary"), class: "form-label" %>
+      <%= f.text_field :expected_salary, class: "form-control",
+            placeholder: t("jobseeker.applications.salary_placeholder") %>
+    </div>
+    <div class="col-md-6">
+      <%= f.label :offered_salary, t("jobseeker.applications.offered_salary"), class: "form-label" %>
+      <%= f.text_field :offered_salary, class: "form-control",
+            placeholder: t("jobseeker.applications.salary_placeholder") %>
+    </div>
+    <div class="col-md-4">
+      <%= f.label :work_mode, t("jobseeker.applications.work_mode"), class: "form-label" %>
+      <%= f.select :work_mode,
+            JobApplication::WORK_MODES.map { |mode| [ t("jobseeker.applications.work_modes.#{mode}"), mode ] },
+            { include_blank: t("jobseeker.applications.blank") },
+            class: "form-select" %>
+    </div>
+    <div class="col-md-4">
+      <%= f.label :employment_type, t("jobseeker.applications.employment_type"), class: "form-label" %>
+      <%= f.select :employment_type,
+            JobApplication::EMPLOYMENT_TYPES.map { |kind| [ t("jobseeker.applications.employment_types.#{kind}"), kind ] },
+            { include_blank: t("jobseeker.applications.blank") },
+            class: "form-select" %>
+    </div>
+    <div class="col-md-4">
+      <%= f.label :contract_type, t("jobseeker.applications.contract_type"), class: "form-label" %>
+      <%= f.select :contract_type,
+            JobApplication::CONTRACT_TYPES.map { |kind| [ t("jobseeker.applications.contract_types.#{kind}"), kind ] },
+            { include_blank: t("jobseeker.applications.blank") },
+            class: "form-select" %>
+    </div>
+    <div class="col-md-6">
+      <%= f.label :link, t("jobseeker.applications.link"), class: "form-label" %>
+      <%= f.url_field :link, class: "form-control", placeholder: "https://" %>
+    </div>
+    <div class="col-md-6">
+      <%= f.label :email, t("jobseeker.applications.email"), class: "form-label" %>
+      <%= f.email_field :email, class: "form-control" %>
+    </div>
+  </div>
+
+  <div class="d-flex gap-2 mt-4">
+    <%= f.submit t("jobseeker.applications.save"), class: "btn-ink" %>
+    <%= link_to t("admin.users.cancel"), jobseeker_applications_path, class: "btn-ghost" %>
+  </div>
+<% end %>

@@ -33,13 +33,13 @@ RSpec.describe "Jobseeker profiles", type: :request do
 
   it "rejects a profile without a markdown version" do
     post jobseeker_profiles_path, params: { cv_profile: { name: "Empty" } }
-    expect(response).to have_http_status(:unprocessable_entity)
+    expect(response).to have_http_status(:unprocessable_content)
   end
 
   it "rejects an invalid profile update" do
     profile = create(:cv_profile, user: jobseeker)
     patch jobseeker_profile_path(profile), params: { cv_profile: { name: "" } }
-    expect(response).to have_http_status(:unprocessable_entity)
+    expect(response).to have_http_status(:unprocessable_content)
   end
 
   it "deletes a profile" do
@@ -56,7 +56,7 @@ RSpec.describe "Jobseeker profiles", type: :request do
     post jobseeker_profile_versions_path(profile), params: {
       cv_profile_version: { file: invalid_markdown_upload }
     }
-    expect(response).to have_http_status(:unprocessable_entity)
+    expect(response).to have_http_status(:unprocessable_content)
 
     first = profile.versions.first
     delete jobseeker_profile_version_path(profile, first)

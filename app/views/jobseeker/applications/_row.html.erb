@@ -1,0 +1,60 @@
+<tr class="application-row"
+    tabindex="0"
+    data-controller="application-row"
+    data-application-row-url-value="<%= jobseeker_application_path(application) %>"
+    data-action="click->application-row#open keydown->application-row#keydown">
+  <td data-column="position" class="application-table__col--position">
+    <%= link_to application.position, jobseeker_application_path(application),
+          class: "application-row__name",
+          data: { turbo_frame: "application_modal" } %>
+  </td>
+  <td data-column="company" class="application-table__col--company"><%= application.company %></td>
+  <td data-column="posted_on"><%= application.posted_on ? l(application.posted_on, format: :short) : "—" %></td>
+  <td data-column="status">
+    <span class="badge text-bg-<%= application_status_badge(application.status) %>">
+      <%= t("jobseeker.applications.statuses.#{application.status}") %>
+    </span>
+  </td>
+  <td data-column="expected_salary" hidden><%= application.expected_salary.presence || "—" %></td>
+  <td data-column="offered_salary" hidden><%= application.offered_salary.presence || "—" %></td>
+  <td data-column="work_mode" hidden>
+    <%= application.work_mode.present? ? t("jobseeker.applications.work_modes.#{application.work_mode}") : "—" %>
+  </td>
+  <td data-column="employment_type" hidden>
+    <%= application.employment_type.present? ? t("jobseeker.applications.employment_types.#{application.employment_type}") : "—" %>
+  </td>
+  <td data-column="contract_type" hidden>
+    <%= application.contract_type.present? ? t("jobseeker.applications.contract_types.#{application.contract_type}") : "—" %>
+  </td>
+  <td data-column="link" hidden>
+    <% if application.link.present? %>
+      <%= link_to t("jobseeker.applications.open_link"), application.link, class: "app-link", target: "_blank", rel: "noopener noreferrer" %>
+    <% else %>
+      —
+    <% end %>
+  </td>
+  <td data-column="email" hidden>
+    <% if application.email.present? %>
+      <%= mail_to application.email, application.email, class: "app-link" %>
+    <% else %>
+      —
+    <% end %>
+  </td>
+  <td data-column="actions" class="text-end application-table__actions">
+    <div class="d-inline-flex gap-1 justify-content-end">
+      <%= link_to edit_jobseeker_application_path(application),
+            class: "btn btn-sm btn-outline-secondary admin-icon-btn",
+            title: t("jobseeker.applications.edit"),
+            aria: { label: t("jobseeker.applications.edit") } do %>
+        <i class="bi bi-pencil" aria-hidden="true"></i>
+      <% end %>
+      <%= button_to jobseeker_application_path(application), method: :delete,
+            class: "btn btn-sm btn-outline-danger admin-icon-btn",
+            title: t("jobseeker.applications.delete"),
+            aria: { label: t("jobseeker.applications.delete") },
+            form: { class: "d-inline", data: { turbo_confirm: t("jobseeker.applications.confirm_delete") } } do %>
+        <i class="bi bi-trash" aria-hidden="true"></i>
+      <% end %>
+    </div>
+  </td>
+</tr>

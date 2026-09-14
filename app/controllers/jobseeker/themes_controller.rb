@@ -18,7 +18,7 @@ module Jobseeker
       if @theme.save
         redirect_to jobseeker_themes_path, notice: t("jobseeker.themes.created")
       else
-        render :new, status: :unprocessable_entity
+        render :new, status: :unprocessable_content
       end
     end
 
@@ -29,7 +29,7 @@ module Jobseeker
       if @theme.update(theme_params)
         redirect_to jobseeker_themes_path, notice: t("jobseeker.themes.updated")
       else
-        render :edit, status: :unprocessable_entity
+        render :edit, status: :unprocessable_content
       end
     end
 

@@ -17,7 +17,7 @@ module Admin
       if @user.save
         redirect_to admin_users_path, notice: t("admin.users.created")
       else
-        render :new, status: :unprocessable_entity
+        render :new, status: :unprocessable_content
       end
     end
 
@@ -36,7 +36,7 @@ module Admin
       if @user.update(attrs)
         redirect_to admin_users_path, notice: t("admin.users.updated")
       else
-        render :edit, status: :unprocessable_entity
+        render :edit, status: :unprocessable_content
       end
     end
 

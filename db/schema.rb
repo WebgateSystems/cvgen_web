@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_09_10_165000) do
+ActiveRecord::Schema[8.1].define(version: 2026_09_14_125700) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -33,6 +33,27 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_10_165000) do
     t.uuid "user_id", null: false
     t.index ["user_id", "slug"], name: "index_cv_profiles_on_user_id_and_slug", unique: true
     t.index ["user_id"], name: "index_cv_profiles_on_user_id"
+  end
+
+  create_table "job_applications", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "company", null: false
+    t.string "contract_type"
+    t.datetime "created_at", null: false
+    t.string "email"
+    t.string "employment_type"
+    t.string "expected_salary"
+    t.string "link"
+    t.string "offered_salary"
+    t.string "position", null: false
+    t.date "posted_on"
+    t.string "status", default: "reviewed", null: false
+    t.datetime "updated_at", null: false
+    t.uuid "user_id", null: false
+    t.string "work_mode"
+    t.index ["user_id", "posted_on"], name: "index_job_applications_on_user_id_and_posted_on"
+    t.index ["user_id", "status"], name: "index_job_applications_on_user_id_and_status"
+    t.index ["user_id", "updated_at"], name: "index_job_applications_on_user_id_and_updated_at"
+    t.index ["user_id"], name: "index_job_applications_on_user_id"
   end
 
   create_table "themes", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -65,5 +86,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_10_165000) do
 
   add_foreign_key "cv_profile_versions", "cv_profiles"
   add_foreign_key "cv_profiles", "users"
+  add_foreign_key "job_applications", "users"
   add_foreign_key "themes", "users"
 end

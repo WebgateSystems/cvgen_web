@@ -37,11 +37,11 @@ RSpec.describe "Jobseeker themes", type: :request do
 
   it "rejects an invalid personal theme" do
     post jobseeker_themes_path, params: { theme: { name: "" } }
-    expect(response).to have_http_status(:unprocessable_entity)
+    expect(response).to have_http_status(:unprocessable_content)
 
     theme = create(:theme, :personal, user: jobseeker)
     patch jobseeker_theme_path(theme), params: { theme: { name: "" } }
-    expect(response).to have_http_status(:unprocessable_entity)
+    expect(response).to have_http_status(:unprocessable_content)
   end
 
   it "does not let a jobseeker edit a system theme" do

@@ -1,0 +1,31 @@
+<%= turbo_frame_tag "application_modal" do %>
+  <div class="cv-modal" data-controller="cv-modal" data-action="keydown@window->cv-modal#keydown" role="presentation">
+    <button type="button" class="cv-modal__backdrop" tabindex="-1" data-action="cv-modal#close" aria-label="<%= t("jobseeker.applications.close") %>"></button>
+    <div class="cv-modal__panel" role="dialog" aria-modal="true" aria-labelledby="application-modal-title" tabindex="-1">
+      <div class="cv-modal__header">
+        <h2 class="cv-modal__title" id="application-modal-title"><%= application.position %></h2>
+        <button type="button" class="admin-icon-btn btn btn-outline-secondary" data-action="cv-modal#close" aria-label="<%= t("jobseeker.applications.close") %>">
+          <i class="bi bi-x-lg" aria-hidden="true"></i>
+        </button>
+      </div>
+      <div class="cv-modal__body">
+        <p class="admin-lead mb-4"><%= application.company %></p>
+        <dl class="application-dl">
+          <% JobApplication::INDEX_COLUMNS.each do |column| %>
+            <div class="application-dl__row">
+              <dt><%= t("jobseeker.applications.#{column}") %></dt>
+              <dd><%= application_field_value(application, column) %></dd>
+            </div>
+          <% end %>
+        </dl>
+      </div>
+      <div class="cv-modal__footer">
+        <%= link_to t("jobseeker.applications.edit"), edit_jobseeker_application_path(application),
+              class: "btn-ink", data: { turbo_frame: "_top" } %>
+        <button type="button" class="btn-ghost" data-action="cv-modal#close">
+          <%= t("jobseeker.applications.close") %>
+        </button>
+      </div>
+    </div>
+  </div>
+<% end %>

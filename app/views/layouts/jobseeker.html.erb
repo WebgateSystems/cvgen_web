@@ -1,8 +1,10 @@
 <!DOCTYPE html>
-<html lang="<%= I18n.locale %>" data-controller="theme"
+<html lang="<%= I18n.locale %>" data-controller="theme sidebar"
       data-label-system="<%= t('nav.theme_system') %>"
       data-label-light="<%= t('nav.theme_light') %>"
-      data-label-dark="<%= t('nav.theme_dark') %>">
+      data-label-dark="<%= t('nav.theme_dark') %>"
+      data-label-collapse="<%= t('nav.collapse_sidebar') %>"
+      data-label-expand="<%= t('nav.expand_sidebar') %>">
   <head>
     <title><%= content_for?(:title) ? yield(:title) : t("jobseeker.title") %></title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -15,6 +17,9 @@
         var dark = window.matchMedia("(prefers-color-scheme: dark)").matches;
         var theme = pref === "light" || pref === "dark" ? pref : (dark ? "dark" : "light");
         document.documentElement.setAttribute("data-bs-theme", theme);
+        if (localStorage.getItem("cvgen-sidebar") === "collapsed") {
+          document.documentElement.setAttribute("data-sidebar", "collapsed");
+        }
       })();
     </script>
 
@@ -29,32 +34,58 @@
   <body class="admin-body">
     <div class="admin-shell">
       <aside class="admin-sidebar">
-        <a class="brand brand--admin" href="<%= jobseeker_root_path %>"><%= t("brand") %></a>
+        <div class="admin-sidebar__head">
+          <a class="brand brand--admin" href="<%= jobseeker_root_path %>" title="<%= t("brand") %>">
+            <span class="brand__full"><%= t("brand") %></span>
+            <span class="brand__mark" aria-hidden="true">C</span>
+          </a>
+          <button type="button" class="admin-sidebar__toggle"
+                  data-sidebar-target="toggle" data-action="sidebar#toggle"
+                  aria-controls="jobseeker-sidebar-nav"
+                  aria-expanded="true" aria-label="<%= t("nav.collapse_sidebar") %>"
+                  title="<%= t("nav.collapse_sidebar") %>">
+            <i class="bi bi-chevron-double-left" data-sidebar-target="icon" aria-hidden="true"></i>
+          </button>
+        </div>
         <p class="admin-sidebar__label"><%= t("jobseeker.sidebar") %></p>
-        <nav class="admin-nav">
-          <%= link_to jobseeker_root_path, class: "admin-nav__link #{'is-active' if controller_name == 'dashboard'}" do %>
+        <nav id="jobseeker-sidebar-nav" class="admin-nav">
+          <%= link_to jobseeker_root_path, class: "admin-nav__link #{'is-active' if controller_name == 'dashboard'}", title: t("jobseeker.dashboard") do %>
             <i class="bi bi-house" aria-hidden="true"></i>
-            <%= t("jobseeker.dashboard") %>
+            <span class="admin-nav__text"><%= t("jobseeker.dashboard") %></span>
           <% end %>
-          <%= link_to jobseeker_cv_path, class: "admin-nav__link #{'is-active' if controller_name == 'cvs'}" do %>
+          <%= link_to jobseeker_applications_path, class: "admin-nav__link #{'is-active' if controller_name == 'applications'}", title: t("jobseeker.applications.title") do %>
+            <i class="bi bi-bar-chart" aria-hidden="true"></i>
+            <span class="admin-nav__text"><%= t("jobseeker.applications.title") %></span>
+          <% end %>
+          <%= link_to jobseeker_cv_path, class: "admin-nav__link #{'is-active' if controller_name == 'cvs'}", title: t("jobseeker.cvs.title") do %>
             <i class="bi bi-file-earmark-pdf" aria-hidden="true"></i>
-            <%= t("jobseeker.cvs.title") %>
+            <span class="admin-nav__text"><%= t("jobseeker.cvs.title") %></span>
           <% end %>
-          <%= link_to jobseeker_profiles_path, class: "admin-nav__link #{'is-active' if %w[profiles versions].include?(controller_name)}" do %>
+          <%= link_to jobseeker_profiles_path, class: "admin-nav__link #{'is-active' if %w[profiles versions].include?(controller_name)}", title: t("jobseeker.profiles.title") do %>
             <i class="bi bi-person-badge" aria-hidden="true"></i>
-            <%= t("jobseeker.profiles.title") %>
+            <span class="admin-nav__text"><%= t("jobseeker.profiles.title") %></span>
           <% end %>
-          <%= link_to jobseeker_themes_path, class: "admin-nav__link #{'is-active' if controller_name == 'themes'}" do %>
+          <%= link_to jobseeker_themes_path, class: "admin-nav__link #{'is-active' if controller_name == 'themes'}", title: t("jobseeker.themes.title") do %>
             <i class="bi bi-palette" aria-hidden="true"></i>
-            <%= t("jobseeker.themes.title") %>
+            <span class="admin-nav__text"><%= t("jobseeker.themes.title") %></span>
           <% end %>
         </nav>
         <div class="admin-sidebar__foot">
           <% if current_user.admin? %>
-            <%= link_to t("nav.admin"), admin_root_path, class: "admin-nav__link" %>
+            <%= link_to admin_root_path, class: "admin-nav__link", title: t("nav.admin") do %>
+              <i class="bi bi-shield-lock" aria-hidden="true"></i>
+              <span class="admin-nav__text"><%= t("nav.admin") %></span>
+            <% end %>
           <% end %>
-          <%= link_to t("admin.back_to_site"), root_path, class: "admin-nav__link" %>
-          <%= button_to t("nav.sign_out"), destroy_user_session_path, method: :delete, class: "admin-nav__link admin-nav__link--btn" %>
+          <%= link_to root_path, class: "admin-nav__link", title: t("admin.back_to_site") do %>
+            <i class="bi bi-box-arrow-up-right" aria-hidden="true"></i>
+            <span class="admin-nav__text"><%= t("admin.back_to_site") %></span>
+          <% end %>
+          <%= button_to destroy_user_session_path, method: :delete, class: "admin-nav__link admin-nav__link--btn",
+                title: t("nav.sign_out"), form: { class: "admin-nav__form" } do %>
+            <i class="bi bi-box-arrow-left" aria-hidden="true"></i>
+            <span class="admin-nav__text"><%= t("nav.sign_out") %></span>
+          <% end %>
         </div>
       </aside>
 

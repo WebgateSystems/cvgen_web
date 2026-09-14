@@ -12,7 +12,7 @@ module Jobseeker
       @build = CvBuild.new(build_params)
       @build.user = current_user
       unless @build.valid?
-        return render plain: @build.errors.full_messages.to_sentence, status: :unprocessable_entity
+        return render plain: @build.errors.full_messages.to_sentence, status: :unprocessable_content
       end
 
       result = CvGenerator.new(@build).build_pdf
@@ -22,7 +22,7 @@ module Jobseeker
                 disposition: disposition,
                 filename: result[:filename]
     rescue CvGenerator::Error => e
-      render plain: e.message, status: :unprocessable_entity
+      render plain: e.message, status: :unprocessable_content
     end
 
     private

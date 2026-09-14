@@ -17,7 +17,7 @@ module Admin
       if @theme.save
         redirect_to admin_themes_path, notice: t("admin.themes.created")
       else
-        render :new, status: :unprocessable_entity
+        render :new, status: :unprocessable_content
       end
     end
 
@@ -28,7 +28,7 @@ module Admin
       if @theme.update(theme_params)
         redirect_to admin_themes_path, notice: t("admin.themes.updated")
       else
-        render :edit, status: :unprocessable_entity
+        render :edit, status: :unprocessable_content
       end
     end
 
