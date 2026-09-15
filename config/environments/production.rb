@@ -1,4 +1,5 @@
 require "active_support/core_ext/integer/time"
+Rails.application.config.secret_key_base = Settings.secret_key_base
 
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
@@ -8,6 +9,7 @@ Rails.application.configure do
 
   # Eager load code on boot for better performance and memory savings (ignored by Rake tasks).
   config.eager_load = true
+  config.require_master_key = false
 
   # Full error reports are disabled.
   config.consider_all_requests_local = false
@@ -43,12 +45,8 @@ Rails.application.configure do
   # Don't log any deprecations.
   config.active_support.report_deprecations = false
 
-  # Replace the default in-process memory cache store with a durable alternative.
-  config.cache_store = :solid_cache_store
-
-  # Replace the default in-process and non-durable queuing backend for Active Job.
-  config.active_job.queue_adapter = :solid_queue
-  config.solid_queue.connects_to = { database: { writing: :queue } }
+  config.cache_store = :memory_store
+  config.active_job.queue_adapter = :async
 
   # Ignore bad email addresses and do not raise email delivery errors.
   # Set this to true and configure the email server for immediate delivery to raise delivery errors.

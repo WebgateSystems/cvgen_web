@@ -1,9 +1,27 @@
 GIT
+  remote: https://github.com/WebgateSystems/bot-notifier.git
+  revision: 5fe6866e583d37ce6ec776044e112aaac95778b4
+  specs:
+    bot-notifier (3.1.0)
+      activesupport
+      capistrano (~> 3.0)
+      sshkit (~> 1.21)
+
+GIT
   remote: https://github.com/WebgateSystems/cvgen.git
   revision: e01e809fa1d2ab6fd959bc97bfbf49914a01ee5e
   specs:
     cvgen (0.2.0)
       thor (~> 1.3)
+
+GIT
+  remote: https://github.com/seuros/capistrano-puma.git
+  revision: 00e2cc30ed2d651f943d0e9c4cdabfb1e8fa8883
+  specs:
+    capistrano3-puma (8.1.0)
+      capistrano (~> 3.7)
+      capistrano-bundler
+      puma (>= 6.1, < 9.0)
 
 GEM
   remote: https://rubygems.org/
@@ -84,10 +102,11 @@ GEM
       uri (>= 0.13.1)
     addressable (2.9.0)
       public_suffix (>= 2.0.2, < 8.0)
+    airbrussh (1.6.2)
+      sshkit (>= 1.6.1, != 1.7.0)
     ast (2.4.3)
     base64 (0.3.0)
     bcrypt (3.1.22)
-    bcrypt_pbkdf (1.1.2)
     bigdecimal (4.1.2)
     bindex (0.8.1)
     bootsnap (1.26.0)
@@ -95,9 +114,29 @@ GEM
     brakeman (8.0.6)
       racc
     builder (3.3.0)
+    bundle-audit (0.2.0)
+      bundler-audit
     bundler-audit (0.9.3)
       bundler (>= 1.2.0)
       thor (~> 1.0)
+    cape (1.8.0)
+    capistrano (3.20.1)
+      airbrussh (>= 1.0.0)
+      i18n
+      rake (>= 10.0.0)
+      sshkit (>= 1.9.0)
+    capistrano-bundler (2.2.0)
+      capistrano (~> 3.1)
+    capistrano-hook (0.4.0)
+      capistrano (>= 3.0)
+    capistrano-nvm (0.0.7)
+      capistrano (~> 3.1)
+    capistrano-rails (1.7.0)
+      capistrano (~> 3.1)
+      capistrano-bundler (>= 1.1, < 3)
+    capistrano-rvm (0.1.2)
+      capistrano (~> 3.0)
+      sshkit (~> 1.2)
     capybara (3.40.0)
       addressable
       matrix
@@ -115,6 +154,9 @@ GEM
       marcel (>= 1.0.0, < 3)
       ssrf_filter (~> 1.0)
     concurrent-ruby (1.3.8)
+    config (5.6.1)
+      deep_merge (~> 1.2, >= 1.2.1)
+      ostruct
     connection_pool (3.0.2)
     crass (1.0.7)
     cssbundling-rails (1.4.3)
@@ -123,6 +165,7 @@ GEM
     debug (1.11.1)
       irb (~> 1.10)
       reline (>= 0.3.8)
+    deep_merge (1.2.2)
     devise (5.0.4)
       bcrypt (~> 3.0)
       orm_adapter (~> 0.1)
@@ -131,18 +174,16 @@ GEM
       warden (~> 1.2.3)
     diff-lcs (1.6.2)
     docile (1.4.1)
-    dotenv (3.2.0)
     drb (2.2.3)
-    ed25519 (1.4.0)
     erb (6.0.7)
     erubi (1.13.1)
-    et-orbi (1.4.2)
-      tzinfo
     factory_bot (6.6.0)
       activesupport (>= 6.1.0)
     factory_bot_rails (6.5.1)
       factory_bot (~> 6.5)
       railties (>= 6.1.0)
+    fasterer (0.11.0)
+      ruby_parser (>= 3.19.1)
     ffi (1.17.4-aarch64-linux-gnu)
     ffi (1.17.4-aarch64-linux-musl)
     ffi (1.17.4-arm-linux-gnu)
@@ -150,13 +191,24 @@ GEM
     ffi (1.17.4-arm64-darwin)
     ffi (1.17.4-x86_64-linux-gnu)
     ffi (1.17.4-x86_64-linux-musl)
-    fugit (1.13.0)
-      et-orbi (~> 1.4)
-      raabro (~> 1.4)
     globalid (1.4.0)
       activesupport (>= 6.1)
+    highline (3.1.2)
+      reline
     i18n (1.15.2)
       concurrent-ruby (~> 1.0)
+    i18n-tasks (1.1.2)
+      activesupport (>= 4.0.2)
+      ast (>= 2.1.0)
+      erubi
+      highline (>= 3.0.0)
+      i18n
+      parser (>= 3.2.2.1)
+      prism
+      rails-i18n
+      rainbow (>= 2.2.2, < 4.0)
+      ruby-progressbar (~> 1.8, >= 1.8.1)
+      terminal-table (>= 1.5.1)
     image_processing (1.14.0)
       mini_magick (>= 4.9.5, < 6)
       ruby-vips (>= 2.0.17, < 3)
@@ -171,17 +223,6 @@ GEM
       rdoc (>= 4.0.0)
       reline (>= 0.4.2)
     json (3.0.2)
-    kamal (2.12.0)
-      activesupport (>= 7.0)
-      base64 (~> 0.2)
-      bcrypt_pbkdf (~> 1.0)
-      concurrent-ruby (~> 1.2)
-      dotenv (~> 3.1)
-      ed25519 (~> 1.4)
-      net-ssh (~> 7.3)
-      sshkit (>= 1.23.0, < 2.0)
-      thor (~> 1.3)
-      zeitwerk (>= 2.6.18, < 3.0)
     language_server-protocol (3.17.0.6)
     lint_roller (1.1.0)
     logger (1.7.0)
@@ -255,7 +296,6 @@ GEM
     public_suffix (7.0.5)
     puma (8.0.2)
       nio4r (~> 2.0)
-    raabro (1.5.0)
     racc (1.8.1)
     rack (3.2.7)
     rack-session (2.1.2)
@@ -286,6 +326,9 @@ GEM
     rails-html-sanitizer (1.7.1)
       loofah (~> 2.25, >= 2.25.2)
       nokogiri (>= 1.15.7, != 1.16.7, != 1.16.6, != 1.16.5, != 1.16.4, != 1.16.3, != 1.16.2, != 1.16.1, != 1.16.0.rc1, != 1.16.0)
+    rails-i18n (8.1.0)
+      i18n (>= 0.7, < 2)
+      railties (>= 8.0.0, < 9)
     railties (8.1.3.1)
       actionpack (= 8.1.3.1)
       activesupport (= 8.1.3.1)
@@ -362,6 +405,9 @@ GEM
     ruby-vips (2.3.0)
       ffi (~> 1.12)
       logger
+    ruby_parser (3.22.0)
+      racc (~> 1.5)
+      sexp_processor (~> 4.16)
     rubyzip (3.6.0)
     securerandom (0.4.1)
     selenium-webdriver (4.49.0)
@@ -370,28 +416,13 @@ GEM
       rexml (~> 3.2, >= 3.2.5)
       rubyzip (>= 1.2.2, < 4.0)
       websocket (~> 1.0)
+    sexp_processor (4.17.5)
     simplecov (0.22.0)
       docile (~> 1.1)
       simplecov-html (~> 0.11)
       simplecov_json_formatter (~> 0.1)
     simplecov-html (0.13.2)
     simplecov_json_formatter (0.1.4)
-    solid_cable (4.0.2)
-      actioncable (>= 7.2)
-      activejob (>= 7.2)
-      activerecord (>= 7.2)
-      railties (>= 7.2)
-    solid_cache (1.0.10)
-      activejob (>= 7.2)
-      activerecord (>= 7.2)
-      railties (>= 7.2)
-    solid_queue (1.7.0)
-      activejob (>= 7.1)
-      activerecord (>= 7.1)
-      concurrent-ruby (>= 1.3.1)
-      fugit (~> 1.11)
-      railties (>= 7.1)
-      thor (>= 1.3.1)
     sshkit (1.25.1)
       base64
       logger
@@ -402,6 +433,8 @@ GEM
     ssrf_filter (1.6.0)
     stimulus-rails (1.3.4)
       railties (>= 6.0.0)
+    terminal-table (4.0.0)
+      unicode-display_width (>= 1.1.1, < 4)
     thor (1.5.0)
     thruster (0.1.26)
     thruster (0.1.26-aarch64-linux)
@@ -448,17 +481,26 @@ PLATFORMS
 
 DEPENDENCIES
   bootsnap
+  bot-notifier (~> 3.1.0)!
   brakeman
-  bundler-audit
+  bundle-audit
+  cape
+  capistrano-hook
+  capistrano-nvm
+  capistrano-rails
+  capistrano-rvm
+  capistrano3-puma!
   capybara
   carrierwave (~> 3.1)
+  config
   cssbundling-rails
   cvgen!
   debug
   devise (~> 5.0)
   factory_bot_rails
+  fasterer
+  i18n-tasks
   importmap-rails
-  kamal
   pg (~> 1.1)
   propshaft
   puma (>= 5.0)
@@ -467,13 +509,9 @@ DEPENDENCIES
   rubocop-rails-omakase
   selenium-webdriver
   simplecov (~> 0.22)
-  solid_cable
-  solid_cache
-  solid_queue
   stimulus-rails
   thruster
   turbo-rails
-  tzinfo-data
   web-console
 
 BUNDLED WITH
