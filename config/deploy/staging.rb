@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 set :stage, :staging
-set :branch, ENV.fetch("BRANCH", "staging")
+set :branch, ENV.fetch("BRANCH", "dev")
 set :deploy_user, "cvtest"
 
 set :full_app_name, "test.cvgen.org"
