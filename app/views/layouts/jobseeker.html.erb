@@ -1,10 +1,8 @@
 <!DOCTYPE html>
-<html lang="<%= I18n.locale %>" data-controller="theme sidebar"
+<html lang="<%= I18n.locale %>" data-controller="theme"
       data-label-system="<%= t('nav.theme_system') %>"
       data-label-light="<%= t('nav.theme_light') %>"
-      data-label-dark="<%= t('nav.theme_dark') %>"
-      data-label-collapse="<%= t('nav.collapse_sidebar') %>"
-      data-label-expand="<%= t('nav.expand_sidebar') %>">
+      data-label-dark="<%= t('nav.theme_dark') %>">
   <head>
     <title><%= content_for?(:title) ? yield(:title) : t("jobseeker.title") %></title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -17,8 +15,9 @@
         var dark = window.matchMedia("(prefers-color-scheme: dark)").matches;
         var theme = pref === "light" || pref === "dark" ? pref : (dark ? "dark" : "light");
         document.documentElement.setAttribute("data-bs-theme", theme);
+        document.documentElement.removeAttribute("data-sidebar");
         if (localStorage.getItem("cvgen-sidebar") === "collapsed") {
-          document.documentElement.setAttribute("data-sidebar", "collapsed");
+          document.documentElement.classList.add("sidebar-collapsed");
         }
       })();
     </script>
@@ -33,7 +32,9 @@
   </head>
   <body class="admin-body">
     <div class="admin-shell">
-      <aside class="admin-sidebar">
+      <aside class="admin-sidebar" data-controller="sidebar"
+             data-label-collapse="<%= t('nav.collapse_sidebar') %>"
+             data-label-expand="<%= t('nav.expand_sidebar') %>">
         <div class="admin-sidebar__head">
           <a class="brand brand--admin" href="<%= jobseeker_root_path %>" title="<%= t("brand") %>">
             <span class="brand__full"><%= t("brand") %></span>

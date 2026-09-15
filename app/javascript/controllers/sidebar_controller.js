@@ -1,9 +1,10 @@
 import { Controller } from "@hotwired/stimulus"
 
 const STORAGE_KEY = "cvgen-sidebar"
+const COLLAPSED_CLASS = "sidebar-collapsed"
 
 export default class extends Controller {
-  static targets = ["toggle", "icon"]
+  static targets = [ "toggle", "icon" ]
 
   connect() {
     this.sync()
@@ -11,22 +12,19 @@ export default class extends Controller {
 
   toggle(event) {
     event.preventDefault()
-    this.apply(document.documentElement.dataset.sidebar !== "collapsed")
+    event.stopPropagation()
+    this.apply(!this.collapsed)
   }
 
   apply(collapsed) {
-    if (collapsed) {
-      document.documentElement.dataset.sidebar = "collapsed"
-      localStorage.setItem(STORAGE_KEY, "collapsed")
-    } else {
-      delete document.documentElement.dataset.sidebar
-      localStorage.setItem(STORAGE_KEY, "expanded")
-    }
+    document.documentElement.removeAttribute("data-sidebar")
+    document.documentElement.classList.toggle(COLLAPSED_CLASS, collapsed)
+    localStorage.setItem(STORAGE_KEY, collapsed ? "collapsed" : "expanded")
     this.sync()
   }
 
   sync() {
-    const collapsed = document.documentElement.dataset.sidebar === "collapsed"
+    const collapsed = this.collapsed
     const label = collapsed
       ? this.element.dataset.labelExpand
       : this.element.dataset.labelCollapse
@@ -38,7 +36,12 @@ export default class extends Controller {
     })
 
     this.iconTargets.forEach((icon) => {
-      icon.className = collapsed ? "bi bi-chevron-double-right" : "bi bi-chevron-double-left"
+      icon.classList.remove("bi-chevron-double-left", "bi-chevron-double-right")
+      icon.classList.add("bi", collapsed ? "bi-chevron-double-right" : "bi-chevron-double-left")
     })
+  }
+
+  get collapsed() {
+    return document.documentElement.classList.contains(COLLAPSED_CLASS)
   }
 }

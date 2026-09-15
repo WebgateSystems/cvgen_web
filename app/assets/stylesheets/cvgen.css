@@ -531,10 +531,13 @@ body {
   width: 2rem;
   height: 2rem;
   border: 1px solid var(--cv-line);
-  background: transparent;
+  background: var(--cv-sheet);
   color: var(--cv-ink-soft);
   border-radius: 0.55rem;
   flex-shrink: 0;
+  position: relative;
+  z-index: 2;
+  pointer-events: auto;
 }
 
 .admin-sidebar__toggle:hover {
@@ -615,32 +618,38 @@ body {
   gap: 0.25rem;
 }
 
-html[data-sidebar="collapsed"] .admin-sidebar {
+html.sidebar-collapsed .admin-sidebar {
   width: 4.5rem;
   padding: 0.9rem 0.45rem;
 }
 
-html[data-sidebar="collapsed"] .admin-sidebar__head {
+html.sidebar-collapsed .admin-sidebar__head {
   flex-direction: column;
+  align-items: center;
 }
 
-html[data-sidebar="collapsed"] .brand__full,
-html[data-sidebar="collapsed"] .admin-sidebar__label,
-html[data-sidebar="collapsed"] .admin-nav__text {
+html.sidebar-collapsed .brand--admin {
+  display: flex;
+  justify-content: center;
+}
+
+html.sidebar-collapsed .brand__full,
+html.sidebar-collapsed .admin-sidebar__label,
+html.sidebar-collapsed .admin-nav__text {
   display: none;
 }
 
-html[data-sidebar="collapsed"] .brand__mark {
+html.sidebar-collapsed .brand__mark {
   display: inline;
 }
 
-html[data-sidebar="collapsed"] .admin-nav__link,
-html[data-sidebar="collapsed"] .admin-nav__link--btn {
+html.sidebar-collapsed .admin-nav__link,
+html.sidebar-collapsed .admin-nav__link--btn {
   justify-content: center;
   padding: 0.62rem 0.35rem;
 }
 
-html[data-sidebar="collapsed"] .admin-nav__link i {
+html.sidebar-collapsed .admin-nav__link i {
   font-size: 1.2rem;
   width: auto;
 }
@@ -1006,7 +1015,7 @@ turbo-frame#application_modal {
     border-bottom: 1px solid var(--cv-line);
   }
 
-  html[data-sidebar="collapsed"] .admin-sidebar {
+  html.sidebar-collapsed .admin-sidebar {
     width: auto;
     flex-direction: row;
     flex-wrap: wrap;
@@ -1014,15 +1023,15 @@ turbo-frame#application_modal {
     gap: 0.35rem;
   }
 
-  html[data-sidebar="collapsed"] .admin-nav,
-  html[data-sidebar="collapsed"] .admin-sidebar__foot {
+  html.sidebar-collapsed .admin-nav,
+  html.sidebar-collapsed .admin-sidebar__foot {
     flex-direction: row;
     flex-wrap: wrap;
     margin-top: 0;
     width: auto;
   }
 
-  html[data-sidebar="collapsed"] .admin-nav__form {
+  html.sidebar-collapsed .admin-nav__form {
     width: auto;
   }
 
