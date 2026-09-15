@@ -1,6 +1,10 @@
 # frozen_string_literal: true
 
 module ApplicationHelper
+  def app_version_label
+    t("app.version", hash: AppIdService.version)
+  end
+
   def theme_options_for_select(themes, selected = nil)
     groups = themes.group_by(&:kind).map do |kind, records|
       label = I18n.t("admin.themes.kinds.#{kind}", default: kind.humanize)

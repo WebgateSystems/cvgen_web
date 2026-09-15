@@ -13,9 +13,12 @@ RSpec.describe "Admin panel", type: :request do
 
   it "shows the dashboard" do
     sign_in admin
+    allow(AppIdService).to receive(:version).and_return("bd56dabe")
     get admin_root_path
     expect(response).to have_http_status(:success)
     expect(response.body).to include(I18n.t("admin.dashboard"))
+    expect(response.body).to include(I18n.t("app.version", hash: "bd56dabe"))
+    expect(response.body).to include(admin.email)
   end
 
   it "lists and creates users" do

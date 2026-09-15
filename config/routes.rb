@@ -21,6 +21,8 @@ Rails.application.routes.draw do
   end
 
   get "up" => "rails/health#show", as: :rails_health_check
+  get "health", to: "home#spinup_status"
+  get "version", to: "home#version"
 
   root "pages#home"
 end

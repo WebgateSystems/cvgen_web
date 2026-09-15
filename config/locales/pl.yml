@@ -1,5 +1,7 @@
 pl:
   brand: "CVGen"
+  app:
+    version: "Wersja aplikacji: #%{hash}"
   nav:
     sign_in: "Zaloguj się"
     sign_up: "Załóż konto"

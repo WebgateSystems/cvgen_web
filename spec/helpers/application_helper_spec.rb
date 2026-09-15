@@ -3,6 +3,11 @@
 require "rails_helper"
 
 RSpec.describe ApplicationHelper, type: :helper do
+  it "formats the app version label" do
+    allow(AppIdService).to receive(:version).and_return("bd56dabe")
+    expect(helper.app_version_label).to eq(I18n.t("app.version", hash: "bd56dabe"))
+  end
+
   it "groups theme options by kind" do
     system_theme = create(:theme, name: "System Blue")
     personal = create(:theme, :personal, name: "My Theme")

@@ -12,10 +12,12 @@ RSpec.describe "Jobseeker studio", type: :request do
 
   it "lets a jobseeker open the studio" do
     sign_in create(:user, :jobseeker)
+    allow(AppIdService).to receive(:version).and_return("bd56dabe")
     get jobseeker_root_path
 
     expect(response).to have_http_status(:success)
     expect(response.body).to include(I18n.t("jobseeker.dashboard"))
+    expect(response.body).to include(I18n.t("app.version", hash: "bd56dabe"))
   end
 
   it "lets an admin switch into the studio" do

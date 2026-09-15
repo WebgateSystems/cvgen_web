@@ -28,6 +28,7 @@
 
     <link rel="icon" href="/icon.png" type="image/png">
     <%= stylesheet_link_tag "application", "cvgen", "data-turbo-track": "reload" %>
+    <%= render "shared/app_version_styles" %>
     <%= javascript_importmap_tags %>
   </head>
   <body class="admin-body">
@@ -92,26 +93,29 @@
 
       <div class="admin-main">
         <header class="admin-topbar">
-          <div class="dropdown">
-            <button class="ctrl-btn dropdown-toggle" type="button" data-bs-toggle="dropdown">
-              <%= I18n.locale.to_s.upcase %>
-            </button>
-            <ul class="dropdown-menu">
-              <li><%= link_to "English", locale_path(locale: :en), class: "dropdown-item" %></li>
-              <li><%= link_to "Polski", locale_path(locale: :pl), class: "dropdown-item" %></li>
-            </ul>
+          <%= render "shared/app_version" %>
+          <div class="admin-topbar__tools">
+            <div class="dropdown">
+              <button class="ctrl-btn dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                <%= I18n.locale.to_s.upcase %>
+              </button>
+              <ul class="dropdown-menu">
+                <li><%= link_to "English", locale_path(locale: :en), class: "dropdown-item" %></li>
+                <li><%= link_to "Polski", locale_path(locale: :pl), class: "dropdown-item" %></li>
+              </ul>
+            </div>
+            <div class="dropdown">
+              <button class="ctrl-btn dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                <i class="bi bi-circle-half"></i>
+              </button>
+              <ul class="dropdown-menu dropdown-menu-end">
+                <li><button type="button" class="dropdown-item" data-action="theme#system"><%= t("nav.theme_system") %></button></li>
+                <li><button type="button" class="dropdown-item" data-action="theme#light"><%= t("nav.theme_light") %></button></li>
+                <li><button type="button" class="dropdown-item" data-action="theme#dark"><%= t("nav.theme_dark") %></button></li>
+              </ul>
+            </div>
+            <span class="nav-user"><%= current_user.email %></span>
           </div>
-          <div class="dropdown">
-            <button class="ctrl-btn dropdown-toggle" type="button" data-bs-toggle="dropdown">
-              <i class="bi bi-circle-half"></i>
-            </button>
-            <ul class="dropdown-menu dropdown-menu-end">
-              <li><button type="button" class="dropdown-item" data-action="theme#system"><%= t("nav.theme_system") %></button></li>
-              <li><button type="button" class="dropdown-item" data-action="theme#light"><%= t("nav.theme_light") %></button></li>
-              <li><button type="button" class="dropdown-item" data-action="theme#dark"><%= t("nav.theme_dark") %></button></li>
-            </ul>
-          </div>
-          <span class="nav-user"><%= current_user.email %></span>
         </header>
 
         <% if notice.present? %>

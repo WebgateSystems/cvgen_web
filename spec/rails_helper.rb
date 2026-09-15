@@ -20,4 +20,7 @@ RSpec.configure do |config|
   config.filter_rails_from_backtrace!
   config.include FactoryBot::Syntax::Methods
   config.include Devise::Test::IntegrationHelpers, type: :request
+  config.around do |example|
+    I18n.with_locale(I18n.default_locale) { example.run }
+  end
 end

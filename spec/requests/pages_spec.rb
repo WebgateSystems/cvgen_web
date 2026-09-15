@@ -4,9 +4,11 @@ require "rails_helper"
 
 RSpec.describe "Public site", type: :request do
   it "renders the landing page" do
+    allow(AppIdService).to receive(:version).and_return("bd56dabe")
     get root_path
     expect(response).to have_http_status(:success)
     expect(response.body).to include("CVGen")
+    expect(response.body).to include(I18n.t("app.version", hash: "bd56dabe"))
   end
 
   it "stores a locale cookie and redirects back" do
