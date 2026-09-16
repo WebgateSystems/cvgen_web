@@ -1,0 +1,48 @@
+<%# locals: f, prefix: "companies" %>
+<div class="row g-3">
+  <div class="col-md-4">
+    <%= f.label :shortcut, t("jobseeker.companies.shortcut"), class: "form-label" %>
+    <%= f.text_field :shortcut, class: "form-control", placeholder: "YND" %>
+  </div>
+  <div class="col-md-8">
+    <%= f.label :official_name, t("jobseeker.companies.official_name"), class: "form-label" %>
+    <%= f.text_field :official_name, class: "form-control", required: local_assigns[:required] %>
+  </div>
+  <div class="col-md-4">
+    <%= f.label :kind, t("jobseeker.companies.kind"), class: "form-label" %>
+    <%= f.select :kind,
+          Company::KINDS.map { |kind| [ t("jobseeker.companies.kinds.#{kind}"), kind ] },
+          {},
+          class: "form-select" %>
+  </div>
+  <div class="col-md-4">
+    <%= f.label :country, t("jobseeker.companies.country"), class: "form-label" %>
+    <%= f.select :country,
+          Company::COUNTRIES.map { |code| [ code, code ] },
+          { include_blank: t("jobseeker.applications.blank") },
+          class: "form-select" %>
+  </div>
+  <div class="col-md-4">
+    <%= f.label :legal_id_kind, t("jobseeker.companies.legal_id_kind"), class: "form-label" %>
+    <%= f.select :legal_id_kind,
+          Company::LEGAL_ID_KINDS.map { |kind| [ t("jobseeker.companies.legal_id_kinds.#{kind}"), kind ] },
+          { include_blank: t("jobseeker.applications.blank") },
+          class: "form-select" %>
+  </div>
+  <div class="col-md-4">
+    <%= f.label :legal_id, t("jobseeker.companies.legal_id"), class: "form-label" %>
+    <%= f.text_field :legal_id, class: "form-control", placeholder: "5252344078" %>
+  </div>
+  <div class="col-md-8">
+    <%= f.label :street, t("jobseeker.companies.street"), class: "form-label" %>
+    <%= f.text_field :street, class: "form-control" %>
+  </div>
+  <div class="col-md-4">
+    <%= f.label :city, t("jobseeker.companies.city"), class: "form-label" %>
+    <%= f.text_field :city, class: "form-control" %>
+  </div>
+  <div class="col-md-4">
+    <%= f.label :postal_code, t("jobseeker.companies.postal_code"), class: "form-label" %>
+    <%= f.text_field :postal_code, class: "form-control" %>
+  </div>
+</div>

@@ -1,0 +1,18 @@
+<%= form_with model: [:admin, company], class: "admin-form admin-form--wide" do |f| %>
+  <% if company.errors.any? %>
+    <div class="alert alert-danger">
+      <ul class="mb-0">
+        <% company.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <%= render "shared/company_fields", f: f, required: true %>
+
+  <div class="d-flex gap-2 mt-4">
+    <%= f.submit t("jobseeker.applications.save"), class: "btn-ink" %>
+    <%= link_to t("admin.users.cancel"), admin_companies_path, class: "btn-ghost" %>
+  </div>
+<% end %>

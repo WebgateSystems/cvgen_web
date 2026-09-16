@@ -6,6 +6,8 @@ class User < ApplicationRecord
   has_many :themes, dependent: :destroy
   has_many :cv_profiles, dependent: :destroy, inverse_of: :user
   has_many :job_applications, dependent: :destroy
+  has_many :company_ratings, dependent: :destroy
+  has_many :application_events, dependent: :destroy
 
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable

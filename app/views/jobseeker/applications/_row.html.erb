@@ -8,7 +8,14 @@
           class: "application-row__name",
           data: { turbo_frame: "application_modal" } %>
   </td>
-  <td data-column="company" class="application-table__col--company"><%= application.company %></td>
+  <td data-column="company" class="application-table__col--company">
+    <% if application.company %>
+      <%= link_to application.company.display_name, jobseeker_company_path(application.company),
+            data: { turbo_frame: "_top" } %>
+    <% else %>
+      —
+    <% end %>
+  </td>
   <td data-column="posted_on"><%= application.posted_on ? l(application.posted_on, format: :short) : "—" %></td>
   <td data-column="status">
     <span class="badge text-bg-<%= application_status_badge(application.status) %>">

@@ -1,0 +1,91 @@
+<% content_for :title, @company.display_name %>
+
+<h1 class="admin-h1"><%= @company.display_name %></h1>
+<p class="admin-lead">
+  <%= @company.official_name %>
+  · <%= t("jobseeker.companies.kinds.#{@company.kind}") %>
+  <% if @company.formatted_rating %>
+    · <%= t("jobseeker.companies.rating") %>: <strong><%= @company.formatted_rating %></strong>
+    (<%= @company.company_ratings.size %>)
+  <% end %>
+</p>
+
+<dl class="application-dl mb-4">
+  <div class="application-dl__row">
+    <dt><%= t("jobseeker.companies.country") %></dt>
+    <dd><%= @company.country.presence || "—" %></dd>
+  </div>
+  <div class="application-dl__row">
+    <dt><%= t("jobseeker.companies.legal_id") %></dt>
+    <dd>
+      <% if @company.legal_id.present? %>
+        <%= t("jobseeker.companies.legal_id_kinds.#{@company.legal_id_kind}") %> <%= @company.legal_id %>
+      <% else %>
+        —
+      <% end %>
+    </dd>
+  </div>
+  <div class="application-dl__row">
+    <dt><%= t("jobseeker.companies.address") %></dt>
+    <dd><%= [ @company.street, @company.postal_code, @company.city ].compact_blank.join(", ").presence || "—" %></dd>
+  </div>
+</dl>
+
+<% if @company.company_ratings.any? %>
+  <div class="row g-3 mb-4">
+    <% CompanyRating::DIMENSIONS.each do |dimension| %>
+      <div class="col-6 col-md-3">
+        <div class="admin-stat">
+          <span><%= t("jobseeker.companies.dimensions.#{dimension}") %></span>
+          <strong><%= format("%.1f", @company.dimension_averages[dimension]) %></strong>
+        </div>
+      </div>
+    <% end %>
+  </div>
+<% end %>
+
+<h2 class="h5"><%= t("jobseeker.companies.your_rating") %></h2>
+<%= form_with model: @rating,
+      url: (@rating.persisted? ? jobseeker_company_rating_path(@company) : jobseeker_company_rating_path(@company)),
+      method: (@rating.persisted? ? :patch : :post),
+      class: "admin-form mb-5" do |f| %>
+  <% if @rating.errors.any? %>
+    <div class="alert alert-danger">
+      <ul class="mb-0">
+        <% @rating.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <div class="row g-3">
+    <% CompanyRating::DIMENSIONS.each do |dimension| %>
+      <div class="col-md-3">
+        <%= f.label dimension, t("jobseeker.companies.dimensions.#{dimension}"), class: "form-label" %>
+        <%= f.select dimension, (0..5).map { |score| [ score.zero? ? t("jobseeker.companies.score_zero") : score.to_s, score ] },
+              {}, class: "form-select" %>
+      </div>
+    <% end %>
+    <div class="col-12">
+      <%= f.label :comment, t("jobseeker.companies.comment"), class: "form-label" %>
+      <%= f.text_area :comment, class: "form-control", rows: 3 %>
+    </div>
+  </div>
+  <div class="mt-3">
+    <%= f.submit t("jobseeker.companies.save_rating"), class: "btn-ink" %>
+  </div>
+<% end %>
+
+<h2 class="h5"><%= t("jobseeker.companies.your_applications") %></h2>
+<% if @applications.any? %>
+  <ul class="list-unstyled">
+    <% @applications.each do |application| %>
+      <li>
+        <%= link_to application.position, jobseeker_application_path(application) %>
+        · <%= t("jobseeker.applications.statuses.#{application.status}") %>
+      </li>
+    <% end %>
+  </ul>
+<% else %>
+  <p class="text-secondary"><%= t("jobseeker.companies.no_applications") %></p>
+<% end %>

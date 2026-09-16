@@ -22,11 +22,18 @@ module ApplicationHelper
       "offer" => "success",
       "rejected" => "danger",
       "withdrawn" => "warning"
-    }.    fetch(status.to_s, "secondary")
+    }.fetch(status.to_s, "secondary")
   end
 
   def application_field_value(application, column)
     case column
+    when "company"
+      if application.company
+        link_to application.company.display_name, jobseeker_company_path(application.company),
+                data: { turbo_frame: "_top" }
+      else
+        "—"
+      end
     when "posted_on"
       application.posted_on ? l(application.posted_on, format: :short) : "—"
     when "status"
@@ -48,6 +55,14 @@ module ApplicationHelper
       application.email.present? ? mail_to(application.email) : "—"
     else
       application.public_send(column).presence || "—"
+    end
+  end
+
+  def nested_company_for(application)
+    if application.company.nil? || application.company.persisted?
+      Company.new(kind: :employer, country: "PL", legal_id_kind: :nip)
+    else
+      application.company
     end
   end
 end

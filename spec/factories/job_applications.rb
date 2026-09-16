@@ -3,8 +3,8 @@
 FactoryBot.define do
   factory :job_application do
     user
+    company
     sequence(:position) { |n| "Ruby on Rails Developer #{n}" }
-    sequence(:company) { |n| "Acme #{n}" }
     posted_on { Date.new(2026, 2, 3) }
     status { :reviewed }
     expected_salary { "16 000 PLN netto" }

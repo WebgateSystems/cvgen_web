@@ -7,6 +7,7 @@ Rails.application.routes.draw do
     root to: "dashboard#show"
     resources :users, except: :show
     resources :themes, except: :show
+    resources :companies, except: :show
   end
 
   namespace :jobseeker do
@@ -17,7 +18,12 @@ Rails.application.routes.draw do
     end
     get "cv", to: "cvs#show", as: :cv
     get "cv/preview", to: "cvs#preview", as: :cv_preview
-    resources :applications
+    resources :companies, only: %i[index show] do
+      resource :rating, only: %i[create update], controller: "company_ratings"
+    end
+    resources :applications do
+      resources :events, only: :create, controller: "application_events"
+    end
   end
 
   get "up" => "rails/health#show", as: :rails_health_check

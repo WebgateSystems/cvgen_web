@@ -10,9 +10,59 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_09_14_125700) do
+ActiveRecord::Schema[8.1].define(version: 2026_09_16_100000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
+
+  create_table "application_events", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.text "body"
+    t.datetime "created_at", null: false
+    t.string "dropout_reason"
+    t.string "from_status"
+    t.uuid "job_application_id", null: false
+    t.string "kind", null: false
+    t.string "to_status"
+    t.datetime "updated_at", null: false
+    t.uuid "user_id", null: false
+    t.index ["job_application_id", "created_at"], name: "index_application_events_on_job_application_id_and_created_at"
+    t.index ["job_application_id"], name: "index_application_events_on_job_application_id"
+    t.index ["user_id"], name: "index_application_events_on_user_id"
+  end
+
+  create_table "companies", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "city"
+    t.string "country"
+    t.datetime "created_at", null: false
+    t.string "kind", default: "employer", null: false
+    t.string "legal_id"
+    t.string "legal_id_kind"
+    t.string "official_name", null: false
+    t.string "postal_code"
+    t.string "shortcut"
+    t.string "street"
+    t.datetime "updated_at", null: false
+    t.index ["country", "legal_id_kind", "legal_id"], name: "index_companies_on_legal_identity", unique: true, where: "((legal_id IS NOT NULL) AND (legal_id_kind IS NOT NULL) AND (country IS NOT NULL))"
+    t.index ["country"], name: "index_companies_on_country"
+    t.index ["kind"], name: "index_companies_on_kind"
+    t.index ["official_name"], name: "index_companies_on_official_name"
+    t.index ["shortcut"], name: "index_companies_on_shortcut"
+  end
+
+  create_table "company_ratings", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.text "comment"
+    t.uuid "company_id", null: false
+    t.datetime "created_at", null: false
+    t.integer "fairness", default: 0, null: false
+    t.integer "human_process", default: 0, null: false
+    t.decimal "overall", precision: 2, scale: 1, null: false
+    t.integer "responsiveness", default: 0, null: false
+    t.integer "seriousness", default: 0, null: false
+    t.datetime "updated_at", null: false
+    t.uuid "user_id", null: false
+    t.index ["company_id", "user_id"], name: "index_company_ratings_on_company_id_and_user_id", unique: true
+    t.index ["company_id"], name: "index_company_ratings_on_company_id"
+    t.index ["user_id"], name: "index_company_ratings_on_user_id"
+  end
 
   create_table "cv_profile_versions", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.datetime "created_at", null: false
@@ -36,7 +86,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_14_125700) do
   end
 
   create_table "job_applications", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.string "company", null: false
+    t.uuid "company_id", null: false
     t.string "contract_type"
     t.datetime "created_at", null: false
     t.string "email"
@@ -50,6 +100,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_14_125700) do
     t.datetime "updated_at", null: false
     t.uuid "user_id", null: false
     t.string "work_mode"
+    t.index ["company_id"], name: "index_job_applications_on_company_id"
     t.index ["user_id", "posted_on"], name: "index_job_applications_on_user_id_and_posted_on"
     t.index ["user_id", "status"], name: "index_job_applications_on_user_id_and_status"
     t.index ["user_id", "updated_at"], name: "index_job_applications_on_user_id_and_updated_at"
@@ -84,8 +135,13 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_14_125700) do
     t.index ["role"], name: "index_users_on_role"
   end
 
+  add_foreign_key "application_events", "job_applications"
+  add_foreign_key "application_events", "users"
+  add_foreign_key "company_ratings", "companies"
+  add_foreign_key "company_ratings", "users"
   add_foreign_key "cv_profile_versions", "cv_profiles"
   add_foreign_key "cv_profiles", "users"
+  add_foreign_key "job_applications", "companies"
   add_foreign_key "job_applications", "users"
   add_foreign_key "themes", "users"
 end

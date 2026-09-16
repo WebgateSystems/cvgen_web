@@ -5,8 +5,17 @@ class JobApplication < ApplicationRecord
   WORK_MODES = %w[remote hybrid onsite].freeze
   EMPLOYMENT_TYPES = %w[full_time part_time contract].freeze
   CONTRACT_TYPES = %w[b2b employment mandate specific_task].freeze
+  DROPOUT_STATUSES = %w[rejected withdrawn].freeze
+
+  attr_accessor :status_note, :dropout_reason
 
   belongs_to :user
+  belongs_to :company, inverse_of: :job_applications
+  has_many :application_events, dependent: :destroy
+
+  accepts_nested_attributes_for :company, reject_if: ->(attrs) {
+    attrs["official_name"].blank? && attrs[:official_name].blank?
+  }
 
   enum :status, STATUSES.index_with(&:itself), default: :reviewed, validate: true
   enum :work_mode, WORK_MODES.index_with(&:itself), validate: { allow_nil: true }
@@ -14,12 +23,15 @@ class JobApplication < ApplicationRecord
   enum :contract_type, CONTRACT_TYPES.index_with(&:itself), validate: { allow_nil: true }
 
   before_validation :normalize_optional_fields
+  after_create :record_created_event
+  after_update :record_status_change, if: :saved_change_to_status?
 
-  validates :position, :company, presence: true
-  validates :position, :company, length: { maximum: 160 }
+  validates :position, presence: true, length: { maximum: 160 }
+  validates :company, presence: true
   validates :expected_salary, :offered_salary, length: { maximum: 80 }, allow_blank: true
   validates :link, format: { with: URI::DEFAULT_PARSER.make_regexp(%w[http https]) }, allow_blank: true
   validates :email, format: { with: URI::MailTo::EMAIL_REGEXP }, allow_blank: true
+  validates :dropout_reason, presence: true, if: :dropout_status_selected?
 
   INDEX_COLUMNS = %w[
     position company posted_on status
@@ -35,13 +47,20 @@ class JobApplication < ApplicationRecord
     if q.length < 3
       all
     else
-      pattern = "%#{JobApplication.sanitize_sql_like(q)}%"
-      where("position ILIKE :q OR company ILIKE :q", q: pattern)
+      pattern = "%#{sanitize_sql_like(q)}%"
+      left_joins(:company).where(
+        "job_applications.position ILIKE :q OR companies.shortcut ILIKE :q OR companies.official_name ILIKE :q",
+        q: pattern
+      )
     end
   }
 
   def self.status_options
     statuses.keys
+  end
+
+  def company_label
+    company&.display_name
   end
 
   private
@@ -51,5 +70,30 @@ class JobApplication < ApplicationRecord
       value = public_send(field)
       public_send("#{field}=", value.presence)
     end
+  end
+
+  def dropout_status_selected?
+    DROPOUT_STATUSES.include?(status.to_s) && (new_record? || will_save_change_to_status?)
+  end
+
+  def record_created_event
+    application_events.create!(
+      user: user,
+      kind: :status_change,
+      to_status: status,
+      dropout_reason: dropout_reason.presence,
+      body: status_note.presence
+    )
+  end
+
+  def record_status_change
+    application_events.create!(
+      user: user,
+      kind: :status_change,
+      from_status: status_before_last_save,
+      to_status: status,
+      dropout_reason: dropout_reason.presence,
+      body: status_note.presence
+    )
   end
 end

@@ -139,4 +139,38 @@ RSpec.describe "Admin panel", type: :request do
 
     expect { delete admin_theme_path(theme) }.to change(Theme, :count).by(-1)
   end
+
+  it "manages the shared company catalog" do
+    sign_in admin
+    get admin_companies_path
+    expect(response).to have_http_status(:success)
+
+    expect do
+      post admin_companies_path, params: {
+        company: {
+          shortcut: "YND",
+          official_name: "YND Sp. z o.o.",
+          kind: "employer",
+          country: "PL",
+          legal_id_kind: "nip",
+          legal_id: "5252344078",
+          city: "Warsaw"
+        }
+      }
+    end.to change(Company, :count).by(1)
+
+    company = Company.order(:created_at).last
+    get edit_admin_company_path(company)
+    expect(response).to have_http_status(:success)
+
+    patch admin_company_path(company), params: { company: { shortcut: "YND IT" } }
+    expect(company.reload.shortcut).to eq("YND IT")
+
+    create(:job_application, company: company)
+    expect { delete admin_company_path(company) }.not_to change(Company, :count)
+    expect(response).to redirect_to(admin_companies_path)
+
+    other = create(:company)
+    expect { delete admin_company_path(other) }.to change(Company, :count).by(-1)
+  end
 end

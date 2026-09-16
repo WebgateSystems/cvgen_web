@@ -1080,3 +1080,41 @@ turbo-frame#application_modal {
   }
 }
 
+.company-fieldset {
+  border: 1px dashed var(--cv-line);
+  border-radius: 0.85rem;
+  padding: 1rem 1.1rem 1.15rem;
+}
+
+.company-fieldset legend {
+  float: none;
+  width: auto;
+  padding: 0 0.35rem;
+  font-weight: 700;
+}
+
+.application-timeline {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.85rem;
+}
+
+.application-timeline__item {
+  position: relative;
+  padding: 0.65rem 0.85rem 0.65rem 1.15rem;
+  border-left: 2px solid var(--cv-line);
+  background: color-mix(in srgb, var(--cv-sheet) 88%, var(--cv-line));
+  border-radius: 0 0.65rem 0.65rem 0;
+}
+
+.application-timeline__meta {
+  display: block;
+  margin-bottom: 0.2rem;
+  font-size: 0.75rem;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: var(--cv-ink-soft);
+}
+

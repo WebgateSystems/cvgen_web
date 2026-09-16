@@ -4,13 +4,15 @@ require "rails_helper"
 
 RSpec.describe "Jobseeker applications", type: :request do
   let(:jobseeker) { create(:user, :jobseeker) }
+  let(:ynd) { create(:company, shortcut: "YND", official_name: "YND Sp. z o.o.") }
+  let(:acme) { create(:company, shortcut: "Acme", official_name: "Acme Platform") }
 
   before { sign_in jobseeker }
 
   it "lists applications and status totals" do
-    create(:job_application, user: jobseeker, company: "YND", status: :reviewed)
-    create(:job_application, user: jobseeker, company: "Acme", status: :applied)
-    create(:job_application, user: create(:user, :jobseeker), company: "Hidden")
+    create(:job_application, user: jobseeker, company: ynd, status: :reviewed)
+    create(:job_application, user: jobseeker, company: acme, status: :applied)
+    create(:job_application, user: create(:user, :jobseeker), company: create(:company, shortcut: "Hidden"))
 
     get jobseeker_applications_path
     expect(response).to have_http_status(:success)
@@ -23,9 +25,14 @@ RSpec.describe "Jobseeker applications", type: :request do
 
   it "paginates the index to 30 rows and serves the next page as rows" do
     31.times do |index|
-      create(:job_application, user: jobseeker, company: "Co #{index}", updated_at: index.minutes.ago)
+      create(
+        :job_application,
+        user: jobseeker,
+        company: create(:company, shortcut: "Co #{index}"),
+        updated_at: index.minutes.ago
+      )
     end
-    create(:job_application, user: jobseeker, company: "Fresh Corp", updated_at: Time.current)
+    create(:job_application, user: jobseeker, company: create(:company, shortcut: "Fresh Corp"), updated_at: Time.current)
 
     get jobseeker_applications_path
     expect(response.body.scan('class="application-row"').size).to eq(30)
@@ -39,8 +46,8 @@ RSpec.describe "Jobseeker applications", type: :request do
   end
 
   it "filters the index by company or position from three characters" do
-    create(:job_application, user: jobseeker, position: "Regular Ruby Developer", company: "YND")
-    create(:job_application, user: jobseeker, position: "Java Engineer", company: "Acme")
+    create(:job_application, user: jobseeker, position: "Regular Ruby Developer", company: ynd)
+    create(:job_application, user: jobseeker, position: "Java Engineer", company: acme)
 
     get jobseeker_applications_path, params: { q: "YN" }
     expect(response.body).to include("YND")
@@ -56,7 +63,7 @@ RSpec.describe "Jobseeker applications", type: :request do
       :job_application,
       user: jobseeker,
       position: "Regular Ruby Developer",
-      company: "YND",
+      company: ynd,
       expected_salary: "16 000 PLN",
       email: "hr@ynd.example"
     )
@@ -67,26 +74,26 @@ RSpec.describe "Jobseeker applications", type: :request do
     expect(response.body).to include("YND")
     expect(response.body).to include("16 000 PLN")
     expect(response.body).to include("hr@ynd.example")
+    expect(response.body).to include(I18n.t("jobseeker.applications.timeline"))
   end
 
   it "filters by status" do
-    create(:job_application, user: jobseeker, company: "YND", status: :reviewed)
-    create(:job_application, user: jobseeker, company: "Acme", status: :applied)
+    create(:job_application, user: jobseeker, company: ynd, status: :reviewed)
+    create(:job_application, user: jobseeker, company: acme, status: :applied)
 
     get jobseeker_applications_path, params: { status: "applied" }
     expect(response.body).to include("Acme")
     expect(response.body).not_to include("YND")
   end
 
-  it "creates, updates, and deletes an application" do
-    get new_jobseeker_application_path
-    expect(response).to have_http_status(:success)
+  it "creates an application against an existing company" do
+    company_id = ynd.id
 
     expect do
       post jobseeker_applications_path, params: {
         job_application: {
           position: "Regular Ruby Developer",
-          company: "YND",
+          company_id: company_id,
           posted_on: "2026-02-03",
           status: "reviewed",
           expected_salary: "11 000 – 17 500 PLN",
@@ -98,24 +105,70 @@ RSpec.describe "Jobseeker applications", type: :request do
         }
       }
     end.to change { jobseeker.job_applications.count }.by(1)
+      .and change(Company, :count).by(0)
 
     application = jobseeker.job_applications.order(:created_at).last
+    expect(application.company).to eq(ynd)
     expect(response).to redirect_to(jobseeker_applications_path)
+  end
 
-    get edit_jobseeker_application_path(application)
-    expect(response).to have_http_status(:success)
+  it "creates a company from nested attributes when the catalog has no match" do
+    expect do
+      post jobseeker_applications_path, params: {
+        job_application: {
+          position: "Regular Ruby Developer",
+          posted_on: "2026-02-03",
+          status: "reviewed",
+          company_attributes: {
+            shortcut: "YND",
+            official_name: "YND Sp. z o.o.",
+            kind: "employer",
+            country: "PL",
+            legal_id_kind: "nip",
+            legal_id: "5252344078",
+            city: "Warsaw"
+          }
+        }
+      }
+    end.to change { jobseeker.job_applications.count }.by(1)
+      .and change(Company, :count).by(1)
+
+    application = jobseeker.job_applications.order(:created_at).last
+    expect(application.company.legal_id).to eq("5252344078")
+    expect(application.application_events.count).to eq(1)
+  end
+
+  it "updates status with a dropout reason and records the thread" do
+    application = create(:job_application, user: jobseeker, company: ynd, status: :applied)
 
     patch jobseeker_application_path(application), params: {
-      job_application: { status: "interview", offered_salary: "18 000 PLN" }
+      job_application: { status: "rejected", dropout_reason: "ghosting", status_note: "Two weeks of silence" }
     }
-    expect(application.reload).to be_interview
-    expect(application.offered_salary).to eq("18 000 PLN")
+    expect(application.reload).to be_rejected
+    event = application.application_events.order(:created_at).last
+    expect(event.dropout_reason).to eq("ghosting")
+    expect(event.body).to eq("Two weeks of silence")
+  end
 
+  it "adds a message to the application thread" do
+    application = create(:job_application, user: jobseeker, company: ynd)
+
+    expect do
+      post jobseeker_application_events_path(application), params: {
+        application_event: { body: "Asked for a timeline." }
+      }
+    end.to change { application.application_events.count }.by(1)
+
+    expect(response).to redirect_to(jobseeker_application_path(application))
+  end
+
+  it "deletes an application" do
+    application = create(:job_application, user: jobseeker, company: ynd)
     expect { delete jobseeker_application_path(application) }.to change { jobseeker.job_applications.count }.by(-1)
   end
 
   it "rejects an invalid application" do
-    post jobseeker_applications_path, params: { job_application: { position: "", company: "" } }
+    post jobseeker_applications_path, params: { job_application: { position: "" } }
     expect(response).to have_http_status(:unprocessable_content)
 
     application = create(:job_application, user: jobseeker)
@@ -133,5 +186,6 @@ RSpec.describe "Jobseeker applications", type: :request do
     create(:job_application, user: jobseeker)
     get jobseeker_root_path
     expect(response.body).to include(I18n.t("jobseeker.applications.title"))
+    expect(response.body).to include(I18n.t("jobseeker.companies.title"))
   end
 end
