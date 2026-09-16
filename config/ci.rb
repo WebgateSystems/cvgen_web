@@ -9,6 +9,7 @@ CI.run do
   step "Security: Yarn vulnerability audit", "yarn audit"
   step "Security: Importmap vulnerability audit", "bin/importmap audit"
   step "Security: Brakeman code analysis", "bin/brakeman --quiet --no-pager --exit-on-warn --exit-on-error"
+  step "Assets: CSS", "yarn build:css"
   step "Tests: RSpec", "bin/rspec"
   step "Tests: Seeds", "env RAILS_ENV=test bin/rails db:seed:replant"
 
