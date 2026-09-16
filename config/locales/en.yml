@@ -15,6 +15,7 @@ en:
     language: "Language"
     collapse_sidebar: "Collapse sidebar"
     expand_sidebar: "Expand sidebar"
+    edit: "Edit"
   roles:
     jobseeker: "Job seeker"
     recruiter: "Recruiter / HR"

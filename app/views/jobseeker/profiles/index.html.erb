@@ -37,7 +37,7 @@
             <td class="text-end">
               <div class="d-inline-flex gap-2 justify-content-end">
                 <%= link_to t("jobseeker.versions.add"), new_jobseeker_profile_version_path(profile), class: "btn btn-sm btn-outline-secondary" %>
-                <%= link_to t("admin.users.edit"), edit_jobseeker_profile_path(profile), class: "btn btn-sm btn-outline-secondary" %>
+                <%= link_to t("nav.edit"), edit_jobseeker_profile_path(profile), class: "btn btn-sm btn-outline-secondary" %>
                 <%= button_to t("admin.users.delete"), jobseeker_profile_path(profile), method: :delete,
                       class: "btn btn-sm btn-outline-danger",
                       form: { data: { turbo_confirm: t("jobseeker.profiles.confirm_delete") } } %>

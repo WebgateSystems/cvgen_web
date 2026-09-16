@@ -15,6 +15,7 @@ pl:
     language: "Język"
     collapse_sidebar: "Zwiń menu"
     expand_sidebar: "Rozwiń menu"
+    edit: "Edytuj"
   roles:
     jobseeker: "Kandydat"
     recruiter: "Rekruter / HR"
