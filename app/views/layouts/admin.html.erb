@@ -90,7 +90,8 @@
           <%= render "shared/app_version" %>
           <div class="admin-topbar__tools">
             <div class="dropdown">
-              <button class="ctrl-btn dropdown-toggle" type="button" data-bs-toggle="dropdown">
+              <button class="ctrl-btn dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                      aria-label="<%= t("nav.language") %>">
                 <%= I18n.locale.to_s.upcase %>
               </button>
               <ul class="dropdown-menu">
@@ -99,7 +100,8 @@
               </ul>
             </div>
             <div class="dropdown">
-              <button class="ctrl-btn dropdown-toggle" type="button" data-bs-toggle="dropdown">
+              <button class="ctrl-btn dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                      aria-label="<%= t("nav.theme") %>">
                 <i class="bi bi-circle-half"></i>
               </button>
               <ul class="dropdown-menu dropdown-menu-end">

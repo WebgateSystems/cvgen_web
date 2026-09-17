@@ -14,6 +14,7 @@ class Theme < ApplicationRecord
 
   validates :name, presence: true
   validates :slug, presence: true
+  # i18n-tasks-use t('activerecord.errors.models.theme.attributes.file.blank')
   validates :file, presence: true
   validates :kind, inclusion: { in: KINDS }
   validate :personal_theme_needs_owner
@@ -79,6 +80,7 @@ class Theme < ApplicationRecord
     data["scale"] = data.key?("scale") ? Float(data["scale"]) : 1.0
     Cvgen::Schema.validate_theme!(data)
   rescue Psych::SyntaxError
+    # i18n-tasks-use t('activerecord.errors.models.theme.attributes.file.invalid_yaml')
     errors.add(:file, :invalid_yaml)
   rescue Cvgen::SchemaError, ArgumentError, TypeError => e
     errors.add(:file, e.message)

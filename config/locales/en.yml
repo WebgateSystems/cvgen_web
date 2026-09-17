@@ -1,315 +1,330 @@
+---
 en:
-  brand: "CVGen"
-  app:
-    version: "App version: #%{hash}"
-  nav:
-    sign_in: "Log in"
-    sign_up: "Sign up"
-    sign_out: "Log out"
-    admin: "Admin"
-    studio: "Studio"
-    theme: "Theme"
-    theme_system: "System"
-    theme_light: "Light"
-    theme_dark: "Dark"
-    language: "Language"
-    collapse_sidebar: "Collapse sidebar"
-    expand_sidebar: "Expand sidebar"
-    edit: "Edit"
-  roles:
-    jobseeker: "Job seeker"
-    recruiter: "Recruiter / HR"
-    admin: "Admin"
-  landing:
-    eyebrow: "CV & cover letter studio"
-    headline: "Tailor every application without rewriting from scratch."
-    lead: "Import your career story once. Generate a focused CV and cover letter for any role — then ship the PDF."
-    cta_primary: "Start free"
-    cta_secondary: "Log in"
-    cta_signed_in: "Go to studio"
-    cta_admin: "Open admin"
-    cta_studio: "Open studio"
-    social_title: "Or continue with"
-    social_google: "Google"
-    social_apple: "Apple"
-    social_facebook: "Facebook"
-    social_hint: "Social sign-in connects in one tap after you create an account."
-    visual_label: "Offer-ready PDF"
-    visual_role: "Senior Rails Engineer"
-    visual_company: "Acme Platform"
-  admin:
-    title: "CVGen Admin"
-    sidebar: "Control room"
-    dashboard: "Dashboard"
-    dashboard_lead: "Users, roles, and the studio from one place."
-    back_to_site: "Back to site"
-    not_authorized: "You do not have access to the admin area."
-    users:
-      title: "Users"
-      manage: "Manage users"
-      new: "New user"
-      edit: "Edit user"
-      email: "Email"
-      role: "Role"
-      created: "Created"
-      actions: "Actions"
-      save: "Save"
-      cancel: "Cancel"
-      delete: "Delete"
-      you: "you"
-      password_hint: "Leave blank to keep the current password."
-      confirm_delete: "Delete this user?"
-      created: "User created."
-      updated: "User updated."
-      deleted: "User deleted."
-      cannot_delete_self: "You cannot delete your own account here."
-      cannot_delete_last_admin: "The last admin cannot be removed or demoted."
-    themes:
-      title: "Themes"
-      manage: "Manage themes"
-      lead: "YAML themes from cvgen. System themes are available to everyone; personal themes belong to one user."
-      new: "Upload theme"
-      edit: "Edit theme"
-      name: "Name"
-      kind: "Availability"
-      kinds:
-        system: "System"
-        personal: "Personal"
-      kind_hint: "System themes are shared. Personal themes are attached to one account."
-      owner: "Owner"
-      no_owner: "System (everyone)"
-      owner_hint: "Required for personal themes. Ignored for system themes."
-      file: "YAML file"
-      current_file: "Current file"
-      upload_hint: "Upload a cvgen theme YAML (fonts, sizes_pt, colors, spacing)."
-      confirm_delete: "Delete this theme?"
-      created: "Theme uploaded."
-      updated: "Theme updated."
-      deleted: "Theme deleted."
-    companies:
-      title: "Companies"
-      lead: "Shared catalog of employers and agencies. Legal identity is unique per country."
-      new: "Add company"
-      edit: "Edit company"
-      created: "Company created."
-      updated: "Company updated."
-      deleted: "Company deleted."
-      confirm_delete: "Delete this company? Applications stay, but lose the catalog link."
-      cannot_delete: "This company still has applications and cannot be deleted."
-  jobseeker:
-    title: "CVGen Studio"
-    sidebar: "Job seeker studio"
-    dashboard: "Dashboard"
-    dashboard_lead: "Keep career profiles, versioned Markdown, and personal themes — then generate a CV."
-    not_authorized: "You do not have access to the job seeker studio."
-    applications:
-      title: "Statistics"
-      lead: "Track every role the way you would in a spreadsheet — company, status, salary, and the offer link."
-      form_lead: "Add one row per vacancy. Salary can be a range, like 16 000 PLN netto."
-      new: "Add application"
-      edit: "Edit application"
-      delete: "Delete application"
-      save: "Save"
-      actions: "Actions"
-      columns: "Columns"
-      columns_hint: "Check columns to show. Drag to reorder."
-      reset_columns: "Reset"
-      search: "Search"
-      search_placeholder: "Company or position"
-      no_matches: "No applications match this search."
-      close: "Close"
-      show: "Application"
-      total: "Applications"
-      all: "All"
-      empty: "No applications yet. Add the first vacancy to start the tracker."
-      confirm_delete: "Delete this application?"
-      created: "Application added."
-      updated: "Application updated."
-      deleted: "Application deleted."
-      position: "Position"
-      position_placeholder: "Ruby on Rails Developer"
-      company: "Company"
-      company_placeholder: "Acme"
-      posted_on: "Posted"
-      status: "Status"
-      expected_salary: "Expected salary"
-      offered_salary: "Offered salary"
-      salary_placeholder: "16 000 – 22 000 PLN netto"
-      work_mode: "Work mode"
-      employment_type: "Type"
-      contract_type: "Contract"
-      link: "Link"
-      open_link: "Open"
-      email: "Email"
-      blank: "—"
-      statuses:
-        reviewed: "Reviewed"
-        applied: "Applied"
-        interview: "Interview"
-        offer: "Offer"
-        rejected: "Rejected"
-        withdrawn: "Withdrawn"
-      work_modes:
-        remote: "Remote"
-        hybrid: "Hybrid"
-        onsite: "On-site"
-      employment_types:
-        full_time: "Full-time"
-        part_time: "Part-time"
-        contract: "Contract"
-      contract_types:
-        b2b: "B2B"
-        employment: "Employment contract"
-        mandate: "Mandate contract"
-        specific_task: "Specific-task contract"
-      new_company: "New company…"
-      new_company_legend: "Or register a new company"
-      new_company_hint: "Fill this in only when the company is not in the catalog yet. Country and a legal identifier (NIP, KRS, VAT…) are required."
-      dropout_reason: "Dropout reason"
-      dropout_hint: "Required when the status is rejected or withdrawn."
-      status_note: "Status note"
-      timeline: "Thread"
-      message: "Message"
-      add_message: "Add to thread"
-      event_created: "Note added."
-      event_kinds:
-        status_change: "Status"
-        message: "Message"
-      dropout_reasons:
-        ghosting: "No reply / ghosting"
-        no_offer: "No offer"
-        candidate_withdrew: "I withdrew"
-        process_joke: "Process was not serious"
-        other: "Other"
-    companies:
-      title: "Companies"
-      lead: "Shared catalog of employers and agencies. Ratings are global."
-      search: "Search"
-      search_placeholder: "Name, shortcut, or legal id"
-      empty: "No companies yet."
-      shortcut: "Shortcut"
-      official_name: "Official name"
-      kind: "Type"
-      kinds:
-        employer: "Employer"
-        agency: "Agency"
-      country: "Country"
-      legal_id_kind: "Register"
-      legal_id: "Legal identifier"
-      legal_id_kinds:
-        nip: "NIP"
-        krs: "KRS"
-        vat: "VAT"
-        ein: "EIN"
-        company_number: "Company number"
-        other: "Other"
-      street: "Street"
-      city: "City"
-      postal_code: "Postal code"
-      address: "Address"
-      rating: "Rating"
-      your_rating: "Your rating"
-      save_rating: "Save rating"
-      rating_saved: "Rating saved."
-      comment: "Comment"
-      score_zero: "0 — does not exist"
-      your_applications: "Your applications"
-      no_applications: "You have not tracked a role at this company yet."
-      dimensions:
-        responsiveness: "Responsiveness"
-        seriousness: "Seriousness"
-        human_process: "Human process"
-        fairness: "Fairness"
-    themes:
-      title: "Themes"
-      personal: "Your themes"
-      system: "System themes"
-      lead: "Upload a personal YAML theme, or use a system theme when you generate a PDF."
-      upload: "Upload theme"
-      edit: "Edit theme"
-      empty_personal: "You have not uploaded a personal theme yet."
-      created: "Theme uploaded."
-      updated: "Theme updated."
-      deleted: "Theme deleted."
-    profiles:
-      title: "Profiles"
-      lead: "A profile is a career track — DevOps, Manager, Software Engineer. Each one keeps versioned Markdown, and a version can be tagged with the company it went to."
-      new: "New profile"
-      edit: "Edit profile"
-      edit_hint: "Rename the profile. Markdown lives on versions — add a new version instead of replacing an old file."
-      new_hint: "Name the track and upload the first Markdown version."
-      name: "Profile"
-      name_placeholder: "Software Engineer"
-      name_hint: "The role this Markdown set represents."
-      upload_hint: "Use a cvgen Markdown CV (YAML front matter with name, then sections such as Summary and Experience)."
-      person: "Person"
-      latest: "Latest version"
-      show_lead: "Older versions stay on file. Tag a version with the company you sent it to."
-      version_count:
-        one: "%{count} version"
-        other: "%{count} versions"
-      empty: "You have not created a profile yet."
-      confirm_delete: "Delete this profile and all of its versions?"
-      created: "Profile created."
-      updated: "Profile updated."
-      deleted: "Profile deleted."
-    versions:
-      add: "Add version"
-      add_hint: "Upload a new Markdown version of %{name}."
-      number: "Version"
-      tag: "Tag"
-      tag_placeholder: "Acme"
-      tag_hint: "Optional. Example: the company this version was sent to."
-      file: "Markdown file"
-      confirm_delete: "Delete this version?"
-      cannot_delete_last: "A profile needs at least one version. Delete the profile instead."
-      created: "Version uploaded."
-      deleted: "Version deleted."
-    cvs:
-      title: "CV"
-      lead: "Pick a Markdown profile version and a theme. The PDF preview updates immediately."
-      empty: "Add a profile with Markdown and at least one theme before generating a CV."
-      profile: "Profile"
-      version: "Version"
-      theme: "Theme"
-      advanced: "Advanced generator options"
-      advanced_hint: "Sensible defaults are already selected. These flags map to the cvgen CLI."
-      generator_profile: "cvgen profile"
-      generator_profile_hint: "YAML profile from the gem (filters, default layout/theme). Maps to -p."
-      layout: "Layout"
-      scale: "Scale"
-      fit: "Fit to max pages"
-      fit_hint: "Shrinks scale until the PDF fits max_pages. Maps to --fit."
-      max_pages: "Max pages"
-      max_experience: "Max experience items"
-      max_experience_hint: "Leave blank to keep every role from the Markdown."
-      include_skills: "Include skills"
-      include_skills_hint: "Comma-separated tags to keep. Empty = keep all."
-      exclude: "Exclude organizations"
-      exclude_hint: "Comma-separated organization names to drop from experience."
-      cli: "CLI command"
-      cli_hint: "Run this from a project with matching content/, profiles/, and themes/."
-      copy: "Copy"
-      download: "Download PDF"
-      preview: "CV preview"
-      preview_placeholder: "The preview will appear here."
-      generating: "Generating PDF…"
-      typst_missing: "Typst CLI is not installed. Install typst to generate PDFs."
   activerecord:
     errors:
       models:
         cv_profile:
           attributes:
             versions:
-              blank: "need at least one Markdown version"
+              blank: need at least one Markdown version
         theme:
           attributes:
             file:
-              invalid_yaml: "is not valid YAML"
-              blank: "must be a .yaml / .yml file"
+              blank: must be a .yaml / .yml file
+              invalid_yaml: is not valid YAML
+  admin:
+    back_to_site: Back to site
+    companies:
+      cannot_delete: This company still has applications and cannot be deleted.
+      confirm_delete: Delete this company? Applications stay, but lose the catalog
+        link.
+      created: Company created.
+      deleted: Company deleted.
+      edit: Edit company
+      lead: Shared catalog of employers and agencies. Legal identity is unique per
+        country.
+      new: Add company
+      title: Companies
+      updated: Company updated.
+    dashboard: Dashboard
+    dashboard_lead: Users, roles, and the studio from one place.
+    not_authorized: You do not have access to the admin area.
+    sidebar: Control room
+    themes:
+      confirm_delete: Delete this theme?
+      created: Theme uploaded.
+      current_file: Current file
+      deleted: Theme deleted.
+      edit: Edit theme
+      file: YAML file
+      kind: Availability
+      kind_hint: System themes are shared. Personal themes are attached to one account.
+      kinds:
+        personal: Personal
+        system: System
+      lead: YAML themes from cvgen. System themes are available to everyone; personal
+        themes belong to one user.
+      manage: Manage themes
+      name: Name
+      new: Upload theme
+      no_owner: System (everyone)
+      owner: Owner
+      owner_hint: Required for personal themes. Ignored for system themes.
+      title: Themes
+      updated: Theme updated.
+      upload_hint: Upload a cvgen theme YAML (fonts, sizes_pt, colors, spacing).
+    title: CVGen Admin
+    users:
+      actions: Actions
+      cancel: Cancel
+      cannot_delete_last_admin: The last admin cannot be removed or demoted.
+      cannot_delete_self: You cannot delete your own account here.
+      confirm_delete: Delete this user?
+      created: User created.
+      delete: Delete
+      deleted: User deleted.
+      edit: Edit user
+      email: Email
+      manage: Manage users
+      new: New user
+      password_hint: Leave blank to keep the current password.
+      role: Role
+      save: Save
+      title: Users
+      updated: User updated.
+      you: you
+  app:
+    version: 'App version: #%{hash}'
+  brand: CVGen
   devise:
     shared:
       links:
-        sign_in: "Log in"
-        sign_up: "Sign up"
-        forgot: "Forgot your password?"
+        forgot: Forgot your password?
+  jobseeker:
+    applications:
+      actions: Actions
+      add_message: Add to thread
+      all: All
+      blank: "—"
+      close: Close
+      columns: Columns
+      columns_hint: Check columns to show. Drag to reorder.
+      company: Company
+      company_placeholder: Acme
+      confirm_delete: Delete this application?
+      contract_type: Contract
+      contract_types:
+        b2b: B2B
+        employment: Employment contract
+        mandate: Mandate contract
+        specific_task: Specific-task contract
+      created: Application added.
+      delete: Delete application
+      deleted: Application deleted.
+      dropout_hint: Required when the status is rejected or withdrawn.
+      dropout_reason: Dropout reason
+      dropout_reasons:
+        candidate_withdrew: I withdrew
+        ghosting: No reply / ghosting
+        no_offer: No offer
+        other: Other
+        process_joke: Process was not serious
+      edit: Edit application
+      email: Email
+      employment_type: Type
+      employment_types:
+        contract: Contract
+        full_time: Full-time
+        part_time: Part-time
+      empty: No applications yet. Add the first vacancy to start the tracker.
+      event_created: Note added.
+      event_kinds:
+        message: Message
+        status_change: Status
+      expected_salary: Expected salary
+      form_lead: Add one row per vacancy. Salary can be a range, like 16 000 PLN netto.
+      lead: Track every role the way you would in a spreadsheet — company, status,
+        salary, and the offer link.
+      link: Link
+      message: Message
+      new: Add application
+      new_company: New company…
+      new_company_hint: Fill this in only when the company is not in the catalog yet.
+        Country and a legal identifier (NIP, KRS, VAT…) are required.
+      new_company_legend: Or register a new company
+      no_matches: No applications match this search.
+      offered_salary: Offered salary
+      open_link: Open
+      position: Position
+      position_placeholder: Ruby on Rails Developer
+      posted_on: Posted
+      reset_columns: Reset
+      salary_placeholder: 16 000 – 22 000 PLN netto
+      save: Save
+      search: Search
+      search_placeholder: Company or position
+      show: Application
+      status: Status
+      status_note: Status note
+      statuses:
+        applied: Applied
+        interview: Interview
+        offer: Offer
+        rejected: Rejected
+        reviewed: Reviewed
+        withdrawn: Withdrawn
+      timeline: Thread
+      title: Statistics
+      total: Applications
+      updated: Application updated.
+      work_mode: Work mode
+      work_modes:
+        hybrid: Hybrid
+        onsite: On-site
+        remote: Remote
+    companies:
+      address: Address
+      city: City
+      comment: Comment
+      country: Country
+      dimensions:
+        fairness: Fairness
+        human_process: Human process
+        responsiveness: Responsiveness
+        seriousness: Seriousness
+      empty: No companies yet.
+      kind: Type
+      kinds:
+        agency: Agency
+        employer: Employer
+      lead: Shared catalog of employers and agencies. Ratings are global.
+      legal_id: Legal identifier
+      legal_id_kind: Register
+      legal_id_kinds:
+        company_number: Company number
+        ein: EIN
+        krs: KRS
+        nip: NIP
+        other: Other
+        vat: VAT
+      no_applications: You have not tracked a role at this company yet.
+      official_name: Official name
+      postal_code: Postal code
+      rating: Rating
+      rating_saved: Rating saved.
+      save_rating: Save rating
+      score_zero: 0 — does not exist
+      search: Search
+      search_placeholder: Name, shortcut, or legal id
+      shortcut: Shortcut
+      street: Street
+      title: Companies
+      your_applications: Your applications
+      your_rating: Your rating
+    cvs:
+      advanced: Advanced generator options
+      advanced_hint: Sensible defaults are already selected. These flags map to the
+        cvgen CLI.
+      cli: CLI command
+      cli_hint: Run this from a project with matching content/, profiles/, and themes/.
+      copy: Copy
+      download: Download PDF
+      empty: Add a profile with Markdown and at least one theme before generating
+        a CV.
+      exclude: Exclude organizations
+      exclude_hint: Comma-separated organization names to drop from experience.
+      fit: Fit to max pages
+      fit_hint: Shrinks scale until the PDF fits max_pages. Maps to --fit.
+      generating: Generating PDF…
+      generator_profile: cvgen profile
+      generator_profile_hint: YAML profile from the gem (filters, default layout/theme).
+        Maps to -p.
+      include_skills: Include skills
+      include_skills_hint: Comma-separated tags to keep. Empty = keep all.
+      layout: Layout
+      lead: Pick a Markdown profile version and a theme. The PDF preview updates immediately.
+      max_experience: Max experience items
+      max_experience_hint: Leave blank to keep every role from the Markdown.
+      max_pages: Max pages
+      preview: CV preview
+      preview_placeholder: The preview will appear here.
+      profile: Profile
+      scale: Scale
+      theme: Theme
+      title: CV
+      typst_missing: Typst CLI is not installed. Install typst to generate PDFs.
+      version: Version
+    dashboard: Dashboard
+    dashboard_lead: Keep career profiles, versioned Markdown, and personal themes
+      — then generate a CV.
+    not_authorized: You do not have access to the job seeker studio.
+    profiles:
+      confirm_delete: Delete this profile and all of its versions?
+      created: Profile created.
+      deleted: Profile deleted.
+      edit: Edit profile
+      edit_hint: Rename the profile. Markdown lives on versions — add a new version
+        instead of replacing an old file.
+      empty: You have not created a profile yet.
+      latest: Latest version
+      lead: A profile is a career track — DevOps, Manager, Software Engineer. Each
+        one keeps versioned Markdown, and a version can be tagged with the company
+        it went to.
+      name: Profile
+      name_hint: The role this Markdown set represents.
+      name_placeholder: Software Engineer
+      new: New profile
+      new_hint: Name the track and upload the first Markdown version.
+      person: Person
+      show_lead: Older versions stay on file. Tag a version with the company you sent
+        it to.
+      title: Profiles
+      updated: Profile updated.
+      upload_hint: Use a cvgen Markdown CV (YAML front matter with name, then sections
+        such as Summary and Experience).
+      version_count:
+        one: "%{count} version"
+        other: "%{count} versions"
+    sidebar: Job seeker studio
+    themes:
+      created: Theme uploaded.
+      deleted: Theme deleted.
+      edit: Edit theme
+      empty_personal: You have not uploaded a personal theme yet.
+      lead: Upload a personal YAML theme, or use a system theme when you generate
+        a PDF.
+      personal: Your themes
+      system: System themes
+      title: Themes
+      updated: Theme updated.
+      upload: Upload theme
+    title: CVGen Studio
+    versions:
+      add: Add version
+      add_hint: Upload a new Markdown version of %{name}.
+      cannot_delete_last: A profile needs at least one version. Delete the profile
+        instead.
+      confirm_delete: Delete this version?
+      created: Version uploaded.
+      deleted: Version deleted.
+      file: Markdown file
+      number: Version
+      tag: Tag
+      tag_hint: 'Optional. Example: the company this version was sent to.'
+      tag_placeholder: Acme
+  landing:
+    cta_admin: Open admin
+    cta_primary: Start free
+    cta_secondary: Log in
+    cta_signed_in: Go to studio
+    cta_studio: Open studio
+    eyebrow: CV & cover letter studio
+    headline: Tailor every application without rewriting from scratch.
+    lead: Import your career story once. Generate a focused CV and cover letter for
+      any role — then ship the PDF.
+    social_apple: Apple
+    social_facebook: Facebook
+    social_google: Google
+    social_hint: Social sign-in connects in one tap after you create an account.
+    social_title: Or continue with
+    visual_company: Acme Platform
+    visual_label: Offer-ready PDF
+    visual_role: Senior Rails Engineer
+  nav:
+    admin: Admin
+    collapse_sidebar: Collapse sidebar
+    edit: Edit
+    expand_sidebar: Expand sidebar
+    language: Language
+    sign_in: Log in
+    sign_out: Log out
+    sign_up: Sign up
+    studio: Studio
+    theme: Theme
+    theme_dark: Dark
+    theme_light: Light
+    theme_system: System
+  roles:
+    admin: Admin
+    jobseeker: Job seeker
+    recruiter: Recruiter / HR

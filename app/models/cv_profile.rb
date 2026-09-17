@@ -10,6 +10,7 @@ class CvProfile < ApplicationRecord
 
   validates :name, presence: true
   validates :slug, presence: true, uniqueness: { scope: :user_id }
+  # i18n-tasks-use t('activerecord.errors.models.cv_profile.attributes.versions.blank')
   validates :versions, presence: true, on: :create
   validates_associated :versions, on: :create
 

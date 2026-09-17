@@ -1,317 +1,329 @@
+---
 pl:
-  brand: "CVGen"
-  app:
-    version: "Wersja aplikacji: #%{hash}"
-  nav:
-    sign_in: "Zaloguj się"
-    sign_up: "Załóż konto"
-    sign_out: "Wyloguj"
-    admin: "Admin"
-    studio: "Studio"
-    theme: "Motyw"
-    theme_system: "Systemowy"
-    theme_light: "Jasny"
-    theme_dark: "Ciemny"
-    language: "Język"
-    collapse_sidebar: "Zwiń menu"
-    expand_sidebar: "Rozwiń menu"
-    edit: "Edytuj"
-  roles:
-    jobseeker: "Kandydat"
-    recruiter: "Rekruter / HR"
-    admin: "Admin"
-  landing:
-    eyebrow: "Studio CV i listów motywacyjnych"
-    headline: "Dopasuj każdą aplikację bez pisania od zera."
-    lead: "Wgraj historię zawodową raz. Wygeneruj CV i list motywacyjny pod konkretną ofertę — i pobierz PDF."
-    cta_primary: "Zacznij za darmo"
-    cta_secondary: "Zaloguj się"
-    cta_signed_in: "Przejdź do studia"
-    cta_admin: "Otwórz admina"
-    cta_studio: "Otwórz studio"
-    social_title: "Albo kontynuuj przez"
-    social_google: "Google"
-    social_apple: "Apple"
-    social_facebook: "Facebook"
-    social_hint: "Logowanie społecznościowe podłączysz jednym kliknięciem po rejestracji."
-    visual_label: "PDF pod ofertę"
-    visual_role: "Senior Rails Engineer"
-    visual_company: "Acme Platform"
-  admin:
-    title: "CVGen Admin"
-    sidebar: "Panel sterowania"
-    dashboard: "Pulpit"
-    dashboard_lead: "Użytkownicy, role i studio w jednym miejscu."
-    back_to_site: "Wróć na stronę"
-    not_authorized: "Nie masz dostępu do panelu admina."
-    users:
-      title: "Użytkownicy"
-      manage: "Zarządzaj użytkownikami"
-      new: "Nowy użytkownik"
-      edit: "Edytuj użytkownika"
-      email: "Email"
-      role: "Rola"
-      created: "Utworzono"
-      actions: "Akcje"
-      save: "Zapisz"
-      cancel: "Anuluj"
-      delete: "Usuń"
-      you: "ty"
-      password_hint: "Zostaw puste, żeby nie zmieniać hasła."
-      confirm_delete: "Usunąć tego użytkownika?"
-      created: "Użytkownik utworzony."
-      updated: "Użytkownik zaktualizowany."
-      deleted: "Użytkownik usunięty."
-      cannot_delete_self: "Nie możesz tu usunąć własnego konta."
-      cannot_delete_last_admin: "Ostatniego admina nie można usunąć ani zdegradować."
-    themes:
-      title: "Tematy"
-      manage: "Zarządzaj tematami"
-      lead: "Tematy YAML z cvgen. Systemowe są dla wszystkich; osobiste należą do jednego użytkownika."
-      new: "Wgraj temat"
-      edit: "Edytuj temat"
-      name: "Nazwa"
-      kind: "Dostępność"
-      kinds:
-        system: "Systemowy"
-        personal: "Użytkownika"
-      kind_hint: "Temat systemowy jest wspólny. Temat użytkownika jest przypisany do konta."
-      owner: "Właściciel"
-      no_owner: "System (wszyscy)"
-      owner_hint: "Wymagane dla tematu użytkownika. Ignorowane przy temacie systemowym."
-      file: "Plik YAML"
-      current_file: "Aktualny plik"
-      upload_hint: "Wgraj YAML tematu cvgen (fonts, sizes_pt, colors, spacing)."
-      confirm_delete: "Usunąć ten temat?"
-      created: "Temat wgrany."
-      updated: "Temat zaktualizowany."
-      deleted: "Temat usunięty."
-    companies:
-      title: "Firmy"
-      lead: "Wspólny katalog pracodawców i agencji. Tożsamość prawna jest unikalna w danym kraju."
-      new: "Dodaj firmę"
-      edit: "Edytuj firmę"
-      created: "Firma dodana."
-      updated: "Firma zaktualizowana."
-      deleted: "Firma usunięta."
-      confirm_delete: "Usunąć tę firmę? Aplikacje zostaną, ale stracą powiązanie z katalogiem."
-      cannot_delete: "Ta firma ma jeszcze aplikacje i nie można jej usunąć."
-  jobseeker:
-    title: "CVGen Studio"
-    sidebar: "Studio kandydata"
-    dashboard: "Pulpit"
-    dashboard_lead: "Trzymaj profile zawodowe, wersje Markdown-a i własne tematy — potem wygeneruj CV."
-    not_authorized: "Nie masz dostępu do studia kandydata."
-    applications:
-      title: "Statystyka"
-      lead: "Śledź oferty jak w arkuszu — firma, status, widełki i link do ogłoszenia."
-      form_lead: "Jedna oferta = jeden wiersz. Wynagrodzenie może być zakresem, np. 16 000 PLN netto."
-      new: "Dodaj aplikację"
-      edit: "Edytuj aplikację"
-      delete: "Usuń aplikację"
-      save: "Zapisz"
-      actions: "Akcje"
-      columns: "Kolumny"
-      columns_hint: "Zaznacz kolumny do wyświetlenia. Przeciągnij, żeby zmienić kolejność."
-      reset_columns: "Resetuj"
-      search: "Szukaj"
-      search_placeholder: "Firma lub stanowisko"
-      no_matches: "Brak aplikacji pasujących do wyszukiwania."
-      close: "Zamknij"
-      show: "Aplikacja"
-      total: "Aplikacje"
-      all: "Wszystkie"
-      empty: "Brak aplikacji. Dodaj pierwszą ofertę, żeby zacząć tracker."
-      confirm_delete: "Usunąć tę aplikację?"
-      created: "Aplikacja dodana."
-      updated: "Aplikacja zaktualizowana."
-      deleted: "Aplikacja usunięta."
-      position: "Stanowisko"
-      position_placeholder: "Ruby on Rails Developer"
-      company: "Firma"
-      company_placeholder: "Acme"
-      posted_on: "Data ogłoszenia"
-      status: "Aktualny status"
-      expected_salary: "Wynagrodzenie oczekiwane"
-      offered_salary: "Wynagrodzenie oferowane"
-      salary_placeholder: "16 000 – 22 000 PLN netto"
-      work_mode: "Tryb pracy"
-      employment_type: "Rodzaj"
-      contract_type: "Umowa"
-      link: "Link"
-      open_link: "Otwórz"
-      email: "Email"
-      blank: "—"
-      statuses:
-        reviewed: "Zapoznano"
-        applied: "Wysłano"
-        interview: "Rozmowa"
-        offer: "Oferta"
-        rejected: "Odrzucono"
-        withdrawn: "Wycofano"
-      work_modes:
-        remote: "Zdalny"
-        hybrid: "Hybrydowy"
-        onsite: "Stacjonarny"
-      employment_types:
-        full_time: "Pełny etat"
-        part_time: "Część etatu"
-        contract: "Kontrakt"
-      contract_types:
-        b2b: "B2B"
-        employment: "Umowa o pracę"
-        mandate: "Umowa zlecenie"
-        specific_task: "Umowa o dzieło"
-      new_company: "Nowa firma…"
-      new_company_legend: "Albo zarejestruj nową firmę"
-      new_company_hint: "Wypełnij tylko gdy firmy nie ma jeszcze w katalogu. Kraj i identyfikator prawny (NIP, KRS, VAT…) są wymagane."
-      dropout_reason: "Powód odpadnięcia"
-      dropout_hint: "Wymagane, gdy status to odrzucono lub wycofano."
-      status_note: "Notatka do statusu"
-      timeline: "Wątek"
-      message: "Wiadomość"
-      add_message: "Dodaj do wątku"
-      event_created: "Notatka dodana."
-      event_kinds:
-        status_change: "Status"
-        message: "Wiadomość"
-      dropout_reasons:
-        ghosting: "Brak odpowiedzi / ghosting"
-        no_offer: "Brak oferty"
-        candidate_withdrew: "Sam się wycofałem"
-        process_joke: "Proces nie był poważny"
-        other: "Inne"
-    companies:
-      title: "Firmy"
-      lead: "Wspólny katalog pracodawców i agencji. Oceny są globalne."
-      search: "Szukaj"
-      search_placeholder: "Nazwa, skrót lub identyfikator"
-      empty: "Brak firm."
-      shortcut: "Skrót"
-      official_name: "Nazwa oficjalna"
-      kind: "Typ"
-      kinds:
-        employer: "Pracodawca"
-        agency: "Agencja"
-      country: "Kraj"
-      legal_id_kind: "Rejestr"
-      legal_id: "Identyfikator prawny"
-      legal_id_kinds:
-        nip: "NIP"
-        krs: "KRS"
-        vat: "VAT"
-        ein: "EIN"
-        company_number: "Numer spółki"
-        other: "Inny"
-      street: "Ulica"
-      city: "Miasto"
-      postal_code: "Kod pocztowy"
-      address: "Adres"
-      rating: "Ocena"
-      your_rating: "Twoja ocena"
-      save_rating: "Zapisz ocenę"
-      rating_saved: "Ocena zapisana."
-      comment: "Komentarz"
-      score_zero: "0 — nie istnieje"
-      your_applications: "Twoje aplikacje"
-      no_applications: "Nie śledzisz jeszcze żadnej oferty w tej firmie."
-      dimensions:
-        responsiveness: "Responsywność"
-        seriousness: "Poważność"
-        human_process: "Ludzki proces"
-        fairness: "Uczciwość"
-    themes:
-      title: "Tematy"
-      personal: "Twoje tematy"
-      system: "Tematy systemowe"
-      lead: "Wgraj własny temat YAML albo użyj systemowego przy generowaniu PDF."
-      upload: "Wgraj temat"
-      edit: "Edytuj temat"
-      empty_personal: "Brak własnych tematów."
-      created: "Temat wgrany."
-      updated: "Temat zaktualizowany."
-      deleted: "Temat usunięty."
-    profiles:
-      title: "Profile"
-      lead: "Profil to ścieżka kariery — DevOps, Manager, Software Engineer. Każdy ma wersjonowany Markdown, a wersję można otagować firmą, do której poszła."
-      new: "Nowy profil"
-      edit: "Edytuj profil"
-      edit_hint: "Zmień nazwę profilu. Markdown jest w wersjach — nowy plik to nowa wersja, nie podmiana starej."
-      new_hint: "Nazwij ścieżkę i wgraj pierwszą wersję Markdown-a."
-      name: "Profil"
-      name_placeholder: "Software Engineer"
-      name_hint: "Rola, którą opisuje ten zestaw Markdown-ów."
-      upload_hint: "Użyj Markdown-a cvgen (front matter YAML z name, potem sekcje takie jak Summary i Experience)."
-      person: "Osoba"
-      latest: "Ostatnia wersja"
-      show_lead: "Starsze wersje zostają. Otaguj wersję firmą, do której ją wysłałeś."
-      version_count:
-        one: "%{count} wersja"
-        few: "%{count} wersje"
-        many: "%{count} wersji"
-        other: "%{count} wersji"
-      empty: "Nie ma jeszcze żadnego profilu."
-      confirm_delete: "Usunąć ten profil i wszystkie jego wersje?"
-      created: "Profil utworzony."
-      updated: "Profil zaktualizowany."
-      deleted: "Profil usunięty."
-    versions:
-      add: "Dodaj wersję"
-      add_hint: "Wgraj nową wersję Markdown-a profilu %{name}."
-      number: "Wersja"
-      tag: "Tag"
-      tag_placeholder: "Acme"
-      tag_hint: "Opcjonalnie. Na przykład firma, do której poszła ta wersja."
-      file: "Plik Markdown"
-      confirm_delete: "Usunąć tę wersję?"
-      cannot_delete_last: "Profil musi mieć choć jedną wersję. Zamiast tego usuń profil."
-      created: "Wersja wgrana."
-      deleted: "Wersja usunięta."
-    cvs:
-      title: "CV"
-      lead: "Wybierz wersję Markdown-a z profilu i temat. Podgląd PDF odświeża się od razu."
-      empty: "Najpierw dodaj profil z Markdown-em i przynajmniej jeden temat."
-      profile: "Profil"
-      version: "Wersja"
-      theme: "Temat"
-      advanced: "Zaawansowane opcje generatora"
-      advanced_hint: "Domyślne wartości są już wybrane. Te flagi odpowiadają CLI cvgen."
-      generator_profile: "Profil cvgen"
-      generator_profile_hint: "Profil YAML z gema (filtry, domyślny layout/temat). Flaga -p."
-      layout: "Layout"
-      scale: "Skala"
-      fit: "Dopasuj do limitu stron"
-      fit_hint: "Zmniejsza skalę, aż PDF zmieści się w max_pages. Flaga --fit."
-      max_pages: "Maks. stron"
-      max_experience: "Maks. pozycji doświadczenia"
-      max_experience_hint: "Puste = zachowaj wszystkie role z Markdown-a."
-      include_skills: "Uwzględnij umiejętności"
-      include_skills_hint: "Tagi po przecinku do zachowania. Puste = wszystkie."
-      exclude: "Wyklucz organizacje"
-      exclude_hint: "Nazwy firm po przecinku do usunięcia z doświadczenia."
-      cli: "Komenda CLI"
-      cli_hint: "Uruchom w projekcie z pasującymi katalogami content/, profiles/ i themes/."
-      copy: "Kopiuj"
-      download: "Pobierz PDF"
-      preview: "Podgląd CV"
-      preview_placeholder: "Tutaj pojawi się podgląd."
-      generating: "Generowanie PDF…"
-      typst_missing: "Brak Typsta. Zainstaluj CLI typst, żeby generować PDF-y."
   activerecord:
     errors:
       models:
         cv_profile:
           attributes:
             versions:
-              blank: "wymagają przynajmniej jednej wersji Markdown"
+              blank: wymagają przynajmniej jednej wersji Markdown
         theme:
           attributes:
             file:
-              invalid_yaml: "nie jest poprawnym YAML-em"
-              blank: "musi być plikiem .yaml / .yml"
+              blank: musi być plikiem .yaml / .yml
+              invalid_yaml: nie jest poprawnym YAML-em
+  admin:
+    back_to_site: Wróć na stronę
+    companies:
+      cannot_delete: Ta firma ma jeszcze aplikacje i nie można jej usunąć.
+      confirm_delete: Usunąć tę firmę? Aplikacje zostaną, ale stracą powiązanie z
+        katalogiem.
+      created: Firma dodana.
+      deleted: Firma usunięta.
+      edit: Edytuj firmę
+      lead: Wspólny katalog pracodawców i agencji. Tożsamość prawna jest unikalna
+        w danym kraju.
+      new: Dodaj firmę
+      title: Firmy
+      updated: Firma zaktualizowana.
+    dashboard: Pulpit
+    dashboard_lead: Użytkownicy, role i studio w jednym miejscu.
+    not_authorized: Nie masz dostępu do panelu admina.
+    sidebar: Panel sterowania
+    themes:
+      confirm_delete: Usunąć ten temat?
+      created: Temat wgrany.
+      current_file: Aktualny plik
+      deleted: Temat usunięty.
+      edit: Edytuj temat
+      file: Plik YAML
+      kind: Dostępność
+      kind_hint: Temat systemowy jest wspólny. Temat użytkownika jest przypisany do
+        konta.
+      kinds:
+        personal: Użytkownika
+        system: Systemowy
+      lead: Tematy YAML z cvgen. Systemowe są dla wszystkich; osobiste należą do jednego
+        użytkownika.
+      manage: Zarządzaj tematami
+      name: Nazwa
+      new: Wgraj temat
+      no_owner: System (wszyscy)
+      owner: Właściciel
+      owner_hint: Wymagane dla tematu użytkownika. Ignorowane przy temacie systemowym.
+      title: Tematy
+      updated: Temat zaktualizowany.
+      upload_hint: Wgraj YAML tematu cvgen (fonts, sizes_pt, colors, spacing).
+    title: CVGen Admin
+    users:
+      actions: Akcje
+      cancel: Anuluj
+      cannot_delete_last_admin: Ostatniego admina nie można usunąć ani zdegradować.
+      cannot_delete_self: Nie możesz tu usunąć własnego konta.
+      confirm_delete: Usunąć tego użytkownika?
+      created: Użytkownik utworzony.
+      delete: Usuń
+      deleted: Użytkownik usunięty.
+      edit: Edytuj użytkownika
+      email: Email
+      manage: Zarządzaj użytkownikami
+      new: Nowy użytkownik
+      password_hint: Zostaw puste, żeby nie zmieniać hasła.
+      role: Rola
+      save: Zapisz
+      title: Użytkownicy
+      updated: Użytkownik zaktualizowany.
+      you: ty
+  app:
+    version: 'Wersja aplikacji: #%{hash}'
+  brand: CVGen
   devise:
     shared:
       links:
-        sign_in: "Zaloguj się"
-        sign_up: "Załóż konto"
-        forgot: "Nie pamiętasz hasła?"
+        forgot: Nie pamiętasz hasła?
+  jobseeker:
+    applications:
+      actions: Akcje
+      add_message: Dodaj do wątku
+      all: Wszystkie
+      blank: "—"
+      close: Zamknij
+      columns: Kolumny
+      columns_hint: Zaznacz kolumny do wyświetlenia. Przeciągnij, żeby zmienić kolejność.
+      company: Firma
+      company_placeholder: Acme
+      confirm_delete: Usunąć tę aplikację?
+      contract_type: Umowa
+      contract_types:
+        b2b: B2B
+        employment: Umowa o pracę
+        mandate: Umowa zlecenie
+        specific_task: Umowa o dzieło
+      created: Aplikacja dodana.
+      delete: Usuń aplikację
+      deleted: Aplikacja usunięta.
+      dropout_hint: Wymagane, gdy status to odrzucono lub wycofano.
+      dropout_reason: Powód odpadnięcia
+      dropout_reasons:
+        candidate_withdrew: Sam się wycofałem
+        ghosting: Brak odpowiedzi / ghosting
+        no_offer: Brak oferty
+        other: Inne
+        process_joke: Proces nie był poważny
+      edit: Edytuj aplikację
+      email: Email
+      employment_type: Rodzaj
+      employment_types:
+        contract: Kontrakt
+        full_time: Pełny etat
+        part_time: Część etatu
+      empty: Brak aplikacji. Dodaj pierwszą ofertę, żeby zacząć tracker.
+      event_created: Notatka dodana.
+      event_kinds:
+        message: Wiadomość
+        status_change: Status
+      expected_salary: Wynagrodzenie oczekiwane
+      form_lead: Jedna oferta = jeden wiersz. Wynagrodzenie może być zakresem, np.
+        16 000 PLN netto.
+      lead: Śledź oferty jak w arkuszu — firma, status, widełki i link do ogłoszenia.
+      link: Link
+      message: Wiadomość
+      new: Dodaj aplikację
+      new_company: Nowa firma…
+      new_company_hint: Wypełnij tylko gdy firmy nie ma jeszcze w katalogu. Kraj i
+        identyfikator prawny (NIP, KRS, VAT…) są wymagane.
+      new_company_legend: Albo zarejestruj nową firmę
+      no_matches: Brak aplikacji pasujących do wyszukiwania.
+      offered_salary: Wynagrodzenie oferowane
+      open_link: Otwórz
+      position: Stanowisko
+      position_placeholder: Ruby on Rails Developer
+      posted_on: Data ogłoszenia
+      reset_columns: Resetuj
+      salary_placeholder: 16 000 – 22 000 PLN netto
+      save: Zapisz
+      search: Szukaj
+      search_placeholder: Firma lub stanowisko
+      show: Aplikacja
+      status: Aktualny status
+      status_note: Notatka do statusu
+      statuses:
+        applied: Wysłano
+        interview: Rozmowa
+        offer: Oferta
+        rejected: Odrzucono
+        reviewed: Zapoznano
+        withdrawn: Wycofano
+      timeline: Wątek
+      title: Statystyka
+      total: Aplikacje
+      updated: Aplikacja zaktualizowana.
+      work_mode: Tryb pracy
+      work_modes:
+        hybrid: Hybrydowy
+        onsite: Stacjonarny
+        remote: Zdalny
+    companies:
+      address: Adres
+      city: Miasto
+      comment: Komentarz
+      country: Kraj
+      dimensions:
+        fairness: Uczciwość
+        human_process: Ludzki proces
+        responsiveness: Responsywność
+        seriousness: Poważność
+      empty: Brak firm.
+      kind: Typ
+      kinds:
+        agency: Agencja
+        employer: Pracodawca
+      lead: Wspólny katalog pracodawców i agencji. Oceny są globalne.
+      legal_id: Identyfikator prawny
+      legal_id_kind: Rejestr
+      legal_id_kinds:
+        company_number: Numer spółki
+        ein: EIN
+        krs: KRS
+        nip: NIP
+        other: Inny
+        vat: VAT
+      no_applications: Nie śledzisz jeszcze żadnej oferty w tej firmie.
+      official_name: Nazwa oficjalna
+      postal_code: Kod pocztowy
+      rating: Ocena
+      rating_saved: Ocena zapisana.
+      save_rating: Zapisz ocenę
+      score_zero: 0 — nie istnieje
+      search: Szukaj
+      search_placeholder: Nazwa, skrót lub identyfikator
+      shortcut: Skrót
+      street: Ulica
+      title: Firmy
+      your_applications: Twoje aplikacje
+      your_rating: Twoja ocena
+    cvs:
+      advanced: Zaawansowane opcje generatora
+      advanced_hint: Domyślne wartości są już wybrane. Te flagi odpowiadają CLI cvgen.
+      cli: Komenda CLI
+      cli_hint: Uruchom w projekcie z pasującymi katalogami content/, profiles/ i
+        themes/.
+      copy: Kopiuj
+      download: Pobierz PDF
+      empty: Najpierw dodaj profil z Markdown-em i przynajmniej jeden temat.
+      exclude: Wyklucz organizacje
+      exclude_hint: Nazwy firm po przecinku do usunięcia z doświadczenia.
+      fit: Dopasuj do limitu stron
+      fit_hint: Zmniejsza skalę, aż PDF zmieści się w max_pages. Flaga --fit.
+      generating: Generowanie PDF…
+      generator_profile: Profil cvgen
+      generator_profile_hint: Profil YAML z gema (filtry, domyślny layout/temat).
+        Flaga -p.
+      include_skills: Uwzględnij umiejętności
+      include_skills_hint: Tagi po przecinku do zachowania. Puste = wszystkie.
+      layout: Layout
+      lead: Wybierz wersję Markdown-a z profilu i temat. Podgląd PDF odświeża się
+        od razu.
+      max_experience: Maks. pozycji doświadczenia
+      max_experience_hint: Puste = zachowaj wszystkie role z Markdown-a.
+      max_pages: Maks. stron
+      preview: Podgląd CV
+      preview_placeholder: Tutaj pojawi się podgląd.
+      profile: Profil
+      scale: Skala
+      theme: Temat
+      title: CV
+      typst_missing: Brak Typsta. Zainstaluj CLI typst, żeby generować PDF-y.
+      version: Wersja
+    dashboard: Pulpit
+    dashboard_lead: Trzymaj profile zawodowe, wersje Markdown-a i własne tematy —
+      potem wygeneruj CV.
+    not_authorized: Nie masz dostępu do studia kandydata.
+    profiles:
+      confirm_delete: Usunąć ten profil i wszystkie jego wersje?
+      created: Profil utworzony.
+      deleted: Profil usunięty.
+      edit: Edytuj profil
+      edit_hint: Zmień nazwę profilu. Markdown jest w wersjach — nowy plik to nowa
+        wersja, nie podmiana starej.
+      empty: Nie ma jeszcze żadnego profilu.
+      latest: Ostatnia wersja
+      lead: Profil to ścieżka kariery — DevOps, Manager, Software Engineer. Każdy
+        ma wersjonowany Markdown, a wersję można otagować firmą, do której poszła.
+      name: Profil
+      name_hint: Rola, którą opisuje ten zestaw Markdown-ów.
+      name_placeholder: Software Engineer
+      new: Nowy profil
+      new_hint: Nazwij ścieżkę i wgraj pierwszą wersję Markdown-a.
+      person: Osoba
+      show_lead: Starsze wersje zostają. Otaguj wersję firmą, do której ją wysłałeś.
+      title: Profile
+      updated: Profil zaktualizowany.
+      upload_hint: Użyj Markdown-a cvgen (front matter YAML z name, potem sekcje takie
+        jak Summary i Experience).
+      version_count:
+        few: "%{count} wersje"
+        many: "%{count} wersji"
+        one: "%{count} wersja"
+        other: "%{count} wersji"
+    sidebar: Studio kandydata
+    themes:
+      created: Temat wgrany.
+      deleted: Temat usunięty.
+      edit: Edytuj temat
+      empty_personal: Brak własnych tematów.
+      lead: Wgraj własny temat YAML albo użyj systemowego przy generowaniu PDF.
+      personal: Twoje tematy
+      system: Tematy systemowe
+      title: Tematy
+      updated: Temat zaktualizowany.
+      upload: Wgraj temat
+    title: CVGen Studio
+    versions:
+      add: Dodaj wersję
+      add_hint: Wgraj nową wersję Markdown-a profilu %{name}.
+      cannot_delete_last: Profil musi mieć choć jedną wersję. Zamiast tego usuń profil.
+      confirm_delete: Usunąć tę wersję?
+      created: Wersja wgrana.
+      deleted: Wersja usunięta.
+      file: Plik Markdown
+      number: Wersja
+      tag: Tag
+      tag_hint: Opcjonalnie. Na przykład firma, do której poszła ta wersja.
+      tag_placeholder: Acme
+  landing:
+    cta_admin: Otwórz admina
+    cta_primary: Zacznij za darmo
+    cta_secondary: Zaloguj się
+    cta_signed_in: Przejdź do studia
+    cta_studio: Otwórz studio
+    eyebrow: Studio CV i listów motywacyjnych
+    headline: Dopasuj każdą aplikację bez pisania od zera.
+    lead: Wgraj historię zawodową raz. Wygeneruj CV i list motywacyjny pod konkretną
+      ofertę — i pobierz PDF.
+    social_apple: Apple
+    social_facebook: Facebook
+    social_google: Google
+    social_hint: Logowanie społecznościowe podłączysz jednym kliknięciem po rejestracji.
+    social_title: Albo kontynuuj przez
+    visual_company: Acme Platform
+    visual_label: PDF pod ofertę
+    visual_role: Senior Rails Engineer
+  nav:
+    admin: Admin
+    collapse_sidebar: Zwiń menu
+    edit: Edytuj
+    expand_sidebar: Rozwiń menu
+    language: Język
+    sign_in: Zaloguj się
+    sign_out: Wyloguj
+    sign_up: Załóż konto
+    studio: Studio
+    theme: Motyw
+    theme_dark: Ciemny
+    theme_light: Jasny
+    theme_system: Systemowy
+  roles:
+    admin: Admin
+    jobseeker: Kandydat
+    recruiter: Rekruter / HR

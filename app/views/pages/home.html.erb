@@ -7,7 +7,8 @@
 
     <div class="landing-nav__controls">
       <div class="dropdown">
-        <button class="ctrl-btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+        <button class="ctrl-btn dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                aria-expanded="false" aria-label="<%= t("nav.language") %>">
           <i class="bi bi-translate" aria-hidden="true"></i>
           <span><%= I18n.locale.to_s.upcase %></span>
         </button>
@@ -18,7 +19,8 @@
       </div>
 
       <div class="dropdown">
-        <button class="ctrl-btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+        <button class="ctrl-btn dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                aria-expanded="false" aria-label="<%= t("nav.theme") %>">
           <i class="bi bi-circle-half" aria-hidden="true"></i>
           <span data-theme-target="label"><%= t("nav.theme_system") %></span>
         </button>

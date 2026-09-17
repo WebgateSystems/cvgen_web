@@ -3,12 +3,16 @@
 require "stringio"
 lock "~> 3.20.0"
 
-set :ssh_options, { forward_agent: true, port: 39_168 }
+set :ssh_options, {
+  forward_agent: !ENV["CI"],
+  port: 39_168,
+  auth_methods: %w[publickey]
+}
 set :repo_url, "git@github.com:WebgateSystems/cvgen_web.git"
 set :repository_cache, "git_cache"
 set :deploy_via, :remote_cache
 set :bundle_without, %w[test development].join(":")
-set :pty, true
+set :pty, !ENV["CI"]
 
 # Avoid using global /tmp for Capistrano uploads/scripts (e.g. capistrano-nvm writes nvm-exec.sh there).
 # When staging + production deploy as different users on the same host, stale /tmp files can cause

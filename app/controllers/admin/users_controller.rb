@@ -14,6 +14,7 @@ module Admin
 
     def create
       @user = User.new(user_params)
+      assign_role(@user)
       if @user.save
         redirect_to admin_users_path, notice: t("admin.users.created")
       else
@@ -28,12 +29,14 @@ module Admin
       attrs = user_params
       attrs = attrs.except(:password, :password_confirmation) if attrs[:password].blank?
 
-      if last_admin_demotion?(attrs)
+      if last_admin_demotion?
         redirect_to admin_users_path, alert: t("admin.users.cannot_delete_last_admin")
         return
       end
 
-      if @user.update(attrs)
+      @user.assign_attributes(attrs)
+      assign_role(@user)
+      if @user.save
         redirect_to admin_users_path, notice: t("admin.users.updated")
       else
         render :edit, status: :unprocessable_content
@@ -61,15 +64,25 @@ module Admin
       @user = User.find(params[:id])
     end
 
-    def last_admin_demotion?(attrs)
+    def last_admin_demotion?
       return false unless @user.admin?
-      return false if attrs[:role].blank? || attrs[:role] == "admin"
+      return false if requested_role.blank? || requested_role == "admin"
 
       User.admin.count <= 1
     end
 
+    def requested_role
+      role = params.dig(:user, :role).to_s
+      role if User::ROLES.include?(role)
+    end
+
+    def assign_role(user)
+      role = requested_role
+      user.role = role if role
+    end
+
     def user_params
-      params.require(:user).permit(:email, :role, :password, :password_confirmation)
+      params.require(:user).permit(:email, :password, :password_confirmation)
     end
   end
 end
