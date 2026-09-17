@@ -46,7 +46,7 @@ Rails.application.configure do
   config.active_support.report_deprecations = false
 
   config.cache_store = :memory_store
-  config.active_job.queue_adapter = :async
+  # Sidekiq is selected in config/initializers/sidekiq.rb after boot.
 
   # Ignore bad email addresses and do not raise email delivery errors.
   # Set this to true and configure the email server for immediate delivery to raise delivery errors.

@@ -125,4 +125,32 @@ Theme.import_system_from_gem!
 seed_applications!(admin, companies_by_shortcut)
 seed_applications!(jobseeker, companies_by_shortcut)
 seed_ratings!(jobseeker, companies_by_shortcut.values)
+
+jobseeker.ensure_user_profile!.apply_analysis!(
+  "person_name" => "Example User",
+  "headline" => "Ruby on Rails Developer",
+  "summary" => "Builds CV tooling and tracks applications in CVGen.",
+  "skills" => [ "Ruby", "Rails", "PostgreSQL" ],
+  "languages" => [
+    { "name" => "Polish", "level" => "native" },
+    { "name" => "English", "level" => "C1" }
+  ],
+  "experience" => [
+    {
+      "company" => "CVGen",
+      "role" => "Job seeker",
+      "from" => "2024",
+      "to" => "now",
+      "highlights" => [ "Tracks roles in the studio" ]
+    }
+  ],
+  "education" => [],
+  "strengths" => [ "Clear writing" ],
+  "gaps" => [ "Public portfolio" ]
+)
+jobseeker.user_profile.update!(
+  location: "Warsaw, Poland",
+  about: "Looking for a Rails role where the product actually ships."
+)
+
 puts "Seeded #{Company.count} companies"

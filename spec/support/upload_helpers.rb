@@ -15,6 +15,11 @@ module UploadHelpers
     file.rewind
     Rack::Test::UploadedFile.new(file.path, "text/markdown")
   end
+
+  def cv_text_upload(content, name: "cv.txt")
+    io = StringIO.new(content)
+    Rack::Test::UploadedFile.new(io, "text/plain", original_filename: name)
+  end
 end
 
 RSpec.configure do |config|

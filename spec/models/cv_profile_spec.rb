@@ -30,4 +30,11 @@ RSpec.describe CvProfile do
     expect(profile.latest_version).to be_nil
     expect(profile.person_name).to be_nil
   end
+
+  it "allows a queued ChatGPT draft without a version yet" do
+    profile = build(:cv_profile, draft_status: "queued")
+    profile.versions.clear
+    expect(profile).to be_valid
+    expect(profile.drafting?).to be(true)
+  end
 end

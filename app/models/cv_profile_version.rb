@@ -7,6 +7,7 @@ class CvProfileVersion < ApplicationRecord
 
   before_validation :normalize_tag
   before_validation :assign_number, on: :create
+  before_validation :normalize_uploaded_markdown, on: :create
 
   validates :number, presence: true, uniqueness: { scope: :cv_profile_id }
   validates :file, presence: true
@@ -15,6 +16,13 @@ class CvProfileVersion < ApplicationRecord
 
   def label
     tag.present? ? "v#{number} · #{tag}" : "v#{number}"
+  end
+
+  def raw_markdown
+    path = file.path
+    return if path.blank? || !File.exist?(path)
+
+    File.read(path)
   end
 
   def parsed_content
@@ -33,6 +41,17 @@ class CvProfileVersion < ApplicationRecord
 
   def normalize_tag
     self.tag = tag.to_s.strip.presence
+  end
+
+  def normalize_uploaded_markdown
+    path = file.path
+    return if path.blank? || !File.exist?(path)
+
+    original = File.read(path)
+    normalized = CvgenMarkdown.normalize(original)
+    return if normalized == original
+
+    File.binwrite(path, normalized)
   end
 
   def assign_number

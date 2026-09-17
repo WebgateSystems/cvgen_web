@@ -8,6 +8,7 @@ Primary keys are UUIDs. `job_applications.company` (string) is removed after bac
 
 ```mermaid
 erDiagram
+  User ||--o| UserProfile : "account profile"
   User ||--o{ JobApplication : tracks
   Company ||--o{ JobApplication : "has many offers"
   User ||--o{ CompanyRating : rates
@@ -19,6 +20,17 @@ erDiagram
     uuid id PK
     string email
     string role
+  }
+
+  UserProfile {
+    uuid id PK
+    uuid user_id FK
+    string display_name
+    string location
+    text about
+    string avatar
+    jsonb analysis
+    datetime analyzed_at
   }
 
   Company {
@@ -146,6 +158,8 @@ Unique `(company_id, user_id)` — one card per candidate.
 
 | Record | Dependent |
 | --- | --- |
-| `User` | destroys applications, ratings, authored events |
+| `User` | destroys account profile, applications, ratings, authored events |
 | `Company` | `restrict_with_error` while applications exist; ratings destroyed with the company |
 | `JobApplication` | destroys its events |
+
+Account identity (`user_profiles`) is 1:1 with `users`. `analysis` JSONB holds the latest ChatGPT CV parse; see [Account](account.md). `cv_profiles` are career-track Markdown. A new track can be an uploaded file or a ChatGPT draft from the account JSON, filtered by the profile name (one person, several careers).

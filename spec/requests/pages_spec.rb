@@ -27,4 +27,12 @@ RSpec.describe "Public site", type: :request do
     get root_path, headers: { "HTTP_COOKIE" => "locale=pl" }
     expect(response.body).to include("Studio CV")
   end
+
+  it "shows the avatar menu when signed in" do
+    sign_in create(:user, :jobseeker, email: "ada@example.com")
+    get root_path
+    expect(response.body).to include(I18n.t("nav.account"))
+    expect(response.body).to include("ada@example.com")
+    expect(response.body).not_to include(I18n.t("nav.sign_in"))
+  end
 end

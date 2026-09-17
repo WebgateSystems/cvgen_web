@@ -18,6 +18,9 @@ Rails.application.routes.draw do
     end
     get "cv", to: "cvs#show", as: :cv
     get "cv/preview", to: "cvs#preview", as: :cv_preview
+    resource :account, only: %i[show update] do
+      post :analyze
+    end
     resources :companies, only: %i[index show] do
       resource :rating, only: %i[create update], controller: "company_ratings"
     end

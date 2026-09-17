@@ -1,0 +1,265 @@
+<%= form_with model: profile, url: jobseeker_account_path, method: :patch, class: "admin-form admin-form--wide", html: { multipart: true } do |f| %>
+  <% if profile.errors.any? %>
+    <div class="alert alert-danger">
+      <ul class="mb-0">
+        <% profile.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <fieldset class="company-fieldset mb-4">
+    <legend><%= t("jobseeker.account.about_legend") %></legend>
+
+    <div class="account-avatar-row mb-3">
+      <%= user_avatar_tag(profile.user, size: :lg) %>
+      <div>
+        <%= f.label :avatar, t("jobseeker.account.avatar"), class: "form-label" %>
+        <%= f.file_field :avatar, class: "form-control", accept: "image/jpeg,image/png,image/webp,image/gif" %>
+        <div class="form-text"><%= t("jobseeker.account.avatar_hint") %></div>
+        <% if profile.avatar.present? %>
+          <div class="form-check mt-2">
+            <%= f.check_box :remove_avatar, class: "form-check-input" %>
+            <%= f.label :remove_avatar, t("jobseeker.account.remove_avatar"), class: "form-check-label" %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <%= f.label :display_name, t("jobseeker.account.display_name"), class: "form-label" %>
+      <%= f.text_field :display_name, class: "form-control", maxlength: 120 %>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label"><%= t("jobseeker.account.email") %></label>
+      <input type="email" class="form-control" value="<%= profile.user.email %>" disabled>
+    </div>
+
+    <div class="mb-3">
+      <%= f.label :location, t("jobseeker.account.location"), class: "form-label" %>
+      <%= f.text_field :location, class: "form-control", maxlength: 120, placeholder: t("jobseeker.account.location_placeholder") %>
+    </div>
+
+    <div class="mb-0">
+      <%= f.label :about, t("jobseeker.account.about"), class: "form-label" %>
+      <%= f.text_area :about, class: "form-control", rows: 5, maxlength: 5000 %>
+      <div class="form-text"><%= t("jobseeker.account.about_hint") %></div>
+    </div>
+  </fieldset>
+
+  <% if profile.analysis_present? %>
+    <% contact = profile.contact_for_form %>
+    <fieldset class="company-fieldset mb-4">
+      <legend><%= t("jobseeker.account.analysis_legend") %></legend>
+      <p class="form-text mt-0 mb-3"><%= t("jobseeker.account.analysis_hint") %></p>
+      <% if profile.analyzed_at.present? %>
+        <p class="form-text"><%= t("jobseeker.account.analyzed_at", time: l(profile.analyzed_at, format: :long)) %></p>
+      <% end %>
+
+      <% if profile.analysis_value("person_name").present? %>
+        <div class="mb-3">
+          <label class="form-label" for="user_profile_analysis_person_name"><%= t("jobseeker.account.person_name") %></label>
+          <input type="text" name="user_profile[analysis][person_name]" id="user_profile_analysis_person_name"
+                 class="form-control" value="<%= profile.analysis_value("person_name") %>">
+        </div>
+      <% end %>
+
+      <% if profile.analysis_value("headline").present? %>
+        <div class="mb-3">
+          <label class="form-label" for="user_profile_analysis_headline"><%= t("jobseeker.account.headline") %></label>
+          <input type="text" name="user_profile[analysis][headline]" id="user_profile_analysis_headline"
+                 class="form-control" value="<%= profile.analysis_value("headline") %>">
+        </div>
+      <% end %>
+
+      <% if profile.contact_present? %>
+        <h2 class="account-section-title"><%= t("jobseeker.account.contact_legend") %></h2>
+        <p class="form-text mt-0 mb-3"><%= t("jobseeker.account.contact_hint") %></p>
+
+        <% if contact["email"].present? || contact["location"].present? %>
+          <div class="row g-3 mb-3">
+            <% if contact["email"].present? %>
+              <div class="col-md-6">
+                <label class="form-label" for="user_profile_analysis_contact_email"><%= t("jobseeker.account.contact_email") %></label>
+                <input type="email" name="user_profile[analysis][contact][email]" id="user_profile_analysis_contact_email"
+                       class="form-control" value="<%= contact["email"] %>">
+              </div>
+            <% end %>
+            <% if contact["location"].present? %>
+              <div class="col-md-6">
+                <label class="form-label" for="user_profile_analysis_contact_location"><%= t("jobseeker.account.contact_location") %></label>
+                <input type="text" name="user_profile[analysis][contact][location]" id="user_profile_analysis_contact_location"
+                       class="form-control" value="<%= contact["location"] %>">
+              </div>
+            <% end %>
+          </div>
+        <% end %>
+
+        <% Array(contact["phones"]).each_with_index do |row, index| %>
+          <div class="row g-3 mb-3">
+            <div class="col-md-4">
+              <label class="form-label" for="user_profile_analysis_contact_phones_<%= index %>_label"><%= t("jobseeker.account.contact_phone_label") %></label>
+              <input type="text" name="user_profile[analysis][contact][phones][<%= index %>][label]"
+                     id="user_profile_analysis_contact_phones_<%= index %>_label"
+                     class="form-control" value="<%= row["label"] %>">
+            </div>
+            <div class="col-md-8">
+              <label class="form-label" for="user_profile_analysis_contact_phones_<%= index %>_number"><%= t("jobseeker.account.contact_phone") %></label>
+              <input type="text" name="user_profile[analysis][contact][phones][<%= index %>][number]"
+                     id="user_profile_analysis_contact_phones_<%= index %>_number"
+                     class="form-control" value="<%= row["number"] %>">
+            </div>
+          </div>
+        <% end %>
+
+        <% Array(contact["links"]).each_with_index do |row, index| %>
+          <div class="row g-3 mb-3">
+            <div class="col-md-4">
+              <label class="form-label" for="user_profile_analysis_contact_links_<%= index %>_label"><%= t("jobseeker.account.contact_link_label") %></label>
+              <input type="text" name="user_profile[analysis][contact][links][<%= index %>][label]"
+                     id="user_profile_analysis_contact_links_<%= index %>_label"
+                     class="form-control" value="<%= row["label"] %>">
+            </div>
+            <div class="col-md-8">
+              <label class="form-label" for="user_profile_analysis_contact_links_<%= index %>_url"><%= t("jobseeker.account.contact_link_url") %></label>
+              <input type="url" name="user_profile[analysis][contact][links][<%= index %>][url]"
+                     id="user_profile_analysis_contact_links_<%= index %>_url"
+                     class="form-control" value="<%= row["url"] %>">
+            </div>
+          </div>
+        <% end %>
+      <% end %>
+
+      <% if profile.analysis_value("summary").present? %>
+        <div class="mb-3">
+          <label class="form-label" for="user_profile_analysis_summary"><%= t("jobseeker.account.summary") %></label>
+          <textarea name="user_profile[analysis][summary]" id="user_profile_analysis_summary"
+                    class="form-control" rows="4"><%= profile.analysis_value("summary") %></textarea>
+        </div>
+      <% end %>
+
+      <% if profile.analysis_value("skills").present? %>
+        <div class="mb-3">
+          <label class="form-label" for="user_profile_analysis_skills_text"><%= t("jobseeker.account.skills") %></label>
+          <textarea name="user_profile[analysis][skills_text]" id="user_profile_analysis_skills_text"
+                    class="form-control" rows="6"><%= profile.list_text("skills") %></textarea>
+          <div class="form-text"><%= t("jobseeker.account.list_hint") %></div>
+        </div>
+      <% end %>
+
+      <% languages = profile.languages_for_form %>
+      <% if languages.any? %>
+        <h2 class="account-section-title"><%= t("jobseeker.account.languages") %></h2>
+        <% languages.each_with_index do |row, index| %>
+          <div class="row g-3 mb-3">
+            <div class="col-md-6">
+              <label class="form-label" for="user_profile_analysis_languages_<%= index %>_name"><%= t("jobseeker.account.language_name") %></label>
+              <input type="text" name="user_profile[analysis][languages][<%= index %>][name]"
+                     id="user_profile_analysis_languages_<%= index %>_name"
+                     class="form-control" value="<%= row["name"] %>">
+            </div>
+            <div class="col-md-6">
+              <label class="form-label" for="user_profile_analysis_languages_<%= index %>_level"><%= t("jobseeker.account.language_level") %></label>
+              <input type="text" name="user_profile[analysis][languages][<%= index %>][level]"
+                     id="user_profile_analysis_languages_<%= index %>_level"
+                     class="form-control" value="<%= row["level"] %>"
+                     placeholder="<%= t("jobseeker.account.language_level_placeholder") %>">
+            </div>
+          </div>
+        <% end %>
+      <% end %>
+
+      <% if profile.analysis_value("strengths").present? %>
+        <div class="mb-3">
+          <label class="form-label" for="user_profile_analysis_strengths_text"><%= t("jobseeker.account.strengths") %></label>
+          <textarea name="user_profile[analysis][strengths_text]" id="user_profile_analysis_strengths_text"
+                    class="form-control" rows="4"><%= profile.list_text("strengths") %></textarea>
+        </div>
+      <% end %>
+
+      <% if profile.analysis_value("gaps").present? %>
+        <div class="mb-3">
+          <label class="form-label" for="user_profile_analysis_gaps_text"><%= t("jobseeker.account.gaps") %></label>
+          <textarea name="user_profile[analysis][gaps_text]" id="user_profile_analysis_gaps_text"
+                    class="form-control" rows="4"><%= profile.list_text("gaps") %></textarea>
+        </div>
+      <% end %>
+
+      <% experience = profile.experience_for_form %>
+      <% if experience.any? %>
+        <h2 class="account-section-title"><%= t("jobseeker.account.experience") %></h2>
+        <% experience.each_with_index do |row, index| %>
+          <div class="analysis-row">
+            <div class="row g-3">
+              <div class="col-md-6">
+                <label class="form-label" for="user_profile_analysis_experience_<%= index %>_company"><%= t("jobseeker.account.company") %></label>
+                <input type="text" name="user_profile[analysis][experience][<%= index %>][company]"
+                       id="user_profile_analysis_experience_<%= index %>_company"
+                       class="form-control" value="<%= row["company"] %>">
+              </div>
+              <div class="col-md-6">
+                <label class="form-label" for="user_profile_analysis_experience_<%= index %>_role"><%= t("jobseeker.account.role") %></label>
+                <input type="text" name="user_profile[analysis][experience][<%= index %>][role]"
+                       id="user_profile_analysis_experience_<%= index %>_role"
+                       class="form-control" value="<%= row["role"] %>">
+              </div>
+              <div class="col-md-6">
+                <label class="form-label" for="user_profile_analysis_experience_<%= index %>_from"><%= t("jobseeker.account.from") %></label>
+                <input type="text" name="user_profile[analysis][experience][<%= index %>][from]"
+                       id="user_profile_analysis_experience_<%= index %>_from"
+                       class="form-control" value="<%= row["from"] %>">
+              </div>
+              <div class="col-md-6">
+                <label class="form-label" for="user_profile_analysis_experience_<%= index %>_to"><%= t("jobseeker.account.to") %></label>
+                <input type="text" name="user_profile[analysis][experience][<%= index %>][to]"
+                       id="user_profile_analysis_experience_<%= index %>_to"
+                       class="form-control" value="<%= row["to"] %>">
+              </div>
+              <div class="col-12">
+                <label class="form-label" for="user_profile_analysis_experience_<%= index %>_highlights"><%= t("jobseeker.account.highlights") %></label>
+                <textarea name="user_profile[analysis][experience][<%= index %>][highlights_text]"
+                          id="user_profile_analysis_experience_<%= index %>_highlights"
+                          class="form-control" rows="3"><%= UserProfile::Analysis.list_text(row["highlights"]) %></textarea>
+              </div>
+            </div>
+          </div>
+        <% end %>
+      <% end %>
+
+      <% education = profile.education_for_form %>
+      <% if education.any? %>
+        <h2 class="account-section-title"><%= t("jobseeker.account.education") %></h2>
+        <% education.each_with_index do |row, index| %>
+          <div class="analysis-row">
+            <div class="row g-3">
+              <div class="col-md-6">
+                <label class="form-label" for="user_profile_analysis_education_<%= index %>_school"><%= t("jobseeker.account.school") %></label>
+                <input type="text" name="user_profile[analysis][education][<%= index %>][school]"
+                       id="user_profile_analysis_education_<%= index %>_school"
+                       class="form-control" value="<%= row["school"] %>">
+              </div>
+              <div class="col-md-4">
+                <label class="form-label" for="user_profile_analysis_education_<%= index %>_degree"><%= t("jobseeker.account.degree") %></label>
+                <input type="text" name="user_profile[analysis][education][<%= index %>][degree]"
+                       id="user_profile_analysis_education_<%= index %>_degree"
+                       class="form-control" value="<%= row["degree"] %>">
+              </div>
+              <div class="col-md-2">
+                <label class="form-label" for="user_profile_analysis_education_<%= index %>_year"><%= t("jobseeker.account.year") %></label>
+                <input type="text" name="user_profile[analysis][education][<%= index %>][year]"
+                       id="user_profile_analysis_education_<%= index %>_year"
+                       class="form-control" value="<%= row["year"] %>">
+              </div>
+            </div>
+          </div>
+        <% end %>
+      <% end %>
+    </fieldset>
+  <% end %>
+
+  <div class="d-flex gap-2">
+    <%= f.submit t("jobseeker.account.save"), class: "btn-ink" %>
+  </div>
+<% end %>

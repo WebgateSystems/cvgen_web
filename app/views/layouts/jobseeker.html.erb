@@ -30,6 +30,7 @@
     <%= stylesheet_link_tag "application", "cvgen", "data-turbo-track": "reload" %>
     <%= render "shared/app_version_styles" %>
     <%= javascript_importmap_tags %>
+    <%= yield :head if content_for?(:head) %>
   </head>
   <body class="admin-body">
     <div class="admin-shell">
@@ -120,7 +121,7 @@
                 <li><button type="button" class="dropdown-item" data-action="theme#dark"><%= t("nav.theme_dark") %></button></li>
               </ul>
             </div>
-            <span class="nav-user"><%= current_user.email %></span>
+            <%= render "shared/account_menu" %>
           </div>
         </header>
 

@@ -53,7 +53,8 @@ class CvGenerator
     assets = Cvgen::ROOT.join("assets")
     FileUtils.cp_r(assets.to_s, root.to_s) if assets.exist?
 
-    FileUtils.cp(@build.version.file.path, root.join("content", "#{@build.content_stem}.md"))
+    markdown = CvgenMarkdown.normalize(File.read(@build.version.file.path))
+    root.join("content", "#{@build.content_stem}.md").write(markdown)
     FileUtils.cp(@build.theme.file.path, root.join("themes", "#{@build.theme.slug}.yaml"))
     root.join("profiles", "#{@build.generator_profile}.yaml").write(@build.profile_payload.to_yaml)
   end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_09_16_100000) do
+ActiveRecord::Schema[8.1].define(version: 2026_09_17_160000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -77,6 +77,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_16_100000) do
 
   create_table "cv_profiles", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.datetime "created_at", null: false
+    t.text "draft_error"
+    t.string "draft_status", default: "idle", null: false
     t.string "name", null: false
     t.string "slug", null: false
     t.datetime "updated_at", null: false
@@ -121,6 +123,24 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_16_100000) do
     t.index ["user_id"], name: "index_themes_on_user_id"
   end
 
+  create_table "user_profiles", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.text "about"
+    t.jsonb "analysis", default: {}, null: false
+    t.text "analysis_error"
+    t.string "analysis_status", default: "idle", null: false
+    t.string "analysis_step"
+    t.datetime "analyzed_at"
+    t.string "avatar"
+    t.datetime "created_at", null: false
+    t.string "display_name"
+    t.string "location"
+    t.uuid "starter_cv_profile_id"
+    t.datetime "updated_at", null: false
+    t.uuid "user_id", null: false
+    t.index ["starter_cv_profile_id"], name: "index_user_profiles_on_starter_cv_profile_id"
+    t.index ["user_id"], name: "index_user_profiles_on_user_id", unique: true
+  end
+
   create_table "users", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.datetime "created_at", null: false
     t.string "email", default: "", null: false
@@ -144,4 +164,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_16_100000) do
   add_foreign_key "job_applications", "companies"
   add_foreign_key "job_applications", "users"
   add_foreign_key "themes", "users"
+  add_foreign_key "user_profiles", "cv_profiles", column: "starter_cv_profile_id"
+  add_foreign_key "user_profiles", "users"
 end

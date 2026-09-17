@@ -1,51 +1,328 @@
 <% content_for :title, @profile.name %>
+<% content_for :head do %>
+  <style>
+    .md-split {
+      display: flex !important;
+      flex-direction: row !important;
+      flex-wrap: nowrap !important;
+      align-items: stretch !important;
+      width: 100%;
+      height: calc(100vh - 11rem);
+      min-height: 32rem;
+    }
+    .md-split__pane {
+      display: flex !important;
+      flex-direction: column !important;
+      flex: 1 1 50% !important;
+      width: 50%;
+      min-width: 0 !important;
+      min-height: 0;
+      height: 100%;
+      overflow: hidden;
+      border: 1px solid var(--cv-line, #d0d5dd);
+      background: var(--cv-sheet, #fff);
+    }
+    .md-split__source { border-right: 0; }
+    .md-split__chrome {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.5rem;
+      flex: 0 0 auto;
+      padding: 0.4rem 0.7rem;
+      border-bottom: 1px solid var(--cv-line, #d0d5dd);
+      background: color-mix(in srgb, var(--cv-line, #d0d5dd) 28%, var(--cv-sheet, #fff));
+    }
+    .md-split__gutter {
+      flex: 0 0 8px !important;
+      width: 8px;
+      cursor: col-resize;
+      background: var(--cv-line, #d0d5dd);
+    }
+    .md-editor__textarea {
+      flex: 1 1 auto !important;
+      display: block !important;
+      width: 100% !important;
+      min-height: 0 !important;
+      height: 100% !important;
+      margin: 0;
+      padding: 0.85rem 1rem;
+      border: 0 !important;
+      resize: none !important;
+      box-sizing: border-box;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 0.86rem;
+      line-height: 1.55;
+      white-space: pre-wrap;
+      overflow: auto;
+    }
+    .md-doc {
+      flex: 1 1 auto;
+      min-height: 0;
+      height: 100%;
+      overflow: auto;
+      padding: 0.85rem 1rem 1.2rem;
+    }
+    .md-icon-bar { display: flex; flex-wrap: wrap; gap: 0.12rem; align-items: center; }
+    .md-icon-bar__sep { width: 1px; height: 1.2rem; margin: 0 0.3rem; background: var(--cv-line, #d0d5dd); }
+    .md-icon-btn {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 2.05rem; height: 2.05rem; padding: 0; border: 1px solid transparent;
+      border-radius: 0.35rem; background: var(--cv-sheet, #fff); color: inherit;
+    }
+    .md-icon-btn:hover { border-color: var(--cv-line, #d0d5dd); }
+    .md-editor-toolbar {
+      display: flex;
+      flex-wrap: nowrap;
+      align-items: center;
+      gap: 0.65rem;
+      margin-bottom: 0.6rem;
+    }
+    .md-editor-toolbar__grow { flex: 1 1 auto; }
+    .md-editor-tag { width: 11rem; max-width: 30%; }
+    .md-editor__label {
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      margin: 0;
+      color: var(--cv-ink-soft, #667085);
+    }
+    .md-doc__name,
+    .md-doc__headline,
+    .md-doc__meta-input {
+      display: block;
+      width: 100%;
+      border: 0;
+      background: transparent;
+      color: inherit;
+      padding: 0;
+    }
+    .md-doc__name {
+      font-family: Fraunces, Georgia, serif;
+      font-size: 1.55rem;
+      font-weight: 600;
+    }
+    .md-doc__headline { margin-top: 0.15rem; font-size: 0.98rem; opacity: 0.8; }
+    .md-doc__meta { display: flex; flex-wrap: wrap; gap: 0.35rem 0.85rem; margin-top: 0.45rem; }
+    .md-doc__meta-input { width: auto; min-width: 8rem; flex: 1 1 8rem; font-size: 0.85rem; }
+    .md-pair { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr) auto; gap: 0.35rem; margin-top: 0.35rem; }
+    .md-wysiwyg h1 { font-family: Fraunces, Georgia, serif; font-size: 1.35rem; margin: 1.1rem 0 0.45rem; }
+    .md-wysiwyg h2 { font-size: 1.05rem; margin: 1rem 0 0.15rem; }
+    .md-wysiwyg h3 { font-size: 0.95rem; font-weight: 600; opacity: 0.8; margin: 0.15rem 0 0.35rem; }
+    .md-wysiwyg ul, .md-wysiwyg ol { margin: 0 0 0.85rem; padding-left: 1.2rem; }
+    .md-wysiwyg { min-height: 12rem; cursor: text; }
+  </style>
+<% end %>
 
-<div class="d-flex justify-content-between align-items-center mb-4">
+<div class="md-studio-head">
   <div>
     <h1 class="admin-h1 mb-0"><%= @profile.name %></h1>
     <p class="admin-lead mb-0"><%= t("jobseeker.profiles.show_lead") %></p>
   </div>
   <div class="d-flex flex-wrap gap-2">
-    <%= link_to t("jobseeker.versions.add"), new_jobseeker_profile_version_path(@profile), class: "btn-ink" %>
+    <% unless @profile.drafting? %>
+      <%= link_to t("jobseeker.versions.add"), new_jobseeker_profile_version_path(@profile), class: "btn-ink" %>
+    <% end %>
     <%= link_to t("nav.edit"), edit_jobseeker_profile_path(@profile), class: "btn-ghost" %>
   </div>
 </div>
 
-<div class="table-responsive admin-table-wrap">
-  <table class="table table-hover align-middle mb-0">
-    <thead>
-      <tr>
-        <th><%= t("jobseeker.versions.number") %></th>
-        <th><%= t("jobseeker.versions.tag") %></th>
-        <th><%= t("jobseeker.profiles.person") %></th>
-        <th><%= t("jobseeker.versions.file") %></th>
-        <th class="text-end"><%= t("admin.users.actions") %></th>
-      </tr>
-    </thead>
-    <tbody>
-      <% @versions.each do |version| %>
-        <tr>
-          <td><strong>v<%= version.number %></strong></td>
-          <td>
-            <% if version.tag.present? %>
-              <span class="badge text-bg-secondary"><%= version.tag %></span>
-            <% else %>
-              —
-            <% end %>
-          </td>
-          <td><%= version.person_name || "—" %></td>
-          <td>
-            <% if version.file.present? %>
-              <%= link_to File.basename(version.file.url.to_s), version.file.url, target: "_blank", rel: "noopener" %>
-            <% end %>
-          </td>
-          <td class="text-end">
-            <%= button_to t("admin.users.delete"), jobseeker_profile_version_path(@profile, version), method: :delete,
-                  class: "btn btn-sm btn-outline-danger",
-                  form: { data: { turbo_confirm: t("jobseeker.versions.confirm_delete") } } %>
-          </td>
-        </tr>
+<% if @profile.drafting? %>
+  <div class="alert alert-secondary" role="status"><%= t("jobseeker.profiles.drafting") %></div>
+<% elsif @profile.draft_failed? %>
+  <div class="alert alert-danger" role="alert"><%= @profile.draft_error %></div>
+<% end %>
+
+<% if @editor_errors.present? %>
+  <div class="alert alert-danger" role="alert">
+    <ul class="mb-0">
+      <% @editor_errors.full_messages.each do |message| %>
+        <li><%= message %></li>
       <% end %>
-    </tbody>
-  </table>
-</div>
+    </ul>
+  </div>
+<% end %>
+
+<% if @version %>
+  <% @front ||= { "name" => "", "headline" => "", "email" => "", "location" => "", "phones" => [], "links" => [] } %>
+  <% @body ||= "" %>
+  <% if @versions.size > 1 %>
+    <%= form_with url: jobseeker_profile_path(@profile), method: :get, html: { id: "md-version-switch", class: "d-none" } do %>
+    <% end %>
+  <% end %>
+  <%= form_with url: jobseeker_profile_versions_path(@profile), method: :post,
+        class: "md-editor-form",
+        data: {
+          md_studio: true,
+          md_tags: t("jobseeker.versions.editor_tags"),
+          md_link_prompt: t("jobseeker.versions.editor_link_prompt")
+        } do |f| %>
+    <div class="md-editor-toolbar" style="display:flex;flex-wrap:nowrap;align-items:center;gap:0.65rem;">
+      <% if @versions.size > 1 %>
+        <label class="form-label mb-0" for="version_id"><%= t("jobseeker.versions.number") %></label>
+        <%= select_tag :version_id,
+              options_from_collection_for_select(@versions, :id, :label, @version.id),
+              class: "form-select form-select-sm md-editor-version",
+              form: "md-version-switch",
+              onchange: "document.getElementById('md-version-switch').requestSubmit()" %>
+      <% else %>
+        <span class="badge text-bg-secondary"><%= @version.label %></span>
+      <% end %>
+      <div class="md-editor-toolbar__grow"></div>
+      <input type="text" name="cv_profile_version[tag]" class="form-control form-control-sm md-editor-tag"
+            placeholder="<%= t("jobseeker.versions.tag_placeholder") %>"
+            aria-label="<%= t("jobseeker.versions.tag") %>"
+            style="width:11rem;">
+      <%= f.submit t("jobseeker.versions.save"), class: "btn-ink" %>
+    </div>
+
+    <div class="md-split" style="display:flex;flex-direction:row;flex-wrap:nowrap;align-items:stretch;width:100%;height:calc(100vh - 11rem);min-height:32rem;">
+      <section class="md-split__pane md-split__source" style="display:flex;flex-direction:column;flex:1 1 50%;width:50%;min-width:0;height:100%;overflow:hidden;">
+        <div class="md-split__chrome">
+          <h2 class="md-editor__label mb-0"><%= t("jobseeker.versions.editor_source") %></h2>
+        </div>
+        <%= text_area_tag "cv_profile_version[markdown]", @markdown,
+              class: "md-editor__textarea",
+              rows: 28,
+              data: { md_source: true },
+              spellcheck: false,
+              wrap: "soft",
+              style: "flex:1 1 auto;width:100%;min-height:0;height:100%;border:0;resize:none;box-sizing:border-box;",
+              aria: { label: t("jobseeker.versions.editor_source") } %>
+      </section>
+
+      <div class="md-split__gutter" role="separator" aria-orientation="vertical"
+           aria-label="<%= t("jobseeker.versions.editor_resize") %>"
+           style="flex:0 0 8px;width:8px;cursor:col-resize;background:var(--cv-line,#d0d5dd);"></div>
+
+      <section class="md-split__pane md-split__wysiwyg" style="display:flex;flex-direction:column;flex:1 1 50%;width:50%;min-width:0;height:100%;overflow:hidden;">
+        <div class="md-split__chrome">
+          <h2 class="md-editor__label mb-0"><%= t("jobseeker.versions.editor_wysiwyg") %></h2>
+          <div class="md-icon-bar" role="toolbar" aria-label="<%= t("jobseeker.versions.editor_wysiwyg") %>">
+            <button type="button" class="md-icon-btn" data-md-cmd="bold" title="<%= t("jobseeker.versions.editor_bold") %>" aria-label="<%= t("jobseeker.versions.editor_bold") %>"><i class="bi bi-type-bold" aria-hidden="true"></i></button>
+            <button type="button" class="md-icon-btn" data-md-cmd="italic" title="<%= t("jobseeker.versions.editor_italic") %>" aria-label="<%= t("jobseeker.versions.editor_italic") %>"><i class="bi bi-type-italic" aria-hidden="true"></i></button>
+            <span class="md-icon-bar__sep"></span>
+            <button type="button" class="md-icon-btn" data-md-cmd="h1" title="<%= t("jobseeker.versions.editor_section") %>" aria-label="<%= t("jobseeker.versions.editor_section") %>"><i class="bi bi-type-h1" aria-hidden="true"></i></button>
+            <button type="button" class="md-icon-btn" data-md-cmd="h2" title="<%= t("jobseeker.versions.editor_company") %>" aria-label="<%= t("jobseeker.versions.editor_company") %>"><i class="bi bi-type-h2" aria-hidden="true"></i></button>
+            <button type="button" class="md-icon-btn" data-md-cmd="h3" title="<%= t("jobseeker.versions.editor_role") %>" aria-label="<%= t("jobseeker.versions.editor_role") %>"><i class="bi bi-type-h3" aria-hidden="true"></i></button>
+            <span class="md-icon-bar__sep"></span>
+            <button type="button" class="md-icon-btn" data-md-cmd="insertUnorderedList" title="<%= t("jobseeker.versions.editor_bullet") %>" aria-label="<%= t("jobseeker.versions.editor_bullet") %>"><i class="bi bi-list-ul" aria-hidden="true"></i></button>
+            <button type="button" class="md-icon-btn" data-md-cmd="insertOrderedList" title="<%= t("jobseeker.versions.editor_numbered") %>" aria-label="<%= t("jobseeker.versions.editor_numbered") %>"><i class="bi bi-list-ol" aria-hidden="true"></i></button>
+            <button type="button" class="md-icon-btn" data-md-cmd="createLink" title="<%= t("jobseeker.versions.editor_link_insert") %>" aria-label="<%= t("jobseeker.versions.editor_link_insert") %>"><i class="bi bi-link-45deg" aria-hidden="true"></i></button>
+            <span class="md-icon-bar__sep"></span>
+            <button type="button" class="md-icon-btn" data-md-cmd="undo" title="<%= t("jobseeker.versions.editor_undo") %>" aria-label="<%= t("jobseeker.versions.editor_undo") %>"><i class="bi bi-arrow-counterclockwise" aria-hidden="true"></i></button>
+            <button type="button" class="md-icon-btn" data-md-cmd="redo" title="<%= t("jobseeker.versions.editor_redo") %>" aria-label="<%= t("jobseeker.versions.editor_redo") %>"><i class="bi bi-arrow-clockwise" aria-hidden="true"></i></button>
+          </div>
+        </div>
+        <div class="md-doc" style="flex:1 1 auto;min-height:0;height:100%;overflow:auto;">
+          <header class="md-doc__head">
+            <input type="text" class="md-doc__name" value="<%= @front["name"] %>"
+                   data-md-field="name" aria-label="<%= t("jobseeker.versions.editor_name") %>" placeholder="<%= t("jobseeker.versions.editor_name") %>">
+            <input type="text" class="md-doc__headline" value="<%= @front["headline"] %>"
+                   data-md-field="headline" aria-label="<%= t("jobseeker.versions.editor_headline") %>" placeholder="<%= t("jobseeker.versions.editor_headline") %>">
+            <div class="md-doc__meta">
+              <input type="email" class="md-doc__meta-input" value="<%= @front["email"] %>"
+                     data-md-field="email" aria-label="<%= t("jobseeker.versions.editor_email") %>" placeholder="<%= t("jobseeker.versions.editor_email") %>">
+              <input type="text" class="md-doc__meta-input" value="<%= @front["location"] %>"
+                     data-md-field="location" aria-label="<%= t("jobseeker.versions.editor_location") %>" placeholder="<%= t("jobseeker.versions.editor_location") %>">
+            </div>
+            <div class="md-doc__rows" data-md-phones>
+              <% @front["phones"].each do |phone| %>
+                <div class="md-pair">
+                  <input type="text" class="form-control form-control-sm" data-key="label" value="<%= phone["label"] %>" placeholder="<%= t("jobseeker.versions.editor_phone_label") %>" aria-label="<%= t("jobseeker.versions.editor_phone_label") %>">
+                  <input type="text" class="form-control form-control-sm" data-key="number" value="<%= phone["number"] %>" placeholder="<%= t("jobseeker.versions.editor_phone_number") %>" aria-label="<%= t("jobseeker.versions.editor_phone_number") %>">
+                  <button type="button" class="btn btn-sm btn-outline-secondary" data-md-remove aria-label="<%= t("jobseeker.versions.editor_remove") %>">&times;</button>
+                </div>
+              <% end %>
+            </div>
+            <button type="button" class="btn btn-sm btn-link md-doc__add" data-md-add-phone><%= t("jobseeker.versions.editor_add_phone") %></button>
+            <div class="md-doc__rows" data-md-links>
+              <% @front["links"].each do |link| %>
+                <div class="md-pair">
+                  <input type="text" class="form-control form-control-sm" data-key="label" value="<%= link["label"] %>" placeholder="<%= t("jobseeker.versions.editor_link_label") %>" aria-label="<%= t("jobseeker.versions.editor_link_label") %>">
+                  <input type="url" class="form-control form-control-sm" data-key="url" value="<%= link["url"] %>" placeholder="<%= t("jobseeker.versions.editor_link_url") %>" aria-label="<%= t("jobseeker.versions.editor_link_url") %>">
+                  <button type="button" class="btn btn-sm btn-outline-secondary" data-md-remove aria-label="<%= t("jobseeker.versions.editor_remove") %>">&times;</button>
+                </div>
+              <% end %>
+            </div>
+            <button type="button" class="btn btn-sm btn-link md-doc__add" data-md-add-link><%= t("jobseeker.versions.editor_add_link") %></button>
+          </header>
+
+          <div class="md-wysiwyg" contenteditable="true" data-md-wysiwyg
+               role="textbox" aria-multiline="true"
+               aria-label="<%= t("jobseeker.versions.editor_wysiwyg") %>"><%= raw CvgenMarkdown.body_html(@body, tags_placeholder: t("jobseeker.versions.editor_tags")) %></div>
+        </div>
+      </section>
+    </div>
+
+    <template data-md-phone-template>
+      <div class="md-pair">
+        <input type="text" class="form-control form-control-sm" data-key="label" placeholder="<%= t("jobseeker.versions.editor_phone_label") %>" aria-label="<%= t("jobseeker.versions.editor_phone_label") %>">
+        <input type="text" class="form-control form-control-sm" data-key="number" placeholder="<%= t("jobseeker.versions.editor_phone_number") %>" aria-label="<%= t("jobseeker.versions.editor_phone_number") %>">
+        <button type="button" class="btn btn-sm btn-outline-secondary" data-md-remove aria-label="<%= t("jobseeker.versions.editor_remove") %>">&times;</button>
+      </div>
+    </template>
+    <template data-md-link-template>
+      <div class="md-pair">
+        <input type="text" class="form-control form-control-sm" data-key="label" placeholder="<%= t("jobseeker.versions.editor_link_label") %>" aria-label="<%= t("jobseeker.versions.editor_link_label") %>">
+        <input type="url" class="form-control form-control-sm" data-key="url" placeholder="<%= t("jobseeker.versions.editor_link_url") %>" aria-label="<%= t("jobseeker.versions.editor_link_url") %>">
+        <button type="button" class="btn btn-sm btn-outline-secondary" data-md-remove aria-label="<%= t("jobseeker.versions.editor_remove") %>">&times;</button>
+      </div>
+    </template>
+  <% end %>
+  <script>
+  (function () {
+  <%= raw Rails.root.join("app/javascript/cvgen_markdown.js").read.gsub(/^export /m, "") %>
+  <%= raw Rails.root.join("app/javascript/md_studio.js").read %>
+  })();
+  </script>
+<% end %>
+
+<% if @versions.any? %>
+  <details class="md-history">
+    <summary><%= t("jobseeker.versions.history") %> (<%= @versions.size %>)</summary>
+    <div class="table-responsive admin-table-wrap mt-3">
+      <table class="table table-hover align-middle mb-0">
+        <thead>
+          <tr>
+            <th><%= t("jobseeker.versions.number") %></th>
+            <th><%= t("jobseeker.versions.tag") %></th>
+            <th><%= t("jobseeker.profiles.person") %></th>
+            <th><%= t("jobseeker.versions.file") %></th>
+            <th class="text-end"><%= t("admin.users.actions") %></th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @versions.each do |version| %>
+            <tr class="<%= "table-active" if @version && version.id == @version.id %>">
+              <td>
+                <strong><%= link_to "v#{version.number}", jobseeker_profile_path(@profile, version_id: version.id), class: "link-quiet" %></strong>
+              </td>
+              <td>
+                <% if version.tag.present? %>
+                  <span class="badge text-bg-secondary"><%= version.tag %></span>
+                <% else %>
+                  —
+                <% end %>
+              </td>
+              <td><%= version.person_name || "—" %></td>
+              <td>
+                <% if version.file.present? %>
+                  <%= link_to File.basename(version.file.url.to_s), version.file.url, target: "_blank", rel: "noopener" %>
+                <% end %>
+              </td>
+              <td class="text-end">
+                <%= button_to t("admin.users.delete"), jobseeker_profile_version_path(@profile, version), method: :delete,
+                      class: "btn btn-sm btn-outline-danger",
+                      form: { data: { turbo_confirm: t("jobseeker.versions.confirm_delete") } } %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </details>
+<% elsif !@profile.drafting? && !@profile.draft_failed? %>
+  <p class="text-secondary"><%= t("jobseeker.profiles.empty") %></p>
+<% end %>

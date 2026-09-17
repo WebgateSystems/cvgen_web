@@ -65,4 +65,13 @@ module ApplicationHelper
       application.company
     end
   end
+
+  def user_avatar_tag(user, size: :sm)
+    css = "user-avatar user-avatar--#{size}"
+    if user.user_profile&.avatar.present?
+      image_tag user.user_profile.avatar.url, class: css, alt: user.display_name
+    else
+      tag.i class: "bi bi-person-circle #{css} user-avatar--fallback", aria: { hidden: true }
+    end
+  end
 end

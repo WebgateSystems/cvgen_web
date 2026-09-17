@@ -18,6 +18,10 @@ gem "bootsnap", require: false
 gem "thruster", require: false
 gem "carrierwave", "~> 3.1"
 gem "cvgen", github: "WebgateSystems/cvgen"
+gem "openai", "~> 0.6.0"
+gem "pdf-reader", "~> 2.14"
+gem "rubyzip", "~> 3.0"
+gem "sidekiq", "~> 7.3", require: false
 
 group :development, :test do
   gem "debug", platforms: %i[ mri windows ], require: "debug/prelude"

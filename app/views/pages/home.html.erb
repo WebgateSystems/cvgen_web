@@ -33,14 +33,7 @@
 
       <div class="landing-nav__auth">
         <% if user_signed_in? %>
-          <% if current_user.admin? %>
-            <%= link_to t("nav.admin"), admin_root_path, class: "link-quiet" %>
-          <% end %>
-          <% if current_user.can_use_jobseeker_studio? %>
-            <%= link_to t("nav.studio"), jobseeker_root_path, class: "link-quiet" %>
-          <% end %>
-          <span class="nav-user"><%= current_user.email %></span>
-          <%= button_to t("nav.sign_out"), destroy_user_session_path, method: :delete, class: "btn-ink btn-ink--compact" %>
+          <%= render "shared/account_menu", landing: true %>
         <% else %>
           <%= link_to t("nav.sign_in"), new_user_session_path, class: "link-quiet" %>
           <%= link_to t("nav.sign_up"), new_user_registration_path, class: "btn-ink" %>

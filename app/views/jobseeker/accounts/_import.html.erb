@@ -1,0 +1,22 @@
+<%= form_with url: analyze_jobseeker_account_path, method: :post, multipart: true, class: "admin-form admin-form--wide mb-4", data: { turbo: false } do %>
+  <fieldset class="company-fieldset">
+    <legend><%= t("jobseeker.account.import.legend") %></legend>
+    <p class="form-text mt-0 mb-3"><%= t("jobseeker.account.import.hint") %></p>
+
+    <div class="mb-3">
+      <label class="form-label" for="source_text"><%= t("jobseeker.account.import.source_text") %></label>
+      <textarea name="source_text" id="source_text" class="form-control" rows="7"
+                placeholder="<%= t("jobseeker.account.import.source_text_placeholder") %>"><%= @source_text %></textarea>
+      <div class="form-text"><%= t("jobseeker.account.import.source_text_hint") %></div>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label" for="cv_files"><%= t("jobseeker.account.import.files") %></label>
+      <input type="file" name="cv_files[]" id="cv_files" class="form-control" multiple
+             accept=".pdf,.doc,.docx,.odt,.rtf,.txt,.md,.html,.htm,.csv,.png,.jpg,.jpeg,.webp,.gif,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document">
+      <div class="form-text"><%= t("jobseeker.account.import.files_hint") %></div>
+    </div>
+
+    <%= submit_tag t("jobseeker.account.import.analyze"), class: "btn-ink" %>
+  </fieldset>
+<% end %>

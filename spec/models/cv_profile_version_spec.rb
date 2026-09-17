@@ -17,6 +17,33 @@ RSpec.describe CvProfileVersion do
     profile = create(:cv_profile)
     expect(profile.person_name).to eq("Test Person")
     expect(profile.latest_version.person_name).to eq("Test Person")
+    expect(profile.latest_version.raw_markdown).to include("Test Person")
+  end
+
+  it "fills in a phone label so Typst layouts can compile" do
+    file = Tempfile.new([ "cv-phones", ".md" ])
+    file.write(<<~MD)
+      ---
+      name: Ada Lovelace
+      phones:
+        - "+44 7123 456789"
+      ---
+
+      # Summary
+      Notes.
+    MD
+    file.flush
+
+    profile = create(:cv_profile)
+    version = profile.versions.create!(
+      file: Rack::Test::UploadedFile.new(file.path, "text/markdown")
+    )
+
+    expect(version.raw_markdown).to include("label:")
+    expect(version.raw_markdown).to include("+44 7123 456789")
+  ensure
+    file.close
+    file.unlink
   end
 
   it "returns nil when parsed markdown raises a schema error" do

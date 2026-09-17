@@ -82,6 +82,80 @@ pl:
       links:
         forgot: Nie pamiętasz hasła?
   jobseeker:
+    account:
+      about: O sobie
+      about_hint: Krótka notatka o Tobie. Na razie widoczna tylko dla Ciebie.
+      about_legend: O Tobie
+      analysis_hint: Strukturalny wynik analizy CV. Widać tylko wypełnione sekcje.
+        Listy — jedna pozycja w wierszu.
+      analysis_legend: Analiza CV
+      analyzed_at: Ostatnia analiza %{time}
+      avatar: Zdjęcie
+      avatar_hint: JPEG, PNG, WebP lub GIF. Do 5 MB.
+      company: Firma
+      contact_email: Email z CV
+      contact_hint: Z nagłówka CV — email, telefony, miasto, LinkedIn, GitHub, portfolio.
+      contact_legend: Kontakt
+      contact_link_label: Etykieta
+      contact_link_url: URL
+      contact_location: Miasto / lokalizacja
+      contact_phone: Telefon
+      contact_phone_label: Etykieta
+      degree: Kierunek
+      display_name: Wyświetlana nazwa
+      education: Edukacja
+      email: Email
+      experience: Doświadczenie
+      from: Od
+      gaps: Luki
+      headline: Nagłówek
+      highlights: Najważniejsze
+      import:
+        analyze: Analizuj z ChatGPT
+        empty: Wklej tekst albo dołącz przynajmniej jeden plik CV.
+        failed: Analiza się nie udała. Spróbuj mniej plików albo wklej tekst.
+        files: Pliki CV
+        files_hint: PDF, Word (doc/docx), ODT, RTF, TXT, Markdown, HTML albo zdjęcie
+          CV. Tekst z PDF wyciągamy lokalnie. Do 5 plików, po 8 MB. Nie zapisujemy
+          ich — służą tylko do tej analizy.
+        hint: Wypełnij formularz ręcznie, wklej CV albo wrzuć istniejące pliki. ChatGPT
+          złoży z tego JSON poniżej.
+        invalid_json: ChatGPT zwrócił coś, co nie jest poprawnym JSON-em. Spróbuj
+          ponownie albo wklej krótszy fragment.
+        legend: Import
+        missing_key: ChatGPT nie jest skonfigurowany (brak klucza API).
+        source_text: Wklej CV albo notatki
+        source_text_hint: List motywacyjny, eksport z LinkedIn albo skopiowane CV.
+          Łączy się z plikami poniżej.
+        source_text_placeholder: Wklej CV, bio albo notatki o sobie…
+        success: Analiza zaktualizowana. Sprawdź pola poniżej i zapisz ewentualne
+          poprawki.
+        too_large: "%{filename} waży więcej niż 8 MB."
+        too_many: Dołącz najwyżej 5 plików.
+        unreadable: Nie udało się odczytać tekstu z %{filename}. Wklej CV albo wgraj
+          PDF z zaznaczalnym tekstem (nie skan).
+        unsupported: "%{filename} nie jest obsługiwanym formatem CV."
+      language_level: Poziom
+      language_level_placeholder: C1, native, biegły…
+      language_name: Język
+      languages: Języki
+      lead: Dodaj informacje o sobie ręcznie, wklej tekst do ChatGPT albo wrzuć dotychczasowe
+        CV. Wynik zostaje w edytowalnym formularzu.
+      list_hint: Jedna pozycja w wierszu.
+      location: Lokalizacja
+      location_placeholder: Warszawa, Polska
+      person_name: Imię i nazwisko z CV
+      remove_avatar: Usuń zdjęcie
+      role: Stanowisko
+      save: Zapisz profil
+      school: Szkoła
+      skills: Umiejętności
+      strengths: Mocne strony
+      summary: Podsumowanie
+      title: Mój profil
+      to: Do
+      updated: Profil zapisany.
+      year: Rok
     applications:
       actions: Akcje
       add_message: Dodaj do wątku
@@ -243,20 +317,46 @@ pl:
       confirm_delete: Usunąć ten profil i wszystkie jego wersje?
       created: Profil utworzony.
       deleted: Profil usunięty.
+      draft_failed_short: Szkic nie wyszedł
+      drafting: ChatGPT pisze Markdown dla tej ścieżki w tle. Wejdź tu później — ta
+        strona sama się nie odświeża.
+      drafting_notice: Profil utworzony. ChatGPT składa Markdown w tle. Pojawi się
+        na profilu, kiedy będzie gotowy.
+      drafting_short: Trwa składanie…
       edit: Edytuj profil
       edit_hint: Zmień nazwę profilu. Markdown jest w wersjach — nowy plik to nowa
         wersja, nie podmiana starej.
       empty: Nie ma jeszcze żadnego profilu.
+      from_account: Z mojego profilu
+      from_account_empty: Najpierw uzupełnij Mój profil — ChatGPT potrzebuje sekcji
+        O mnie albo analizy CV, żeby złożyć tę ścieżkę.
+      from_account_failed: ChatGPT nie złożył tego profilu. Spróbuj ponownie albo
+        wgraj Markdown.
+      from_account_hint: ChatGPT pisze Markdown cvgen tylko pod tę ścieżkę kariery.
+        Pomieszane doświadczenie (inżynier i grafik, reporter…) zostaje w Moim profilu;
+        niepasujące role tutaj odpadają.
+      from_account_invalid: ChatGPT zwrócił Markdown, którego cvgen nie parsuje. Spróbuj
+        ponownie albo wgraj plik.
+      from_account_missing_key: ChatGPT nie jest skonfigurowany (brak klucza API).
+      from_account_tag: O mnie
+      from_account_unavailable_html: Najpierw dodaj coś na %{account} — wtedy ChatGPT
+        złoży tę ścieżkę kariery z tych danych.
       latest: Ostatnia wersja
       lead: Profil to ścieżka kariery — DevOps, Manager, Software Engineer. Każdy
         ma wersjonowany Markdown, a wersję można otagować firmą, do której poszła.
       name: Profil
-      name_hint: Rola, którą opisuje ten zestaw Markdown-ów.
+      name_hint: Ścieżka kariery, którą opisuje ten Markdown — np. grafik komputerowy
+        albo inżynier-technolog. ChatGPT zostawi z Twojego profilu tylko pasujące
+        doświadczenie.
       name_placeholder: Software Engineer
       new: Nowy profil
-      new_hint: Nazwij ścieżkę i wgraj pierwszą wersję Markdown-a.
+      new_hint: Nazwij ścieżkę, potem wgraj plik Markdown albo niech ChatGPT złoży
+        go z Mojego profilu.
       person: Osoba
-      show_lead: Starsze wersje zostają. Otaguj wersję firmą, do której ją wysłałeś.
+      show_lead: Markdown po lewej, edytor wizualny po prawej. Zmiany synchronizują
+        się w obie strony. Zapis to nowa wersja.
+      source: Treść
+      source_upload: Wgraj plik Markdown
       title: Profile
       updated: Profil zaktualizowany.
       upload_hint: Użyj Markdown-a cvgen (front matter YAML z name, potem sekcje takie
@@ -286,8 +386,37 @@ pl:
       confirm_delete: Usunąć tę wersję?
       created: Wersja wgrana.
       deleted: Wersja usunięta.
+      editor_add_link: Dodaj link
+      editor_add_phone: Dodaj telefon
+      editor_bold: Pogrubienie
+      editor_bullet: Punkt
+      editor_company: Firma
+      editor_email: E-mail
+      editor_headline: Nagłówek
+      editor_italic: Kursywa
+      editor_link_insert: Wstaw link
+      editor_link_label: Etykieta
+      editor_link_prompt: Adres URL
+      editor_link_url: URL
+      editor_location: Lokalizacja
+      editor_name: Imię i nazwisko
+      editor_numbered: Lista numerowana
+      editor_phone_label: Etykieta
+      editor_phone_number: Numer
+      editor_redo: Ponów
+      editor_remove: Usuń
+      editor_resize: Przeciągnij, żeby zmienić szerokość
+      editor_role: Stanowisko
+      editor_section: Sekcja
+      editor_source: Markdown
+      editor_tags: tagi
+      editor_undo: Cofnij
+      editor_wysiwyg: Edytor wizualny
       file: Plik Markdown
+      history: Wersje
       number: Wersja
+      save: Zapisz jako nową wersję
+      saved: Wersja zapisana.
       tag: Tag
       tag_hint: Opcjonalnie. Na przykład firma, do której poszła ta wersja.
       tag_placeholder: Acme
@@ -310,6 +439,8 @@ pl:
     visual_label: PDF pod ofertę
     visual_role: Senior Rails Engineer
   nav:
+    account: Mój profil
+    account_menu: Menu konta
     admin: Admin
     collapse_sidebar: Zwiń menu
     edit: Edytuj

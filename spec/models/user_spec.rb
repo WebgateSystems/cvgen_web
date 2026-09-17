@@ -24,6 +24,25 @@ RSpec.describe User do
     expect(user.id).to match(/\A[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}\z/i)
   end
 
+  it "falls back to the email local-part for display name and initials" do
+    user = build(:user, email: "ada.lovelace@example.com")
+    expect(user.display_name).to eq("ada.lovelace")
+    expect(user.initials).to eq("AL")
+  end
+
+  it "prefers the account profile name" do
+    user = create(:user, email: "other@example.com")
+    create(:user_profile, user: user, display_name: "Ada Lovelace")
+    expect(user.reload.display_name).to eq("Ada Lovelace")
+    expect(user.initials).to eq("AL")
+  end
+
+  it "creates an account profile once" do
+    user = create(:user)
+    first = user.ensure_user_profile!
+    expect(user.ensure_user_profile!).to eq(first)
+  end
+
   it "keeps an explicit uuid and treats recruiters as HR" do
     id = SecureRandom.uuid
     user = create(:user, :recruiter, id: id)

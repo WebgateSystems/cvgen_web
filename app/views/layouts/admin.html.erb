@@ -110,7 +110,7 @@
                 <li><button type="button" class="dropdown-item" data-action="theme#dark"><%= t("nav.theme_dark") %></button></li>
               </ul>
             </div>
-            <span class="nav-user"><%= current_user.email %></span>
+            <%= render "shared/account_menu" %>
           </div>
         </header>
 

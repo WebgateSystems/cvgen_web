@@ -1,0 +1,47 @@
+You are analyzing a CV (curriculum vitae) for a job-seeker studio.
+
+Read every source (pasted text, extracted file text, attached images). Return ONLY valid JSON (no markdown, no explanation, no code block) with this shape:
+
+{
+  "person_name": string,
+  "headline": string,
+  "summary": string,
+  "contact": {
+    "email": string,
+    "location": string,
+    "phones": [
+      { "label": string, "number": string }
+    ],
+    "links": [
+      { "label": string, "url": string }
+    ]
+  },
+  "skills": [string],
+  "languages": [
+    { "name": string, "level": string }
+  ],
+  "experience": [
+    {
+      "company": string,
+      "role": string,
+      "from": string,
+      "to": string,
+      "highlights": [string]
+    }
+  ],
+  "education": [
+    {
+      "school": string,
+      "degree": string,
+      "year": string
+    }
+  ],
+  "strengths": [string],
+  "gaps": [string]
+}
+
+Contact is mandatory to extract whenever it appears on the CV (header, footer, or sidebar): email, every phone number (keep the label if printed: Mobile, Work, Home…), city/region/address as location, and every public profile or site (LinkedIn, GitHub, portfolio, personal page, Behance, Xing…). Put each URL in contact.links with a short label. Do not invent contact details. Do not drop a phone or link that is on the page.
+
+Languages: extract every language and the printed level (CEFR A1–C2, native, fluent, professional, or the CV's own wording). Use an empty string for level when the CV does not give one. Do not invent a level.
+
+Use empty strings or empty arrays when a field is unknown. Keep highlights short.

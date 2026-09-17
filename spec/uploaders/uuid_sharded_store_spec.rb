@@ -19,6 +19,13 @@ RSpec.describe UuidShardedStore do
     expect(uploader.store_dir).to eq("uploads/themes/3f/a8/#{UUID}")
   end
 
+  it "places avatars under a sharded avatars tree" do
+    profile = UserProfile.new(id: UUID)
+    uploader = AvatarUploader.new(profile, :avatar)
+
+    expect(uploader.store_dir).to eq("uploads/avatars/3f/a8/#{UUID}")
+  end
+
   it "falls back to 00 shards when the id has no hex" do
     model = Struct.new(:id).new("")
     uploader = ThemeFileUploader.new(model, :file)

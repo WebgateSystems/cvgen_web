@@ -81,6 +81,80 @@ en:
       links:
         forgot: Forgot your password?
   jobseeker:
+    account:
+      about: About me
+      about_hint: A short note about you. Visible only to you for now.
+      about_legend: About you
+      analysis_hint: Structured result of CV analysis. Only filled sections appear
+        here. Lists are one item per line.
+      analysis_legend: CV analysis
+      analyzed_at: Last analysis %{time}
+      avatar: Photo
+      avatar_hint: JPEG, PNG, WebP, or GIF. Up to 5 MB.
+      company: Company
+      contact_email: Email on CV
+      contact_hint: Taken from the CV header — email, phones, city, LinkedIn, GitHub,
+        portfolio.
+      contact_legend: Contact
+      contact_link_label: Label
+      contact_link_url: URL
+      contact_location: City / location
+      contact_phone: Phone
+      contact_phone_label: Label
+      degree: Degree
+      display_name: Display name
+      education: Education
+      email: Email
+      experience: Experience
+      from: From
+      gaps: Gaps
+      headline: Headline
+      highlights: Highlights
+      import:
+        analyze: Analyze with ChatGPT
+        empty: Paste some text or attach at least one CV file.
+        failed: Analysis failed. Try fewer files or paste the text instead.
+        files: CV files
+        files_hint: PDF, Word (doc/docx), ODT, RTF, TXT, Markdown, HTML, or an image
+          of a CV. Text is extracted from PDF locally. Up to 5 files, 8 MB each. They
+          are not stored — used only for this analysis.
+        hint: Fill the form by hand, paste a CV, or drop existing files. ChatGPT merges
+          everything into the JSON below.
+        invalid_json: ChatGPT returned something that was not valid JSON. Try again
+          or paste a shorter excerpt.
+        legend: Import
+        missing_key: ChatGPT is not configured (missing API key).
+        source_text: Paste a CV or notes
+        source_text_hint: Cover letters, LinkedIn exports, or a copied CV. Combined
+          with the files below.
+        source_text_placeholder: Paste a CV, a bio, or notes about yourself…
+        success: Analysis updated. Review the fields below and save any extra edits.
+        too_large: "%{filename} is larger than 8 MB."
+        too_many: Attach at most 5 files.
+        unreadable: Could not read text from %{filename}. Paste the CV or use a PDF
+          with selectable text (not a scan).
+        unsupported: "%{filename} is not a supported CV format."
+      language_level: Level
+      language_level_placeholder: C1, native, fluent…
+      language_name: Language
+      languages: Languages
+      lead: Add who you are by hand, paste text for ChatGPT, or drop existing CVs.
+        The structured result stays editable below.
+      list_hint: One item per line.
+      location: Location
+      location_placeholder: Warsaw, Poland
+      person_name: Name on CV
+      remove_avatar: Remove photo
+      role: Role
+      save: Save profile
+      school: School
+      skills: Skills
+      strengths: Strengths
+      summary: Summary
+      title: My profile
+      to: To
+      updated: Profile saved.
+      year: Year
     applications:
       actions: Actions
       add_message: Add to thread
@@ -242,22 +316,46 @@ en:
       confirm_delete: Delete this profile and all of its versions?
       created: Profile created.
       deleted: Profile deleted.
+      draft_failed_short: Draft failed
+      drafting: ChatGPT is writing Markdown for this career track in the background.
+        Open this profile again later — this page does not refresh itself.
+      drafting_notice: Profile created. ChatGPT is drafting the Markdown in the background.
+        It will appear on the profile when it is ready.
+      drafting_short: Drafting…
       edit: Edit profile
       edit_hint: Rename the profile. Markdown lives on versions — add a new version
         instead of replacing an old file.
       empty: You have not created a profile yet.
+      from_account: From my profile
+      from_account_empty: Add something on My profile first — ChatGPT needs About
+        me or a CV analysis to draft this track.
+      from_account_failed: ChatGPT could not draft this profile. Try again or upload
+        Markdown.
+      from_account_hint: ChatGPT writes cvgen Markdown for this career track only.
+        Mixed experience (engineer and designer, reporter…) stays in My profile; unrelated
+        jobs are dropped here.
+      from_account_invalid: ChatGPT returned Markdown that cvgen could not parse.
+        Try again or upload a file.
+      from_account_missing_key: ChatGPT is not configured (missing API key).
+      from_account_tag: About me
+      from_account_unavailable_html: Add something on %{account} first — then ChatGPT
+        can draft this career track from it.
       latest: Latest version
       lead: A profile is a career track — DevOps, Manager, Software Engineer. Each
         one keeps versioned Markdown, and a version can be tagged with the company
         it went to.
       name: Profile
-      name_hint: The role this Markdown set represents.
+      name_hint: The career track this Markdown represents — e.g. Graphic designer
+        or Process engineer. ChatGPT keeps only matching experience from your profile.
       name_placeholder: Software Engineer
       new: New profile
-      new_hint: Name the track and upload the first Markdown version.
+      new_hint: Name the track, then upload a Markdown file or let ChatGPT draft it
+        from My profile.
       person: Person
-      show_lead: Older versions stay on file. Tag a version with the company you sent
-        it to.
+      show_lead: Markdown on the left, a visual editor on the right. Changes sync
+        both ways. Saving stores a new version.
+      source: Content
+      source_upload: Upload a Markdown file
       title: Profiles
       updated: Profile updated.
       upload_hint: Use a cvgen Markdown CV (YAML front matter with name, then sections
@@ -287,8 +385,37 @@ en:
       confirm_delete: Delete this version?
       created: Version uploaded.
       deleted: Version deleted.
+      editor_add_link: Add link
+      editor_add_phone: Add phone
+      editor_bold: Bold
+      editor_bullet: Bullet
+      editor_company: Company
+      editor_email: Email
+      editor_headline: Headline
+      editor_italic: Italic
+      editor_link_insert: Insert link
+      editor_link_label: Label
+      editor_link_prompt: Link URL
+      editor_link_url: URL
+      editor_location: Location
+      editor_name: Name
+      editor_numbered: Numbered list
+      editor_phone_label: Label
+      editor_phone_number: Number
+      editor_redo: Redo
+      editor_remove: Remove
+      editor_resize: Drag to resize
+      editor_role: Role
+      editor_section: Section
+      editor_source: Markdown
+      editor_tags: tags
+      editor_undo: Undo
+      editor_wysiwyg: Visual editor
       file: Markdown file
+      history: Versions
       number: Version
+      save: Save as new version
+      saved: Version saved.
       tag: Tag
       tag_hint: 'Optional. Example: the company this version was sent to.'
       tag_placeholder: Acme
@@ -311,6 +438,8 @@ en:
     visual_label: Offer-ready PDF
     visual_role: Senior Rails Engineer
   nav:
+    account: My profile
+    account_menu: Account menu
     admin: Admin
     collapse_sidebar: Collapse sidebar
     edit: Edit

@@ -32,4 +32,12 @@ RSpec.describe ApplicationHelper, type: :helper do
     expect(helper.application_field_value(application, "link")).to include("https://example.com")
     expect(helper.application_field_value(build(:job_application, email: nil), "email")).to eq("—")
   end
+
+  it "renders a person icon when the user has no photo" do
+    user = build(:user, email: "ada@example.com")
+    html = helper.user_avatar_tag(user)
+
+    expect(html).to include("user-avatar--fallback")
+    expect(html).to include("bi-person-circle")
+  end
 end

@@ -1,4 +1,5 @@
-<%= form_with model: profile, url: (profile.persisted? ? jobseeker_profile_path(profile) : jobseeker_profiles_path), class: "admin-form", html: { multipart: true } do |f| %>
+<%= form_with model: profile, url: jobseeker_profiles_path, class: "admin-form",
+      multipart: true, data: { turbo: false } do |f| %>
   <% if profile.errors.any? %>
     <div class="alert alert-danger">
       <ul class="mb-0">
@@ -15,19 +16,45 @@
     <div class="form-text"><%= t("jobseeker.profiles.name_hint") %></div>
   </div>
 
-  <%= f.fields_for :versions do |vf| %>
-    <div class="mb-3">
-      <%= vf.label :file, t("jobseeker.versions.file"), class: "form-label" %>
-      <%= vf.file_field :file, class: "form-control", accept: ".md,.markdown", required: true %>
-      <div class="form-text"><%= t("jobseeker.profiles.upload_hint") %></div>
-    </div>
+  <fieldset class="company-fieldset mb-4 profile-source">
+    <legend><%= t("jobseeker.profiles.source") %></legend>
 
-    <div class="mb-4">
-      <%= vf.label :tag, t("jobseeker.versions.tag"), class: "form-label" %>
-      <%= vf.text_field :tag, class: "form-control", placeholder: t("jobseeker.versions.tag_placeholder") %>
-      <div class="form-text"><%= t("jobseeker.versions.tag_hint") %></div>
+    <input class="form-check-input" type="radio" name="source" id="source_upload" value="upload"
+           <%= "checked" if @source != "account" %>
+           onclick="var f=document.getElementById('profile_markdown_file'); if(f) f.required=true">
+    <label class="form-check-label" for="source_upload"><%= t("jobseeker.profiles.source_upload") %></label>
+
+    <input class="form-check-input" type="radio" name="source" id="source_account" value="account"
+           <%= "checked" if @source == "account" %>
+           <%= "disabled" unless @account_source_available %>
+           onclick="var f=document.getElementById('profile_markdown_file'); if(f) f.required=false">
+    <label class="form-check-label" for="source_account"><%= t("jobseeker.profiles.from_account") %></label>
+
+    <p class="form-text profile-source-hint">
+      <% if @account_source_available %>
+        <%= t("jobseeker.profiles.from_account_hint") %>
+      <% else %>
+        <%= t("jobseeker.profiles.from_account_unavailable_html", account: link_to(t("nav.account"), jobseeker_account_path)) %>
+      <% end %>
+    </p>
+
+    <div id="profile-upload-fields">
+      <%= f.fields_for :versions do |vf| %>
+        <div class="mb-3">
+          <%= vf.label :file, t("jobseeker.versions.file"), class: "form-label" %>
+          <%= vf.file_field :file, class: "form-control", accept: ".md,.markdown",
+                required: @source != "account", id: "profile_markdown_file" %>
+          <div class="form-text"><%= t("jobseeker.profiles.upload_hint") %></div>
+        </div>
+
+        <div class="mb-0">
+          <%= vf.label :tag, t("jobseeker.versions.tag"), class: "form-label" %>
+          <%= vf.text_field :tag, class: "form-control", placeholder: t("jobseeker.versions.tag_placeholder") %>
+          <div class="form-text"><%= t("jobseeker.versions.tag_hint") %></div>
+        </div>
+      <% end %>
     </div>
-  <% end %>
+  </fieldset>
 
   <div class="d-flex gap-2">
     <%= f.submit t("admin.users.save"), class: "btn-ink" %>
