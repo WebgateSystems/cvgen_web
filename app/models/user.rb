@@ -9,9 +9,11 @@ class User < ApplicationRecord
   has_many :job_applications, dependent: :destroy
   has_many :company_ratings, dependent: :destroy
   has_many :application_events, dependent: :destroy
+  has_many :identities, dependent: :destroy
 
   devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :validatable
+         :recoverable, :rememberable, :validatable, :omniauthable,
+         omniauth_providers: %i[google_oauth2 apple facebook linkedin]
 
   enum :role, { jobseeker: "jobseeker", recruiter: "recruiter", admin: "admin" },
        default: :jobseeker, validate: true
@@ -46,5 +48,11 @@ class User < ApplicationRecord
       display_name.to_s.gsub(/[^[:alpha:]]/, "")[0, 2]
     end
     letters.to_s.upcase.presence || "?"
+  end
+
+  def password_required?
+    return false if identities.any?
+
+    super
   end
 end

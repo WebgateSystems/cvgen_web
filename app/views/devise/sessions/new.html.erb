@@ -24,20 +24,7 @@
       <%= f.submit t("nav.sign_in"), class: "btn-ink w-100" %>
     <% end %>
 
-    <div class="social-block mt-4">
-      <p class="social-block__title"><%= t("landing.social_title") %></p>
-      <div class="social-row">
-        <%= link_to new_user_session_path(provider: "google"), class: "social-btn" do %>
-          <i class="bi bi-google" aria-hidden="true"></i><span><%= t("landing.social_google") %></span>
-        <% end %>
-        <%= link_to new_user_session_path(provider: "apple"), class: "social-btn" do %>
-          <i class="bi bi-apple" aria-hidden="true"></i><span><%= t("landing.social_apple") %></span>
-        <% end %>
-        <%= link_to new_user_session_path(provider: "facebook"), class: "social-btn" do %>
-          <i class="bi bi-facebook" aria-hidden="true"></i><span><%= t("landing.social_facebook") %></span>
-        <% end %>
-      </div>
-    </div>
+    <%= render "shared/oauth_buttons", wrapper_class: "mt-4" %>
 
     <p class="auth-links mt-4 mb-0">
       <%= link_to t("nav.sign_up"), new_registration_path(resource_name), class: "link-quiet" %>

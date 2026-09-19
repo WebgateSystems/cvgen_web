@@ -78,6 +78,10 @@ pl:
     version: 'Wersja aplikacji: #%{hash}'
   brand: CVGen
   devise:
+    omniauth_callbacks:
+      failure: "Nie udało się zalogować przez %{kind}: \"%{reason}\"."
+      success: "Zalogowano przez konto %{kind}."
+      missing_email: "%{kind} nie udostępnił adresu email. Zaloguj się mailem albo inną usługą."
     shared:
       links:
         forgot: Nie pamiętasz hasła?
@@ -433,7 +437,8 @@ pl:
     social_apple: Apple
     social_facebook: Facebook
     social_google: Google
-    social_hint: Logowanie społecznościowe podłączysz jednym kliknięciem po rejestracji.
+    social_linkedin: LinkedIn
+    social_hint: Jedno kliknięcie — bez hasła.
     social_title: Albo kontynuuj przez
     visual_company: Acme Platform
     visual_label: PDF pod ofertę

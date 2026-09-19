@@ -64,24 +64,7 @@
       </div>
 
       <% unless user_signed_in? %>
-        <div class="social-block">
-          <p class="social-block__title"><%= t("landing.social_title") %></p>
-          <div class="social-row">
-            <%= link_to new_user_registration_path(provider: "google"), class: "social-btn", aria: { label: t("landing.social_google") } do %>
-              <i class="bi bi-google" aria-hidden="true"></i>
-              <span><%= t("landing.social_google") %></span>
-            <% end %>
-            <%= link_to new_user_registration_path(provider: "apple"), class: "social-btn", aria: { label: t("landing.social_apple") } do %>
-              <i class="bi bi-apple" aria-hidden="true"></i>
-              <span><%= t("landing.social_apple") %></span>
-            <% end %>
-            <%= link_to new_user_registration_path(provider: "facebook"), class: "social-btn", aria: { label: t("landing.social_facebook") } do %>
-              <i class="bi bi-facebook" aria-hidden="true"></i>
-              <span><%= t("landing.social_facebook") %></span>
-            <% end %>
-          </div>
-          <p class="social-block__hint"><%= t("landing.social_hint") %></p>
-        </div>
+        <%= render "shared/oauth_buttons", wrapper_class: nil, hint: true %>
       <% end %>
     </div>
 

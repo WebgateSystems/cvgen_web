@@ -11,3 +11,20 @@ db:
 
 # Used by Sidekiq and Redis session store. Empty = CookieStore for session; Sidekiq falls back to localhost.
 redis_url: <%= ENV.fetch('REDIS_URL', '') %>
+
+# OmniAuth. Leave blank to hide a provider. Callback: https://HOST/users/auth/:provider/callback
+oauth:
+  google:
+    client_id: <%= ENV.fetch("GOOGLE_CLIENT_ID", "") %>
+    client_secret: <%= ENV.fetch("GOOGLE_CLIENT_SECRET", "") %>
+  apple:
+    client_id: <%= ENV.fetch("APPLE_CLIENT_ID", "") %>
+    team_id: <%= ENV.fetch("APPLE_TEAM_ID", "") %>
+    key_id: <%= ENV.fetch("APPLE_KEY_ID", "") %>
+    private_key: <%= ENV.fetch("APPLE_PRIVATE_KEY", "").gsub('\\n', "\n") %>
+  facebook:
+    app_id: <%= ENV.fetch("FACEBOOK_APP_ID", "") %>
+    app_secret: <%= ENV.fetch("FACEBOOK_APP_SECRET", "") %>
+  linkedin:
+    client_id: <%= ENV.fetch("LINKEDIN_CLIENT_ID", "") %>
+    client_secret: <%= ENV.fetch("LINKEDIN_CLIENT_SECRET", "") %>

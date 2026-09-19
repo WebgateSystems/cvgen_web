@@ -256,6 +256,10 @@ body {
   gap: 0.55rem;
 }
 
+.social-row form {
+  display: contents;
+}
+
 .social-btn {
   display: inline-flex;
   align-items: center;
@@ -268,14 +272,24 @@ body {
   text-decoration: none;
   font-weight: 500;
   font-size: 0.9rem;
-  transition: border-color 160ms ease, transform 160ms ease;
+  font-family: inherit;
+  line-height: 1.2;
+  cursor: pointer;
+  appearance: none;
+  transition: border-color 160ms ease, transform 160ms ease, background 160ms ease;
 }
 
 .social-btn:hover {
   border-color: var(--cv-accent);
   transform: translateY(-1px);
   color: var(--cv-ink);
+  background: color-mix(in srgb, var(--cv-accent) 10%, var(--cv-sheet));
 }
+
+.social-btn--google:hover { border-color: #ea4335; }
+.social-btn--apple:hover { border-color: var(--cv-ink); }
+.social-btn--facebook:hover { border-color: #1877f2; }
+.social-btn--linkedin:hover { border-color: #0a66c2; }
 
 .social-block__hint {
   margin: 0.7rem 0 0;

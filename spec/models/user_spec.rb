@@ -43,6 +43,15 @@ RSpec.describe User do
     expect(user.ensure_user_profile!).to eq(first)
   end
 
+  it "does not require a password when the user signed in socially" do
+    user = create(:user)
+    create(:identity, user: user)
+    user.reload
+    user.password = nil
+    user.password_confirmation = nil
+    expect(user).to be_valid
+  end
+
   it "keeps an explicit uuid and treats recruiters as HR" do
     id = SecureRandom.uuid
     user = create(:user, :recruiter, id: id)

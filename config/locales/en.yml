@@ -77,6 +77,8 @@ en:
     version: 'App version: #%{hash}'
   brand: CVGen
   devise:
+    omniauth_callbacks:
+      missing_email: "%{kind} did not share an email address. Sign in with email or another provider."
     shared:
       links:
         forgot: Forgot your password?
@@ -432,7 +434,8 @@ en:
     social_apple: Apple
     social_facebook: Facebook
     social_google: Google
-    social_hint: Social sign-in connects in one tap after you create an account.
+    social_linkedin: LinkedIn
+    social_hint: One tap — no password to remember.
     social_title: Or continue with
     visual_company: Acme Platform
     visual_label: Offer-ready PDF

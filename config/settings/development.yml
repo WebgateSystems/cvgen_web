@@ -2,3 +2,18 @@ db:
   name: cvgen_web_development
 secret_key_base: 'ba683e82da42a2e46effcf5ddb47c9bfb4ff0a5062a86d9c19c44f6c14b083a5186e5fa497df36dcf65b8c98f0ff98ca28bd912da22ac8c716cfe70a397fb928'
 redis_url: <%= ENV['REDIS_URL'] || 'redis://localhost:6379/5' %>
+oauth:
+  google:
+    client_id: <%= ENV.fetch("GOOGLE_CLIENT_ID", "dev-google-id") %>
+    client_secret: <%= ENV.fetch("GOOGLE_CLIENT_SECRET", "dev-google-secret") %>
+  apple:
+    client_id: <%= ENV.fetch("APPLE_CLIENT_ID", "dev.apple.client") %>
+    team_id: <%= ENV.fetch("APPLE_TEAM_ID", "DEVTEAMID") %>
+    key_id: <%= ENV.fetch("APPLE_KEY_ID", "DEVKEYID") %>
+    private_key: <%= ENV.fetch("APPLE_PRIVATE_KEY", "").gsub('\\n', "\n") %>
+  facebook:
+    app_id: <%= ENV.fetch("FACEBOOK_APP_ID", "dev-facebook-id") %>
+    app_secret: <%= ENV.fetch("FACEBOOK_APP_SECRET", "dev-facebook-secret") %>
+  linkedin:
+    client_id: <%= ENV.fetch("LINKEDIN_CLIENT_ID", "dev-linkedin-id") %>
+    client_secret: <%= ENV.fetch("LINKEDIN_CLIENT_SECRET", "dev-linkedin-secret") %>

@@ -1,0 +1,22 @@
+<% providers = oauth_providers %>
+<% if providers.any? %>
+  <div class="social-block <%= local_assigns[:wrapper_class] %>">
+    <p class="social-block__title"><%= t("landing.social_title") %></p>
+    <div class="social-row">
+      <% providers.each do |provider| %>
+        <%= button_to omniauth_authorize_path(:user, provider[:key]),
+              method: :post,
+              class: "social-btn social-btn--#{provider[:icon]}",
+              data: { turbo: false },
+              form: { data: { turbo: false } },
+              aria: { label: t("landing.social_#{provider[:i18n]}") } do %>
+          <i class="bi bi-<%= provider[:icon] %>" aria-hidden="true"></i>
+          <span><%= t("landing.social_#{provider[:i18n]}") %></span>
+        <% end %>
+      <% end %>
+    </div>
+    <% if local_assigns[:hint] %>
+      <p class="social-block__hint"><%= t("landing.social_hint") %></p>
+    <% end %>
+  </div>
+<% end %>
