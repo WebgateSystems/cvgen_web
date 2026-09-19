@@ -78,7 +78,9 @@ en:
   brand: CVGen
   devise:
     omniauth_callbacks:
+      failure: "Could not authenticate you from %{kind} because \"%{reason}\"."
       missing_email: "%{kind} did not share an email address. Sign in with email or another provider."
+      success: "Successfully authenticated from %{kind} account."
     shared:
       links:
         forgot: Forgot your password?
