@@ -48,7 +48,7 @@
 <%= form_with model: @rating,
       url: (@rating.persisted? ? jobseeker_company_rating_path(@company) : jobseeker_company_rating_path(@company)),
       method: (@rating.persisted? ? :patch : :post),
-      class: "admin-form mb-5" do |f| %>
+      class: "admin-form rating-form mb-5" do |f| %>
   <% if @rating.errors.any? %>
     <div class="alert alert-danger">
       <ul class="mb-0">
@@ -58,9 +58,9 @@
       </ul>
     </div>
   <% end %>
-  <div class="row g-3">
+  <div class="rating-fields">
     <% CompanyRating::DIMENSIONS.each do |dimension| %>
-      <div class="col-md-3">
+      <div class="rating-field">
         <%= f.label dimension, t("jobseeker.companies.dimensions.#{dimension}"), class: "form-label" %>
         <%= f.select dimension, (0..5).map { |score| [ score.zero? ? t("jobseeker.companies.score_zero") : score.to_s, score ] },
               {}, class: "form-select" %>
