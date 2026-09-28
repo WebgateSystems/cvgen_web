@@ -78,9 +78,10 @@ en:
   brand: CVGen
   devise:
     omniauth_callbacks:
-      failure: "Could not authenticate you from %{kind} because \"%{reason}\"."
-      missing_email: "%{kind} did not share an email address. Sign in with email or another provider."
-      success: "Successfully authenticated from %{kind} account."
+      failure: Could not authenticate you from %{kind} because "%{reason}".
+      missing_email: "%{kind} did not share an email address. Sign in with email or
+        another provider."
+      success: Successfully authenticated from %{kind} account.
     shared:
       links:
         forgot: Forgot your password?
@@ -436,8 +437,8 @@ en:
     social_apple: Apple
     social_facebook: Facebook
     social_google: Google
-    social_linkedin: LinkedIn
     social_hint: One tap — no password to remember.
+    social_linkedin: LinkedIn
     social_title: Or continue with
     visual_company: Acme Platform
     visual_label: Offer-ready PDF

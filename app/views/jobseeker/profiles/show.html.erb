@@ -1,117 +1,12 @@
 <% content_for :title, @profile.name %>
 <% content_for :head do %>
   <style>
-    .md-split {
-      display: flex !important;
-      flex-direction: row !important;
-      flex-wrap: nowrap !important;
-      align-items: stretch !important;
-      width: 100%;
-      height: calc(100vh - 11rem);
-      min-height: 32rem;
-    }
-    .md-split__pane {
-      display: flex !important;
-      flex-direction: column !important;
-      flex: 1 1 50% !important;
-      width: 50%;
-      min-width: 0 !important;
-      min-height: 0;
-      height: 100%;
-      overflow: hidden;
-      border: 1px solid var(--cv-line, #d0d5dd);
-      background: var(--cv-sheet, #fff);
-    }
-    .md-split__source { border-right: 0; }
-    .md-split__chrome {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 0.5rem;
-      flex: 0 0 auto;
-      padding: 0.4rem 0.7rem;
-      border-bottom: 1px solid var(--cv-line, #d0d5dd);
-      background: color-mix(in srgb, var(--cv-line, #d0d5dd) 28%, var(--cv-sheet, #fff));
-    }
-    .md-split__gutter {
-      flex: 0 0 8px !important;
-      width: 8px;
-      cursor: col-resize;
-      background: var(--cv-line, #d0d5dd);
-    }
-    .md-editor__textarea {
-      flex: 1 1 auto !important;
-      display: block !important;
-      width: 100% !important;
-      min-height: 0 !important;
-      height: 100% !important;
-      margin: 0;
-      padding: 0.85rem 1rem;
-      border: 0 !important;
-      resize: none !important;
-      box-sizing: border-box;
-      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-      font-size: 0.86rem;
-      line-height: 1.55;
-      white-space: pre-wrap;
-      overflow: auto;
-    }
-    .md-doc {
-      flex: 1 1 auto;
-      min-height: 0;
-      height: 100%;
-      overflow: auto;
-      padding: 0.85rem 1rem 1.2rem;
-    }
-    .md-icon-bar { display: flex; flex-wrap: wrap; gap: 0.12rem; align-items: center; }
-    .md-icon-bar__sep { width: 1px; height: 1.2rem; margin: 0 0.3rem; background: var(--cv-line, #d0d5dd); }
-    .md-icon-btn {
-      display: inline-flex; align-items: center; justify-content: center;
-      width: 2.05rem; height: 2.05rem; padding: 0; border: 1px solid transparent;
-      border-radius: 0.35rem; background: var(--cv-sheet, #fff); color: inherit;
-    }
-    .md-icon-btn:hover { border-color: var(--cv-line, #d0d5dd); }
-    .md-editor-toolbar {
-      display: flex;
-      flex-wrap: nowrap;
-      align-items: center;
-      gap: 0.65rem;
-      margin-bottom: 0.6rem;
-    }
-    .md-editor-toolbar__grow { flex: 1 1 auto; }
-    .md-editor-tag { width: 11rem; max-width: 30%; }
-    .md-editor__label {
-      font-size: 0.72rem;
-      font-weight: 600;
-      letter-spacing: 0.04em;
-      text-transform: uppercase;
-      margin: 0;
-      color: var(--cv-ink-soft, #667085);
-    }
-    .md-doc__name,
-    .md-doc__headline,
-    .md-doc__meta-input {
-      display: block;
-      width: 100%;
-      border: 0;
-      background: transparent;
-      color: inherit;
-      padding: 0;
-    }
-    .md-doc__name {
-      font-family: Fraunces, Georgia, serif;
-      font-size: 1.55rem;
-      font-weight: 600;
-    }
-    .md-doc__headline { margin-top: 0.15rem; font-size: 0.98rem; opacity: 0.8; }
-    .md-doc__meta { display: flex; flex-wrap: wrap; gap: 0.35rem 0.85rem; margin-top: 0.45rem; }
-    .md-doc__meta-input { width: auto; min-width: 8rem; flex: 1 1 8rem; font-size: 0.85rem; }
-    .md-pair { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr) auto; gap: 0.35rem; margin-top: 0.35rem; }
-    .md-wysiwyg h1 { font-family: Fraunces, Georgia, serif; font-size: 1.35rem; margin: 1.1rem 0 0.45rem; }
-    .md-wysiwyg h2 { font-size: 1.05rem; margin: 1rem 0 0.15rem; }
-    .md-wysiwyg h3 { font-size: 0.95rem; font-weight: 600; opacity: 0.8; margin: 0.15rem 0 0.35rem; }
-    .md-wysiwyg ul, .md-wysiwyg ol { margin: 0 0 0.85rem; padding-left: 1.2rem; }
-    .md-wysiwyg { min-height: 12rem; cursor: text; }
+    .md-split { display: flex !important; flex-direction: row !important; flex-wrap: nowrap !important; align-items: stretch !important; width: 100%; height: calc(100vh - 12rem); min-height: 32rem; }
+    .md-split__pane { display: flex !important; flex-direction: column !important; flex: 1 1 50% !important; width: 50%; min-width: 0 !important; min-height: 0 !important; overflow: hidden; }
+    .md-split__surface { display: flex !important; flex-direction: column !important; flex: 1 1 auto !important; min-height: 0 !important; overflow: hidden; }
+    .md-split__gutter { flex: 0 0 10px !important; align-self: stretch !important; }
+    .md-editor__textarea { position: static !important; inset: auto !important; flex: 1 1 auto !important; width: 100% !important; min-height: 0 !important; height: auto !important; border: 0 !important; resize: none !important; }
+    .md-doc { flex: 1 1 auto !important; min-height: 0 !important; overflow: auto; }
   </style>
 <% end %>
 
@@ -177,26 +72,26 @@
       <%= f.submit t("jobseeker.versions.save"), class: "btn-ink" %>
     </div>
 
-    <div class="md-split" style="display:flex;flex-direction:row;flex-wrap:nowrap;align-items:stretch;width:100%;height:calc(100vh - 11rem);min-height:32rem;">
-      <section class="md-split__pane md-split__source" style="display:flex;flex-direction:column;flex:1 1 50%;width:50%;min-width:0;height:100%;overflow:hidden;">
+    <div class="md-split">
+      <section class="md-split__pane md-split__source">
         <div class="md-split__chrome">
           <h2 class="md-editor__label mb-0"><%= t("jobseeker.versions.editor_source") %></h2>
         </div>
-        <%= text_area_tag "cv_profile_version[markdown]", @markdown,
-              class: "md-editor__textarea",
-              rows: 28,
-              data: { md_source: true },
-              spellcheck: false,
-              wrap: "soft",
-              style: "flex:1 1 auto;width:100%;min-height:0;height:100%;border:0;resize:none;box-sizing:border-box;",
-              aria: { label: t("jobseeker.versions.editor_source") } %>
+        <div class="md-split__surface">
+          <%= text_area_tag "cv_profile_version[markdown]", @markdown,
+                class: "md-editor__textarea",
+                rows: 8,
+                data: { md_source: true },
+                spellcheck: false,
+                wrap: "soft",
+                aria: { label: t("jobseeker.versions.editor_source") } %>
+        </div>
       </section>
 
       <div class="md-split__gutter" role="separator" aria-orientation="vertical"
-           aria-label="<%= t("jobseeker.versions.editor_resize") %>"
-           style="flex:0 0 8px;width:8px;cursor:col-resize;background:var(--cv-line,#d0d5dd);"></div>
+           aria-label="<%= t("jobseeker.versions.editor_resize") %>"></div>
 
-      <section class="md-split__pane md-split__wysiwyg" style="display:flex;flex-direction:column;flex:1 1 50%;width:50%;min-width:0;height:100%;overflow:hidden;">
+      <section class="md-split__pane md-split__wysiwyg">
         <div class="md-split__chrome">
           <h2 class="md-editor__label mb-0"><%= t("jobseeker.versions.editor_wysiwyg") %></h2>
           <div class="md-icon-bar" role="toolbar" aria-label="<%= t("jobseeker.versions.editor_wysiwyg") %>">
@@ -215,7 +110,8 @@
             <button type="button" class="md-icon-btn" data-md-cmd="redo" title="<%= t("jobseeker.versions.editor_redo") %>" aria-label="<%= t("jobseeker.versions.editor_redo") %>"><i class="bi bi-arrow-clockwise" aria-hidden="true"></i></button>
           </div>
         </div>
-        <div class="md-doc" style="flex:1 1 auto;min-height:0;height:100%;overflow:auto;">
+        <div class="md-split__surface">
+          <div class="md-doc">
           <header class="md-doc__head">
             <input type="text" class="md-doc__name" value="<%= @front["name"] %>"
                    data-md-field="name" aria-label="<%= t("jobseeker.versions.editor_name") %>" placeholder="<%= t("jobseeker.versions.editor_name") %>">
@@ -252,6 +148,7 @@
           <div class="md-wysiwyg" contenteditable="true" data-md-wysiwyg
                role="textbox" aria-multiline="true"
                aria-label="<%= t("jobseeker.versions.editor_wysiwyg") %>"><%= raw CvgenMarkdown.body_html(@body, tags_placeholder: t("jobseeker.versions.editor_tags")) %></div>
+          </div>
         </div>
       </section>
     </div>

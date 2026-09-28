@@ -26,7 +26,7 @@ RSpec.describe "Jobseeker profiles", type: :request do
     expect(response.body).to include("md-split__gutter")
     expect(response.body).to include("contenteditable")
     expect(response.body).to include("data-md-studio")
-    expect(response.body).to include("display:flex")
+    expect(response.body).to include("md-split__surface")
     expect(response.body).to include("Software developer")
 
     get edit_jobseeker_profile_path(profile)

@@ -21,34 +21,31 @@ function bindMdStudio(root) {
     if (!split) return
     split.style.display = "flex"
     split.style.flexDirection = "row"
+    split.style.flexWrap = "nowrap"
     split.style.alignItems = "stretch"
     split.style.width = "100%"
-    split.style.height = "calc(100vh - 11rem)"
-    split.style.minHeight = "32rem"
     split.querySelectorAll(".md-split__pane").forEach((pane) => {
       pane.style.display = "flex"
       pane.style.flexDirection = "column"
       pane.style.flex = "1 1 50%"
-      pane.style.width = "50%"
       pane.style.minWidth = "0"
       pane.style.minHeight = "0"
-      pane.style.height = "100%"
       pane.style.overflow = "hidden"
     })
     if (source) {
+      source.style.position = "static"
+      source.style.inset = "auto"
       source.style.flex = "1 1 auto"
       source.style.width = "100%"
       source.style.minHeight = "0"
-      source.style.height = "100%"
+      source.style.height = "auto"
       source.style.border = "0"
       source.style.resize = "none"
-      source.style.boxSizing = "border-box"
     }
     const doc = split.querySelector(".md-doc")
     if (doc) {
       doc.style.flex = "1 1 auto"
       doc.style.minHeight = "0"
-      doc.style.height = "100%"
       doc.style.overflow = "auto"
     }
   }
