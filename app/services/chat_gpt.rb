@@ -9,7 +9,7 @@ class ChatGpt
   IMAGE_EXT = %w[png jpg jpeg webp gif].freeze
   TIMEOUT = 90
 
-  def initialize(prompt: nil, prompt_name: nil, file: nil, files: nil, model: "gpt-4o", temperature: 0.2, json: false)
+  def initialize(prompt: nil, prompt_name: nil, file: nil, files: nil, model: "gpt-4o", temperature: 0.2, json: false, web_search: false, timeout: TIMEOUT)
     @prompt = prompt.presence || (prompt_name && Prompt.load(prompt_name))
     raise ArgumentError, "prompt or prompt_name is required" if @prompt.blank?
     raise ArgumentError, "Settings.chat_gpt_api_key is blank" if Settings.chat_gpt_api_key.blank?
@@ -18,10 +18,14 @@ class ChatGpt
     @model = model
     @temperature = temperature
     @json = json
+    @web_search = web_search
+    @timeout = timeout
     @client = OpenAI::Client.new(api_key: Settings.chat_gpt_api_key)
   end
 
   def call
+    return search_call if @web_search
+
     params = {
       model: @model,
       messages: build_messages,
@@ -29,7 +33,7 @@ class ChatGpt
     }
     params[:response_format] = { type: "json_object" } if @json
 
-    chat_completion = Timeout.timeout(TIMEOUT) do
+    chat_completion = Timeout.timeout(@timeout) do
       @client.chat.completions.create(**params)
     end
     chat_completion.choices.first.message.content
@@ -120,5 +124,39 @@ class ChatGpt
 
   def rewind(io)
     io.rewind if io.respond_to?(:rewind)
+  end
+
+  def search_call
+    errors = []
+    %w[web_search web_search_preview].each do |type|
+      response = Timeout.timeout(@timeout) do
+        @client.responses.create(
+          model: @model,
+          input: @prompt,
+          tools: [ { type: type } ]
+        )
+      end
+      return extract_output_text(response)
+    rescue ArgumentError, Timeout::Error
+      raise
+    rescue StandardError => error
+      errors << error
+      Rails.logger.warn("[ChatGpt] web search #{type} failed: #{error.class}: #{error.message}")
+    end
+    raise errors.last
+  end
+
+  def extract_output_text(response)
+    parts = Array(response.output).flat_map do |item|
+      Array(item.respond_to?(:content) ? item.content : item[:content]).filter_map do |part|
+        type = part.respond_to?(:type) ? part.type : part[:type]
+        text = part.respond_to?(:text) ? part.text : part[:text]
+        text if type.to_s == "output_text" && text.present?
+      end
+    end
+    text = parts.join("\n").strip
+    raise ArgumentError, "ChatGPT response was empty" if text.blank?
+
+    text
   end
 end

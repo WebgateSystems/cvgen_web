@@ -87,6 +87,27 @@ RSpec.describe ChatGpt do
     expect { described_class.parse_json("not json") }.to raise_error(ArgumentError, /JSON/)
   end
 
+  it "uses web search and reads the response text" do
+    responses = double
+    part = double(type: "output_text", text: "{\"ok\":true}")
+    response = double(output: [ double(content: [ part ]) ])
+    allow(mock_client).to receive(:responses).and_return(responses)
+    expect(responses).to receive(:create).with(hash_including(tools: [ { type: "web_search" } ])).and_return(response)
+
+    expect(described_class.new(prompt: prompt, web_search: true).call).to eq("{\"ok\":true}")
+  end
+
+  it "tries the preview search tool when the current one is rejected" do
+    responses = double
+    part = double(type: "output_text", text: "{\"ok\":true}")
+    response = double(output: [ double(content: [ part ]) ])
+    allow(mock_client).to receive(:responses).and_return(responses)
+    allow(responses).to receive(:create).with(hash_including(tools: [ { type: "web_search" } ])).and_raise(RuntimeError, "unsupported tool")
+    expect(responses).to receive(:create).with(hash_including(tools: [ { type: "web_search_preview" } ])).and_return(response)
+
+    expect(described_class.new(prompt: prompt, web_search: true).call).to eq("{\"ok\":true}")
+  end
+
   it "raises when the API key is missing" do
     allow(Settings).to receive(:chat_gpt_api_key).and_return("")
 

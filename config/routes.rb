@@ -8,6 +8,7 @@ Rails.application.routes.draw do
     resources :users, except: :show
     resources :themes, except: :show
     resources :companies, except: :show
+    resources :company_lookups, only: %i[create show]
   end
 
   namespace :jobseeker do

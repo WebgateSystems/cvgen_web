@@ -48,20 +48,22 @@ SEED_APPLICATIONS = [
 
 def seed_company!(attrs)
   country = attrs[:country] || "PL"
-  legal_id_kind = attrs[:legal_id_kind] || :nip
-  company = Company.find_or_initialize_by(
-    country: country,
-    legal_id_kind: legal_id_kind,
-    legal_id: attrs[:legal_id]
-  )
+  kind = (attrs[:legal_id_kind] || :nip).to_s
+  raw = attrs[:legal_id].to_s
+  kind = "vat_eu" if kind == "vat" && raw.match?(/\A[A-Za-z]{2}/)
+  value = CompanyIdentifier.normalize(kind, raw)
+  company = CompanyIdentifier.find_by(kind: kind, value: value)&.company || Company.new
   company.assign_attributes(
     shortcut: attrs[:shortcut],
     official_name: attrs[:official_name],
     kind: attrs[:kind],
+    country: country,
     street: attrs[:street] || "Prosta 18",
     city: attrs[:city] || "Warsaw",
     postal_code: attrs[:postal_code] || "00-850"
   )
+  identifier = company.identifiers.find { |item| item.kind == kind } || company.identifiers.build(kind: kind)
+  identifier.value = value
   company.save!
   company
 end

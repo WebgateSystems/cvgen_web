@@ -19,7 +19,7 @@
         <th><%= t("jobseeker.companies.official_name") %></th>
         <th><%= t("jobseeker.companies.kind") %></th>
         <th><%= t("jobseeker.companies.country") %></th>
-        <th><%= t("jobseeker.companies.legal_id") %></th>
+        <th><%= t("jobseeker.companies.identifiers") %></th>
         <th class="text-end"><%= t("admin.users.actions") %></th>
       </tr>
     </thead>
@@ -33,8 +33,10 @@
           <td><%= t("jobseeker.companies.kinds.#{company.kind}") %></td>
           <td><%= company.country.presence || "—" %></td>
           <td>
-            <% if company.legal_id.present? %>
-              <%= t("jobseeker.companies.legal_id_kinds.#{company.legal_id_kind}") %> <%= company.legal_id %>
+            <% if company.identifiers.any? %>
+              <% company.identifiers.each do |identifier| %>
+                <div><%= t("jobseeker.companies.legal_id_kinds.#{identifier.kind}") %> <%= identifier.value %></div>
+              <% end %>
             <% else %>
               —
             <% end %>

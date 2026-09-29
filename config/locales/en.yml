@@ -3,6 +3,17 @@ en:
   activerecord:
     errors:
       models:
+        company:
+          attributes:
+            country:
+              blank: choose a country
+            identifiers:
+              blank: add at least one identifier
+        company_lookup:
+          attributes:
+            source_url:
+              blank: can't be blank
+              invalid: must be an http or https address
         cv_profile:
           attributes:
             versions:
@@ -25,7 +36,36 @@ en:
       edit: Edit company
       lead: Shared catalog of employers and agencies. Legal identity is unique per
         country.
+      lookup:
+        another: Add another
+        back: Back to the form
+        created: Company added from the offer.
+        errors:
+          blocked: That address cannot be fetched.
+          failed: Company lookup failed.
+          fetch: The page could not be fetched.
+          invalid_json: The model response was not valid JSON.
+          invalid_url: Enter a full http:// or https:// address.
+          missing_key: ChatGPT API key is missing.
+        found: This company is already in the catalog.
+        hint: Paste a job-offer URL or the company website. A background job opens
+          the page, follows the company site (the footer with NIP and KRS), and checks
+          public registers. The company is added when it is not already in the catalog.
+        incomplete: Could not save automatically. Fill in the missing fields.
+        open: Open in the catalog
+        steps:
+          fetching: Fetching the page and the company site…
+          matching: Checking whether the company is already in the catalog…
+          queued: Waiting in the queue…
+          reading: Reading the offer…
+          registers: Searching public registers…
+        submit: Look up and add
+        title: Company lookup
+        url: Job offer or company website
       new: Add company
+      tabs:
+        manual: Manual
+        url: From a job offer or site
       title: Companies
       updated: Company updated.
     dashboard: Dashboard
@@ -254,6 +294,11 @@ en:
         responsiveness: Responsiveness
         seriousness: Seriousness
       empty: No companies yet.
+      identifier_add: Add identifier
+      identifier_remove: Remove
+      identifiers: Identifiers
+      identifiers_hint: A company can have several numbers at once, such as NIP, KRS,
+        REGON, VAT, and VAT EU. Save at least one.
       kind: Type
       kinds:
         agency: Agency
@@ -267,7 +312,9 @@ en:
         krs: KRS
         nip: NIP
         other: Other
+        regon: REGON
         vat: VAT
+        vat_eu: VAT EU
       no_applications: You have not tracked a role at this company yet.
       official_name: Official name
       postal_code: Postal code

@@ -1,0 +1,24 @@
+<% lookup = local_assigns[:lookup] %>
+<%= form_with model: lookup || CompanyLookup.new, url: admin_company_lookups_path,
+      scope: :company_lookup, class: "admin-form admin-form--wide" do |f| %>
+  <% if lookup&.errors&.any? %>
+    <div class="alert alert-danger">
+      <ul class="mb-0">
+        <% lookup.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="mb-3">
+    <%= f.label :source_url, t("admin.companies.lookup.url"), class: "form-label" %>
+    <%= f.url_field :source_url, required: true, class: "form-control", placeholder: "https://" %>
+    <p class="form-text"><%= t("admin.companies.lookup.hint") %></p>
+  </div>
+
+  <div class="d-flex gap-2">
+    <%= f.submit t("admin.companies.lookup.submit"), class: "btn-ink" %>
+    <%= link_to t("admin.users.cancel"), admin_companies_path, class: "btn-ghost" %>
+  </div>
+<% end %>

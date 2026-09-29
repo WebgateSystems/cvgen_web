@@ -3,6 +3,17 @@ pl:
   activerecord:
     errors:
       models:
+        company:
+          attributes:
+            country:
+              blank: wybierz kraj
+            identifiers:
+              blank: dodaj przynajmniej jeden identyfikator
+        company_lookup:
+          attributes:
+            source_url:
+              blank: nie może być puste
+              invalid: musi być adresem http lub https
         cv_profile:
           attributes:
             versions:
@@ -25,7 +36,36 @@ pl:
       edit: Edytuj firmę
       lead: Wspólny katalog pracodawców i agencji. Tożsamość prawna jest unikalna
         w danym kraju.
+      lookup:
+        another: Dodaj kolejną
+        back: Wróć do formularza
+        created: Firma dodana z ogłoszenia.
+        errors:
+          blocked: Tego adresu nie można pobrać.
+          failed: Szukanie firmy nie powiodło się.
+          fetch: Nie udało się pobrać strony.
+          invalid_json: Odpowiedź modelu nie była poprawnym JSON-em.
+          invalid_url: Podaj pełny adres zaczynający się od http:// lub https://.
+          missing_key: Brak klucza API ChatGPT.
+        found: Ta firma jest już w katalogu.
+        hint: Wklej link do ogłoszenia o pracę albo do strony firmy. W tle otworzymy
+          stronę, przejdziemy na witrynę firmy (stopka z NIP i KRS) i sprawdzimy publiczne
+          rejestry. Firmę dopiszemy, jeśli jej jeszcze nie ma.
+        incomplete: Nie udało się zapisać automatycznie. Uzupełnij brakujące pola.
+        open: Otwórz w katalogu
+        steps:
+          fetching: Pobieranie strony i witryny firmy…
+          matching: Sprawdzanie, czy firma już jest w katalogu…
+          queued: Zadanie czeka w kolejce…
+          reading: Odczyt oferty…
+          registers: Szukanie w publicznych rejestrach…
+        submit: Szukaj i dodaj
+        title: Szukanie firmy
+        url: Adres oferty lub strony firmy
       new: Dodaj firmę
+      tabs:
+        manual: Ręcznie
+        url: Z oferty lub strony
       title: Firmy
       updated: Firma zaktualizowana.
     dashboard: Pulpit
@@ -255,6 +295,11 @@ pl:
         responsiveness: Responsywność
         seriousness: Poważność
       empty: Brak firm.
+      identifier_add: Dodaj identyfikator
+      identifier_remove: Usuń
+      identifiers: Identyfikatory
+      identifiers_hint: Firma może mieć kilka numerów naraz, na przykład NIP, KRS,
+        REGON, VAT i VAT EU. Zapisz przynajmniej jeden.
       kind: Typ
       kinds:
         agency: Agencja
@@ -268,7 +313,9 @@ pl:
         krs: KRS
         nip: NIP
         other: Inny
+        regon: REGON
         vat: VAT
+        vat_eu: VAT EU
       no_applications: Nie śledzisz jeszcze żadnej oferty w tej firmie.
       official_name: Nazwa oficjalna
       postal_code: Kod pocztowy

@@ -60,7 +60,7 @@ module ApplicationHelper
 
   def nested_company_for(application)
     if application.company.nil? || application.company.persisted?
-      Company.new(kind: :employer, country: "PL", legal_id_kind: :nip)
+      Company.new(kind: :employer, country: "PL")
     else
       application.company
     end

@@ -1,0 +1,22 @@
+<div class="row g-2 align-items-end company-identifier" data-company-identifiers-target="row">
+  <% if f.object.persisted? %>
+    <%= f.hidden_field :id %>
+    <%= f.hidden_field :_destroy %>
+  <% end %>
+  <div class="col-md-4">
+    <%= f.label :kind, t("jobseeker.companies.legal_id_kind"), class: "form-label" %>
+    <%= f.select :kind,
+          CompanyIdentifier::KINDS.map { |kind| [ t("jobseeker.companies.legal_id_kinds.#{kind}"), kind ] },
+          {},
+          class: "form-select" %>
+  </div>
+  <div class="col-md-6">
+    <%= f.label :value, t("jobseeker.companies.legal_id"), class: "form-label" %>
+    <%= f.text_field :value, class: "form-control", placeholder: "5252344078" %>
+  </div>
+  <div class="col-md-2">
+    <button type="button" class="btn-ghost w-100" data-action="company-identifiers#remove">
+      <%= t("jobseeker.companies.identifier_remove") %>
+    </button>
+  </div>
+</div>

@@ -1,0 +1,47 @@
+<% content_for :title, t("admin.companies.lookup.title") %>
+<% if @lookup.pending? %>
+  <% content_for :head do %>
+    <meta http-equiv="refresh" content="2">
+  <% end %>
+<% end %>
+
+<h1 class="admin-h1"><%= t("admin.companies.lookup.title") %></h1>
+
+<% if @lookup.pending? %>
+  <p class="admin-lead" role="status">
+    <%= t("admin.companies.lookup.steps.#{@lookup.step.presence || "queued"}") %>
+  </p>
+  <p class="text-secondary"><%= @lookup.source_url %></p>
+<% elsif @lookup.status.in?(%w[found created]) %>
+  <div class="alert alert-success" role="status">
+    <%= t("admin.companies.lookup.#{@lookup.status}") %>
+  </div>
+  <% if @lookup.notes.present? %>
+    <p><%= @lookup.notes %></p>
+  <% end %>
+  <p>
+    <strong><%= @lookup.company.label %></strong>
+    · <%= t("jobseeker.companies.kinds.#{@lookup.company.kind}") %>
+  </p>
+  <div class="d-flex gap-2">
+    <%= link_to t("admin.companies.lookup.open"), edit_admin_company_path(@lookup.company), class: "btn-ink" %>
+    <%= link_to t("admin.companies.lookup.another"), new_admin_company_path, class: "btn-ghost" %>
+  </div>
+<% elsif @lookup.status == "incomplete" %>
+  <div class="alert alert-warning" role="status">
+    <%= t("admin.companies.lookup.incomplete") %>
+    <% if @lookup.error.present? %>
+      <%= @lookup.error %>
+    <% end %>
+  </div>
+  <% if @lookup.notes.present? %>
+    <p class="admin-lead"><%= @lookup.notes %></p>
+  <% end %>
+  <%= render "admin/companies/form", company: @company %>
+<% else %>
+  <div class="alert alert-danger" role="alert">
+    <%= @lookup.error.presence || t("admin.companies.lookup.errors.failed") %>
+  </div>
+  <p class="text-secondary"><%= @lookup.source_url %></p>
+  <%= link_to t("admin.companies.lookup.back"), new_admin_company_path, class: "btn-ghost" %>
+<% end %>

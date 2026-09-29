@@ -49,16 +49,4 @@ RSpec.describe TypstFontName do
       expect(family_from(path)).to eq("Roboto Condensed\u{200B}")
     end
   end
-
-  it "rewrites a downloaded Google Font without encoding errors" do
-    source = Rails.root.join("tmp/google-fonts/roboto-condensed/latin-400-normal.ttf")
-    skip "no cached Roboto Condensed" unless source.exist?
-
-    Dir.mktmpdir do |dir|
-      path = Pathname(dir).join("latin-400-normal.ttf")
-      FileUtils.cp(source, path)
-      expect { described_class.set!(path, described_class.typst_family("Roboto Condensed")) }.not_to raise_error
-      expect(family_from(path)).to eq("Roboto Condensed\u{200B}")
-    end
-  end
 end

@@ -88,9 +88,9 @@ module Jobseeker
         :expected_salary, :offered_salary,
         :work_mode, :employment_type, :contract_type,
         :link, :email, :dropout_reason, :status_note,
-        company_attributes: %i[
-          shortcut official_name kind country legal_id_kind legal_id
-          street city postal_code
+        company_attributes: [
+          :shortcut, :official_name, :kind, :country, :street, :city, :postal_code,
+          { identifiers_attributes: %i[id kind value _destroy] }
         ]
       )
       permitted[:company_id] = permitted[:company_id].presence if permitted.key?(:company_id)

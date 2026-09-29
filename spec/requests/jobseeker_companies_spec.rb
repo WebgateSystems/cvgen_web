@@ -4,7 +4,10 @@ require "rails_helper"
 
 RSpec.describe "Jobseeker companies", type: :request do
   let(:jobseeker) { create(:user, :jobseeker) }
-  let(:company) { create(:company, shortcut: "YND", official_name: "YND Sp. z o.o.", legal_id: "5252344078") }
+  let(:company) do
+    create(:company, shortcut: "YND", official_name: "YND Sp. z o.o.",
+           identifiers_attributes: [ { kind: "nip", value: "5252344078" } ])
+  end
 
   before { sign_in jobseeker }
 

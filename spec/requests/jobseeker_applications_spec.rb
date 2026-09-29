@@ -124,9 +124,10 @@ RSpec.describe "Jobseeker applications", type: :request do
             official_name: "YND Sp. z o.o.",
             kind: "employer",
             country: "PL",
-            legal_id_kind: "nip",
-            legal_id: "5252344078",
-            city: "Warsaw"
+            city: "Warsaw",
+            identifiers_attributes: {
+              "0" => { kind: "nip", value: "5252344078" }
+            }
           }
         }
       }
@@ -134,7 +135,7 @@ RSpec.describe "Jobseeker applications", type: :request do
       .and change(Company, :count).by(1)
 
     application = jobseeker.job_applications.order(:created_at).last
-    expect(application.company.legal_id).to eq("5252344078")
+    expect(application.company.identifiers.find_by(kind: "nip").value).to eq("5252344078")
     expect(application.application_events.count).to eq(1)
   end
 

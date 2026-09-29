@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_09_18_210000) do
+ActiveRecord::Schema[8.1].define(version: 2026_09_29_233000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -34,18 +34,39 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_18_210000) do
     t.string "country"
     t.datetime "created_at", null: false
     t.string "kind", default: "employer", null: false
-    t.string "legal_id"
-    t.string "legal_id_kind"
     t.string "official_name", null: false
     t.string "postal_code"
     t.string "shortcut"
     t.string "street"
     t.datetime "updated_at", null: false
-    t.index ["country", "legal_id_kind", "legal_id"], name: "index_companies_on_legal_identity", unique: true, where: "((legal_id IS NOT NULL) AND (legal_id_kind IS NOT NULL) AND (country IS NOT NULL))"
     t.index ["country"], name: "index_companies_on_country"
     t.index ["kind"], name: "index_companies_on_kind"
     t.index ["official_name"], name: "index_companies_on_official_name"
     t.index ["shortcut"], name: "index_companies_on_shortcut"
+  end
+
+  create_table "company_identifiers", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "company_id", null: false
+    t.datetime "created_at", null: false
+    t.string "kind", null: false
+    t.datetime "updated_at", null: false
+    t.string "value", null: false
+    t.index ["company_id"], name: "index_company_identifiers_on_company_id"
+    t.index ["kind", "value"], name: "index_company_identifiers_on_kind_and_value", unique: true
+  end
+
+  create_table "company_lookups", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "company_id"
+    t.datetime "created_at", null: false
+    t.text "error"
+    t.jsonb "payload", default: {}, null: false
+    t.string "source_url", null: false
+    t.string "status", default: "queued", null: false
+    t.string "step"
+    t.datetime "updated_at", null: false
+    t.uuid "user_id", null: false
+    t.index ["company_id"], name: "index_company_lookups_on_company_id"
+    t.index ["user_id"], name: "index_company_lookups_on_user_id"
   end
 
   create_table "company_ratings", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -170,6 +191,9 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_18_210000) do
 
   add_foreign_key "application_events", "job_applications"
   add_foreign_key "application_events", "users"
+  add_foreign_key "company_identifiers", "companies"
+  add_foreign_key "company_lookups", "companies"
+  add_foreign_key "company_lookups", "users"
   add_foreign_key "company_ratings", "companies"
   add_foreign_key "company_ratings", "users"
   add_foreign_key "cv_profile_versions", "cv_profiles"

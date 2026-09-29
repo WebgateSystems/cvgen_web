@@ -6,11 +6,12 @@ module Admin
 
     def index
       @q = params[:q].to_s.strip
-      @companies = Company.search_text(@q).order(:official_name)
+      @companies = Company.search_text(@q).includes(:identifiers).order(:official_name)
     end
 
     def new
-      @company = Company.new(kind: :employer, country: "PL", legal_id_kind: :nip)
+      @company = Company.new(kind: :employer, country: "PL")
+      @tab = "manual"
     end
 
     def create
@@ -18,6 +19,7 @@ module Admin
       if @company.save
         redirect_to admin_companies_path, notice: t("admin.companies.created")
       else
+        @tab = "manual"
         render :new, status: :unprocessable_content
       end
     end
@@ -49,8 +51,8 @@ module Admin
 
     def company_params
       params.require(:company).permit(
-        :shortcut, :official_name, :kind, :country, :legal_id_kind, :legal_id,
-        :street, :city, :postal_code
+        :shortcut, :official_name, :kind, :country, :street, :city, :postal_code,
+        identifiers_attributes: %i[id kind value _destroy]
       )
     end
   end
