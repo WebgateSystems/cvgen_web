@@ -12,6 +12,8 @@ en:
             file:
               blank: must be a .yaml / .yml file
               invalid_yaml: is not valid YAML
+            yaml_text:
+              invalid_yaml: is not valid YAML
   admin:
     back_to_site: Back to site
     companies:
@@ -294,6 +296,8 @@ en:
       exclude_hint: Comma-separated organization names to drop from experience.
       fit: Fit to max pages
       fit_hint: Shrinks scale until the PDF fits max_pages. Maps to --fit.
+      font_hint: Changes apply to this preview only. Clone a theme if you want to
+        keep the fonts.
       generating: Generating PDF…
       generator_profile: cvgen profile
       generator_profile_hint: YAML profile from the gem (filters, default layout/theme).
@@ -370,17 +374,30 @@ en:
         other: "%{count} versions"
     sidebar: Job seeker studio
     themes:
+      body_font: Body font
+      clone: Clone
+      cloned: Theme cloned. Change fonts below — they write into the YAML.
+      copy_name: "%{name} (copy)"
       created: Theme uploaded.
       deleted: Theme deleted.
       edit: Edit theme
-      empty_personal: You have not uploaded a personal theme yet.
-      lead: Upload a personal YAML theme, or use a system theme when you generate
-        a PDF.
+      edit_lead: Heading and body fonts update fonts.heading and fonts.body in the
+        YAML cvgen uses for PDF.
+      empty_personal: You have not cloned or uploaded a personal theme yet.
+      font_hint: Type to filter Google Fonts. Helvetica Neue and Libertinus Serif
+        stay available as system fonts.
+      font_missing: 'Could not download Google Font: %{family}'
+      heading_font: Heading font
+      lead: Clone a system theme and pick fonts, or upload your own YAML.
       personal: Your themes
+      replace_file: Replace YAML file
       system: System themes
       title: Themes
       updated: Theme updated.
       upload: Upload theme
+      yaml: Theme YAML
+      yaml_hint: Font pickers write into this YAML. Saving stores it as your personal
+        theme.
     title: CVGen Studio
     versions:
       add: Add version

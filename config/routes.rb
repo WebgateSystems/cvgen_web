@@ -12,7 +12,9 @@ Rails.application.routes.draw do
 
   namespace :jobseeker do
     root to: "dashboard#show"
-    resources :themes, except: :show
+    resources :themes, except: :show do
+      post :clone, on: :member
+    end
     resources :profiles do
       resources :versions, only: %i[new create destroy]
     end

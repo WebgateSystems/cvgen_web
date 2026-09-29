@@ -1,4 +1,10 @@
-<%= form_with model: [:jobseeker, theme], class: "admin-form", html: { multipart: true } do |f| %>
+<%= form_with model: [:jobseeker, theme],
+      class: "admin-form admin-form--wide",
+      html: { multipart: true },
+      data: theme.persisted? ? {
+        controller: "theme-yaml",
+        action: "click@document->theme-yaml#closeLists"
+      } : {} do |f| %>
   <% if theme.errors.any? %>
     <div class="alert alert-danger">
       <ul class="mb-0">
@@ -11,11 +17,51 @@
 
   <div class="mb-3">
     <%= f.label :name, class: "form-label" %>
-    <%= f.text_field :name, class: "form-control", required: true %>
+    <%= f.text_field :name, class: "form-control", required: true,
+          data: theme.persisted? ? { action: "input->theme-yaml#nameChanged" } : {} %>
   </div>
 
+  <% if theme.persisted? %>
+    <script type="application/json" data-theme-yaml-target="catalog"><%= raw json_escape(GoogleFontsCatalog.options_json) %></script>
+
+    <div class="row">
+      <div class="col-md-6 mb-3">
+        <%= label_tag "theme_heading_font", t("jobseeker.themes.heading_font"), class: "form-label" %>
+        <div class="font-combobox">
+          <input id="theme_heading_font" type="text" class="form-control" autocomplete="off" spellcheck="false"
+                 value="<%= theme.heading_font %>"
+                 aria-autocomplete="list"
+                 aria-label="<%= t("jobseeker.themes.heading_font") %>"
+                 data-theme-yaml-target="heading"
+                 data-action="input->theme-yaml#filterHeading focus->theme-yaml#showHeading keydown->theme-yaml#headingKeydown blur->theme-yaml#headingChanged">
+          <div class="font-combobox__list" hidden data-theme-yaml-target="headingList"></div>
+        </div>
+        <div class="form-text"><%= t("jobseeker.themes.font_hint") %></div>
+      </div>
+      <div class="col-md-6 mb-3">
+        <%= label_tag "theme_body_font", t("jobseeker.themes.body_font"), class: "form-label" %>
+        <div class="font-combobox">
+          <input id="theme_body_font" type="text" class="form-control" autocomplete="off" spellcheck="false"
+                 value="<%= theme.body_font %>"
+                 aria-autocomplete="list"
+                 aria-label="<%= t("jobseeker.themes.body_font") %>"
+                 data-theme-yaml-target="body"
+                 data-action="input->theme-yaml#filterBody focus->theme-yaml#showBody keydown->theme-yaml#bodyKeydown blur->theme-yaml#bodyChanged">
+          <div class="font-combobox__list" hidden data-theme-yaml-target="bodyList"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <%= f.label :yaml_text, t("jobseeker.themes.yaml"), class: "form-label" %>
+      <%= f.text_area :yaml_text, class: "form-control theme-yaml", rows: 22,
+            data: { theme_yaml_target: "yaml", action: "input->theme-yaml#yamlChanged" } %>
+      <div class="form-text"><%= t("jobseeker.themes.yaml_hint") %></div>
+    </div>
+  <% end %>
+
   <div class="mb-4">
-    <%= f.label :file, t("admin.themes.file"), class: "form-label" %>
+    <%= f.label :file, theme.persisted? ? t("jobseeker.themes.replace_file") : t("admin.themes.file"), class: "form-label" %>
     <%= f.file_field :file, class: "form-control", accept: ".yaml,.yml", required: theme.new_record? %>
     <% if theme.file.present? && theme.persisted? %>
       <div class="form-text">

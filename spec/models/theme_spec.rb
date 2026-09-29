@@ -59,4 +59,19 @@ RSpec.describe Theme do
     theme = described_class.new
     expect(theme.parsed_payload).to be_nil
   end
+
+  it "accepts YAML text and keeps font names in the stored file" do
+    yaml = File.read(Cvgen::ROOT.join("themes/modern-blue.yaml"))
+    theme = described_class.new(
+      kind: :personal,
+      user: create(:user, :jobseeker),
+      name: "From YAML",
+      yaml_text: ThemeYaml.patch(yaml, heading: "Roboto Condensed", body: "Roboto Condensed")
+    )
+
+    expect(theme).to be_valid
+    theme.save!
+    expect(theme.reload.heading_font).to eq("Roboto Condensed")
+    expect(theme.body_font).to eq("Roboto Condensed")
+  end
 end

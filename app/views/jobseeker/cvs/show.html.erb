@@ -15,8 +15,10 @@
           controller: "cv-studio",
           cv_studio_preview_url_value: jobseeker_cv_preview_path,
           cv_studio_versions_value: @versions_by_profile,
-          cv_studio_generator_profiles_value: @generator_profile_options
+          cv_studio_generator_profiles_value: @generator_profile_options,
+          cv_studio_theme_fonts_value: @theme_fonts
         } do %>
+    <script type="application/json" id="cvgen-google-fonts"><%= raw json_escape(GoogleFontsCatalog.options_json) %></script>
     <div class="cv-studio__form">
       <%= form_with model: @build, scope: :cv_build, url: jobseeker_cv_preview_path, method: :get, html: {
             data: { cv_studio_target: "form", action: "change->cv-studio#onChange submit->cv-studio#preventSubmit", turbo: false }
@@ -50,6 +52,36 @@
         <details class="cv-studio__advanced mb-3">
           <summary><%= t("jobseeker.cvs.advanced") %></summary>
           <p class="form-text"><%= t("jobseeker.cvs.advanced_hint") %></p>
+
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <%= f.label :heading_font, t("jobseeker.themes.heading_font"), class: "form-label" %>
+              <div class="font-combobox" data-controller="font-picker" data-action="click@window->font-picker#closeIfOutside">
+                <%= f.text_field :heading_font, class: "form-control", autocomplete: "off", spellcheck: false,
+                      value: @build.heading_font.presence || @build.theme&.heading_font,
+                      data: {
+                        font_picker_target: "input",
+                        cv_studio_target: "headingFont",
+                        action: "input->font-picker#filter focus->font-picker#show keydown->font-picker#keydown"
+                      } %>
+                <div class="font-combobox__list" hidden data-font-picker-target="list"></div>
+              </div>
+            </div>
+            <div class="col-md-6 mb-3">
+              <%= f.label :body_font, t("jobseeker.themes.body_font"), class: "form-label" %>
+              <div class="font-combobox" data-controller="font-picker" data-action="click@window->font-picker#closeIfOutside">
+                <%= f.text_field :body_font, class: "form-control", autocomplete: "off", spellcheck: false,
+                      value: @build.body_font.presence || @build.theme&.body_font,
+                      data: {
+                        font_picker_target: "input",
+                        cv_studio_target: "bodyFont",
+                        action: "input->font-picker#filter focus->font-picker#show keydown->font-picker#keydown"
+                      } %>
+                <div class="font-combobox__list" hidden data-font-picker-target="list"></div>
+              </div>
+            </div>
+          </div>
+          <p class="form-text"><%= t("jobseeker.cvs.font_hint") %></p>
 
           <div class="mb-3">
             <%= f.label :generator_profile, t("jobseeker.cvs.generator_profile"), class: "form-label" %>

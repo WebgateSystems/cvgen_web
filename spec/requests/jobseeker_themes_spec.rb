@@ -15,6 +15,8 @@ RSpec.describe "Jobseeker themes", type: :request do
     expect(response).to have_http_status(:success)
     expect(response.body).to include("System Blue")
     expect(response.body).to include("My Theme")
+    expect(response.body).to include(I18n.t("nav.edit"))
+    expect(response.body).not_to include(I18n.t("admin.users.edit"))
   end
 
   it "creates, updates, and deletes a personal theme" do
@@ -47,6 +49,39 @@ RSpec.describe "Jobseeker themes", type: :request do
   it "does not let a jobseeker edit a system theme" do
     theme = create(:theme)
     get edit_jobseeker_theme_path(theme)
+    expect(response).to have_http_status(:not_found)
+  end
+
+  it "clones a system theme into a personal YAML editor" do
+    system_theme = create(:theme, name: "Modern Stack")
+
+    expect do
+      post clone_jobseeker_theme_path(system_theme)
+    end.to change { jobseeker.themes.personal.count }.by(1)
+
+    theme = jobseeker.themes.personal.order(:created_at).last
+    expect(response).to redirect_to(edit_jobseeker_theme_path(theme))
+    follow_redirect!
+    expect(response.body).to include("theme-yaml")
+    expect(response.body).to include("\"family\":\"Roboto Condensed\"")
+    expect(theme.reload.yaml_text).to include("fonts:")
+  end
+
+  it "updates a personal theme from yaml_text" do
+    theme = create(:theme, :personal, user: jobseeker)
+    yaml = ThemeYaml.patch(theme.yaml_text, heading: "Roboto Condensed", body: "Roboto Condensed")
+
+    patch jobseeker_theme_path(theme), params: { theme: { name: "Roboto clone", yaml_text: yaml } }
+
+    theme.reload
+    expect(theme.name).to eq("Roboto clone")
+    expect(theme.heading_font).to eq("Roboto Condensed")
+    expect(theme.body_font).to eq("Roboto Condensed")
+  end
+
+  it "does not clone another user's personal theme" do
+    other = create(:theme, :personal, user: create(:user, :jobseeker))
+    post clone_jobseeker_theme_path(other)
     expect(response).to have_http_status(:not_found)
   end
 end

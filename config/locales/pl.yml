@@ -12,6 +12,8 @@ pl:
             file:
               blank: musi być plikiem .yaml / .yml
               invalid_yaml: nie jest poprawnym YAML-em
+            yaml_text:
+              invalid_yaml: nie jest poprawnym YAML-em
   admin:
     back_to_site: Wróć na stronę
     companies:
@@ -294,6 +296,8 @@ pl:
       exclude_hint: Nazwy firm po przecinku do usunięcia z doświadczenia.
       fit: Dopasuj do limitu stron
       fit_hint: Zmniejsza skalę, aż PDF zmieści się w max_pages. Flaga --fit.
+      font_hint: Zmiana dotyczy tylko tego podglądu. Sklonuj temat, jeśli chcesz
+        zachować czcionki.
       generating: Generowanie PDF…
       generator_profile: Profil cvgen
       generator_profile_hint: Profil YAML z gema (filtry, domyślny layout/temat).
@@ -373,16 +377,30 @@ pl:
         other: "%{count} wersji"
     sidebar: Studio kandydata
     themes:
+      body_font: Czcionka treści
+      clone: Klonuj
+      cloned: Temat sklonowany. Zmień czcionki poniżej — trafiają do YAML-a.
+      copy_name: "%{name} (kopia)"
       created: Temat wgrany.
       deleted: Temat usunięty.
       edit: Edytuj temat
-      empty_personal: Brak własnych tematów.
-      lead: Wgraj własny temat YAML albo użyj systemowego przy generowaniu PDF.
+      edit_lead: Czcionki nagłówków i treści zapisują się w fonts.heading i fonts.body
+        w YAML-u, z którego cvgen robi PDF.
+      empty_personal: Nie masz jeszcze sklonowanego ani wgranego tematu.
+      font_hint: Zacznij pisać, żeby filtrować Google Fonts. Helvetica Neue i Libertinus
+        Serif zostają jako czcionki systemowe.
+      font_missing: 'Nie udało się pobrać czcionki Google: %{family}'
+      heading_font: Czcionka nagłówków
+      lead: Sklonuj temat systemowy i wybierz czcionki, albo wgraj własny YAML.
       personal: Twoje tematy
+      replace_file: Zastąp plik YAML
       system: Tematy systemowe
       title: Tematy
       updated: Temat zaktualizowany.
       upload: Wgraj temat
+      yaml: YAML tematu
+      yaml_hint: Wybór czcionek zapisuje się w tym YAML-u. Zapis tworzy Twój osobisty
+        temat.
     title: CVGen Studio
     versions:
       add: Dodaj wersję

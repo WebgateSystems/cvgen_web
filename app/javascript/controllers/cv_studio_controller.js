@@ -4,12 +4,14 @@ export default class extends Controller {
   static targets = [
     "form", "profile", "version", "theme", "generatorProfile", "layout",
     "scale", "fit", "maxPages", "maxExperience", "includeSkills", "exclude",
+    "headingFont", "bodyFont",
     "command", "iframe", "error", "placeholder", "download"
   ]
   static values = {
     previewUrl: String,
     versions: Object,
-    generatorProfiles: Array
+    generatorProfiles: Array,
+    themeFonts: Object
   }
 
   connect() {
@@ -32,6 +34,7 @@ export default class extends Controller {
     if (this.hasGeneratorProfileTarget && event.target === this.generatorProfileTarget) {
       this.applyGeneratorProfile()
     }
+    if (this.hasThemeTarget && event.target === this.themeTarget) this.syncFontsFromTheme()
     this.scheduleRefresh()
   }
 
@@ -67,7 +70,17 @@ export default class extends Controller {
     this.excludeTarget.value = selected.exclude || ""
 
     const themeOption = this.themeTarget.querySelector(`[data-slug="${selected.theme}"]`)
-    if (themeOption) this.themeTarget.value = themeOption.value
+    if (themeOption) {
+      this.themeTarget.value = themeOption.value
+      this.syncFontsFromTheme()
+    }
+  }
+
+  syncFontsFromTheme() {
+    const fonts = this.themeFontsValue[this.themeTarget.value]
+    if (!fonts) return
+    if (this.hasHeadingFontTarget && fonts.heading) this.headingFontTarget.value = fonts.heading
+    if (this.hasBodyFontTarget && fonts.body) this.bodyFontTarget.value = fonts.body
   }
 
   copyCommand(event) {

@@ -2,7 +2,8 @@
 
 module Jobseeker
   class ThemesController < BaseController
-    before_action :set_theme, only: %i[edit update destroy]
+    before_action :set_personal_theme, only: %i[edit update destroy]
+    before_action :set_clonable_theme, only: :clone
 
     def index
       @personal_themes = current_user.themes.personal.order(:name)
@@ -26,11 +27,16 @@ module Jobseeker
     end
 
     def update
-      if @theme.update(theme_params)
+      if @theme.update(update_params)
         redirect_to jobseeker_themes_path, notice: t("jobseeker.themes.updated")
       else
         render :edit, status: :unprocessable_content
       end
+    end
+
+    def clone
+      theme = ThemeCloner.call(source: @source_theme, user: current_user)
+      redirect_to edit_jobseeker_theme_path(theme), notice: t("jobseeker.themes.cloned")
     end
 
     def destroy
@@ -40,12 +46,22 @@ module Jobseeker
 
     private
 
-    def set_theme
+    def set_personal_theme
       @theme = current_user.themes.personal.find(params[:id])
     end
 
+    def set_clonable_theme
+      @source_theme = Theme.for_user(current_user).find(params[:id])
+    end
+
     def theme_params
-      params.require(:theme).permit(:name, :file)
+      params.require(:theme).permit(:name, :file, :yaml_text)
+    end
+
+    def update_params
+      attrs = theme_params
+      attrs.delete(:yaml_text) if attrs[:file].present?
+      attrs
     end
   end
 end

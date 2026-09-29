@@ -50,11 +50,29 @@ RSpec.describe CvGenerator do
         File.write(pdf, "%PDF-1.4 generated")
         instance_double(Cvgen::Builder, build!: { pdf: pdf, pages: 2, scale: 1.0 })
       end
+      expect(GoogleFontFiles).to receive(:prepare!).and_call_original
 
       result = described_class.new(build).build_pdf
       expect(result[:pdf]).to eq("%PDF-1.4 generated")
       expect(result[:pages]).to eq(2)
       expect(result[:filename]).to eq("software-engineer-v1.pdf")
+    end
+
+    it "writes live font overrides into the theme YAML" do
+      build.heading_font = "Roboto Condensed"
+      build.body_font = "Roboto Condensed"
+      allow(described_class).to receive(:typst_available?).and_return(true)
+      allow(GoogleFontFiles).to receive(:prepare!)
+      allow(TypstFontName).to receive(:patch_workspace!)
+      allow(Cvgen::Builder).to receive(:new) do |**kwargs|
+        yaml = kwargs[:root].join("themes", "#{theme.slug}.yaml").read
+        expect(yaml).to include("Roboto Condensed")
+        pdf = kwargs[:root].join("out.pdf")
+        File.write(pdf, "%PDF-1.4 generated")
+        instance_double(Cvgen::Builder, build!: { pdf: pdf, pages: 1, scale: 1.0 })
+      end
+
+      described_class.new(build).build_pdf
     end
 
     it "wraps schema errors from the gem" do

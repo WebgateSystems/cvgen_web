@@ -41,6 +41,9 @@ module Jobseeker
           }
         ]
       end
+      @theme_fonts = @themes.to_h do |theme|
+        [ theme.id.to_s, { "heading" => theme.heading_font, "body" => theme.body_font } ]
+      end
     end
 
     def default_build_attrs
@@ -61,7 +64,9 @@ module Jobseeker
         max_pages: default_profile[:max_pages],
         max_experience_items: default_profile[:max_experience_items],
         include_skills: default_profile[:include_skills],
-        exclude: default_profile[:exclude]
+        exclude: default_profile[:exclude],
+        heading_font: theme&.heading_font,
+        body_font: theme&.body_font
       }
     end
 
@@ -96,7 +101,8 @@ module Jobseeker
       params.fetch(:cv_build, {}).permit(
         :cv_profile_id, :cv_profile_version_id, :theme_id,
         :layout, :generator_profile, :scale, :fit, :max_pages,
-        :max_experience_items, :include_skills, :exclude
+        :max_experience_items, :include_skills, :exclude,
+        :heading_font, :body_font
       )
     end
   end

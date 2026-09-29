@@ -32,7 +32,9 @@
             </td>
             <td class="text-end">
               <div class="d-inline-flex gap-2 justify-content-end">
-                <%= link_to t("admin.users.edit"), edit_jobseeker_theme_path(theme), class: "btn btn-sm btn-outline-secondary" %>
+                <%= button_to t("jobseeker.themes.clone"), clone_jobseeker_theme_path(theme), method: :post,
+                      class: "btn btn-sm btn-outline-secondary" %>
+                <%= link_to t("nav.edit"), edit_jobseeker_theme_path(theme), class: "btn btn-sm btn-outline-secondary" %>
                 <%= button_to t("admin.users.delete"), jobseeker_theme_path(theme), method: :delete,
                       class: "btn btn-sm btn-outline-danger",
                       form: { data: { turbo_confirm: t("admin.themes.confirm_delete") } } %>
@@ -54,6 +56,7 @@
       <tr>
         <th><%= t("admin.themes.name") %></th>
         <th><%= t("admin.themes.file") %></th>
+        <th class="text-end"><%= t("admin.users.actions") %></th>
       </tr>
     </thead>
     <tbody>
@@ -67,6 +70,10 @@
             <% if theme.file.present? %>
               <%= link_to File.basename(theme.file.url.to_s), theme.file.url, target: "_blank", rel: "noopener" %>
             <% end %>
+          </td>
+          <td class="text-end">
+            <%= button_to t("jobseeker.themes.clone"), clone_jobseeker_theme_path(theme), method: :post,
+                  class: "btn btn-sm btn-outline-secondary" %>
           </td>
         </tr>
       <% end %>

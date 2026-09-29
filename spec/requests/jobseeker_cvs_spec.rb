@@ -73,4 +73,16 @@ RSpec.describe "Jobseeker CV studio", type: :request do
     expect(response).to have_http_status(:unprocessable_content)
     expect(response.body).to include("typst missing")
   end
+
+  it "renders live font pickers in advanced options" do
+    create(:cv_profile, user: jobseeker)
+    create(:theme)
+
+    get jobseeker_cv_path
+    expect(response).to have_http_status(:success)
+    expect(response.body).to include(I18n.t("jobseeker.themes.heading_font"))
+    expect(response.body).to include(I18n.t("jobseeker.themes.body_font"))
+    expect(response.body).to include("cvgen-google-fonts")
+    expect(response.body).to include("font-picker")
+  end
 end

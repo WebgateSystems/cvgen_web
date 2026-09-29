@@ -55,7 +55,23 @@ class CvGenerator
 
     markdown = CvgenMarkdown.normalize(File.read(@build.version.file.path))
     root.join("content", "#{@build.content_stem}.md").write(markdown)
-    FileUtils.cp(@build.theme.file.path, root.join("themes", "#{@build.theme.slug}.yaml"))
+    payload = write_theme!(root)
     root.join("profiles", "#{@build.generator_profile}.yaml").write(@build.profile_payload.to_yaml)
+    GoogleFontFiles.prepare!(root, payload)
+    TypstFontName.patch_workspace!(root, payload) unless defined?(Cvgen::TtfFamilyName)
+  end
+
+  def write_theme!(root)
+    yaml = File.read(@build.theme.file.path)
+    yaml = ThemeYaml.patch(yaml, heading: @build.heading_font, body: @build.body_font)
+    payload = YAML.safe_load(yaml, permitted_classes: []) || {}
+    payload = Cvgen::Theme.deep_stringify(payload)
+    yaml = ThemeYaml.patch(
+      yaml,
+      heading: TypstFontName.typst_family(payload.dig("fonts", "heading")),
+      body: TypstFontName.typst_family(payload.dig("fonts", "body"))
+    )
+    root.join("themes", "#{@build.theme.slug}.yaml").write(yaml)
+    payload
   end
 end

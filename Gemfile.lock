@@ -9,9 +9,9 @@ GIT
 
 GIT
   remote: https://github.com/WebgateSystems/cvgen.git
-  revision: e01e809fa1d2ab6fd959bc97bfbf49914a01ee5e
+  revision: b87226840aab8e7038bbbd7742fe62df241f4733
   specs:
-    cvgen (0.2.0)
+    cvgen (0.2.1)
       thor (~> 1.3)
 
 GIT

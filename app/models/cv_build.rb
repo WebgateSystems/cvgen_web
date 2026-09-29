@@ -15,6 +15,8 @@ class CvBuild
   attribute :max_experience_items, :integer
   attribute :include_skills, :string, default: ""
   attribute :exclude, :string, default: ""
+  attribute :heading_font, :string, default: ""
+  attribute :body_font, :string, default: ""
 
   attr_accessor :user
 
