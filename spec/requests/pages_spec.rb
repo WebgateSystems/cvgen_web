@@ -8,6 +8,8 @@ RSpec.describe "Public site", type: :request do
     get root_path
     expect(response).to have_http_status(:success)
     expect(response.body).to include("CVGen")
+    expect(response.body).to include("/favicons/favicon-light.svg")
+    expect(response.body).to include("/favicons/favicon-dark.svg")
     expect(response.body).to include(I18n.t("app.version", hash: "bd56dabe"))
   end
 

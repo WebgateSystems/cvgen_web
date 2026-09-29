@@ -1,0 +1,29 @@
+<%# Static files in public/favicons — served by nginx, not the asset pipeline.
+    System follows prefers-color-scheme; Light/Dark from the theme switcher
+    override that via cvgenSyncFavicons (boot script + Stimulus). %>
+<link rel="icon" href="/favicons/favicon-light.svg" type="image/svg+xml"
+      media="(prefers-color-scheme: light)" data-favicon="light">
+<link rel="icon" href="/favicons/favicon-dark.svg" type="image/svg+xml"
+      media="(prefers-color-scheme: dark)" data-favicon="dark">
+<link rel="icon" href="/favicons/favicon-32x32-light.png" sizes="32x32" type="image/png"
+      media="(prefers-color-scheme: light)" data-favicon="light">
+<link rel="icon" href="/favicons/favicon-32x32-dark.png" sizes="32x32" type="image/png"
+      media="(prefers-color-scheme: dark)" data-favicon="dark">
+<link rel="apple-touch-icon" sizes="180x180" href="/favicons/apple-touch-icon.png">
+<link rel="manifest" href="/favicons/site.webmanifest">
+<meta name="theme-color" content="#F5F8F6" media="(prefers-color-scheme: light)" data-favicon="light">
+<meta name="theme-color" content="#002D25" media="(prefers-color-scheme: dark)" data-favicon="dark">
+<script>
+  window.cvgenSyncFavicons = function (preference) {
+    var dark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+    var resolved = preference === "light" || preference === "dark" ? preference : (dark ? "dark" : "light");
+    var system = preference !== "light" && preference !== "dark";
+    document.querySelectorAll("[data-favicon]").forEach(function (el) {
+      var variant = el.getAttribute("data-favicon");
+      el.media = system
+        ? (variant === "dark" ? "(prefers-color-scheme: dark)" : "(prefers-color-scheme: light)")
+        : (variant === resolved ? "all" : "not all");
+    });
+  };
+  window.cvgenSyncFavicons(localStorage.getItem("cvgen-theme") || "system");
+</script>

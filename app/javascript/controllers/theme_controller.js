@@ -52,6 +52,9 @@ export default class extends Controller {
     const resolved = this.resolve(preference)
     document.documentElement.dataset.bsTheme = resolved
     document.documentElement.dataset.themePreference = preference
+    if (typeof window.cvgenSyncFavicons === "function") {
+      window.cvgenSyncFavicons(preference)
+    }
     if (this.hasLabelTarget) {
       const labels = {
         system: this.element.dataset.labelSystem,

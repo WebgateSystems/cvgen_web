@@ -1,6 +1,9 @@
 <div class="auth-shell">
   <div class="auth-card">
-    <a class="brand brand--auth" href="<%= root_path %>"><%= t("brand") %></a>
+    <a class="brand brand--auth" href="<%= root_path %>">
+      <%= render "shared/brand_logo" %>
+      <span class="brand__full"><%= t("brand") %></span>
+    </a>
     <h1 class="auth-title"><%= t("nav.sign_up") %></h1>
 
     <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { class: "auth-form" }) do |f| %>

@@ -26,7 +26,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600&family=Sora:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-    <link rel="icon" href="/icon.png" type="image/png">
+    <%= render "shared/favicons" %>
     <%= stylesheet_link_tag "application", "cvgen", "data-turbo-track": "reload" %>
     <%= render "shared/app_version_styles" %>
     <%= javascript_importmap_tags %>
@@ -39,8 +39,8 @@
              data-label-expand="<%= t('nav.expand_sidebar') %>">
         <div class="admin-sidebar__head">
           <a class="brand brand--admin" href="<%= admin_root_path %>" title="<%= t("brand") %>">
+            <%= render "shared/brand_logo" %>
             <span class="brand__full"><%= t("brand") %></span>
-            <span class="brand__mark" aria-hidden="true">C</span>
           </a>
           <button type="button" class="admin-sidebar__toggle"
                   data-sidebar-target="toggle" data-action="sidebar#toggle"

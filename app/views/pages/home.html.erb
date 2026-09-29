@@ -3,7 +3,10 @@
 
 <div class="landing">
   <header class="landing-nav">
-    <a class="brand" href="<%= root_path %>"><%= t("brand") %></a>
+    <a class="brand" href="<%= root_path %>">
+      <%= render "shared/brand_logo" %>
+      <span class="brand__full"><%= t("brand") %></span>
+    </a>
 
     <div class="landing-nav__controls">
       <div class="dropdown">
