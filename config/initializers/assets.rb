@@ -3,11 +3,7 @@
 # Version of your assets, change this if you want to expire all your assets.
 Rails.application.config.assets.version = "1.0"
 
-# Add additional assets to the asset load path.
-# Rails.application.config.assets.paths << Emoji.images_path
+# Compiled cssbundling output and vendored Bootstrap live here — not node_modules,
+# which is absent from Capistrano releases unless yarn install has run.
 Rails.application.config.assets.paths.unshift(Rails.root.join("app/assets/builds"))
-icons = Rails.root.join("node_modules/bootstrap-icons/font")
-bootstrap_js = Rails.root.join("node_modules/bootstrap/dist/js")
-Rails.application.config.assets.paths << icons if icons.directory?
-Rails.application.config.assets.paths << bootstrap_js if bootstrap_js.directory?
-Rails.application.config.assets.precompile << "bootstrap.bundle.min.js"
+Rails.application.config.assets.paths << Rails.root.join("vendor/javascript")

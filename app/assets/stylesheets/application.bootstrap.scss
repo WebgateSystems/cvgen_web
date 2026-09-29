@@ -1,2 +1,6 @@
 @import "bootstrap/scss/bootstrap";
+
+// Absolute URL so Propshaft-digested CSS does not request /assets/fonts/*.woff2
+$bootstrap-icons-font-dir: "/fonts";
+
 @import "bootstrap-icons/font/bootstrap-icons";

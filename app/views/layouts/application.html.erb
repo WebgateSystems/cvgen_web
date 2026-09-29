@@ -35,6 +35,7 @@
     <%= stylesheet_link_tag "application", "cvgen", "data-turbo-track": "reload" %>
     <%= render "shared/app_version_styles" %>
     <%= javascript_importmap_tags %>
+    <%= javascript_include_tag "bootstrap.bundle.min", "data-turbo-track": "reload", defer: true %>
   </head>
 
   <body class="<%= content_for?(:body_class) ? yield(:body_class) : '' %>">

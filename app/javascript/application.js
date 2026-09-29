@@ -2,4 +2,3 @@
 import "@hotwired/turbo-rails"
 import "controllers"
 import "controllers/theme_yaml_controller"
-import * as bootstrap from "bootstrap"

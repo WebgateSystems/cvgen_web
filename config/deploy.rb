@@ -60,18 +60,22 @@ namespace :node do
     with path: "#{nvm_bin_path}:$PATH", &block
   end
 
-  desc "Build frontend assets"
+  desc "Install JS deps and compile CSS (must run before assets:precompile)"
   task :build do
     on roles(:web) do
       within release_path do
         with_nvm_path do
-          execute :npm, "run build"
-          execute :npm, "run build:css"
+          execute :corepack, "enable"
+          execute :corepack, "prepare", "yarn@#{fetch(:yarn_version)}", "--activate"
+          execute :yarn, "install", "--frozen-lockfile"
+          execute :yarn, "build:css"
         end
       end
     end
   end
 end
+
+before "deploy:assets:precompile", "node:build"
 
 namespace :deploy do
   task :restart do
