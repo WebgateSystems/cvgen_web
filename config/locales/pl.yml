@@ -296,8 +296,8 @@ pl:
       exclude_hint: Nazwy firm po przecinku do usunięcia z doświadczenia.
       fit: Dopasuj do limitu stron
       fit_hint: Zmniejsza skalę, aż PDF zmieści się w max_pages. Flaga --fit.
-      font_hint: Zmiana dotyczy tylko tego podglądu. Sklonuj temat, jeśli chcesz
-        zachować czcionki.
+      font_hint: Zmiana dotyczy tylko tego podglądu. Sklonuj temat, jeśli chcesz zachować
+        czcionki.
       generating: Generowanie PDF…
       generator_profile: Profil cvgen
       generator_profile_hint: Profil YAML z gema (filtry, domyślny layout/temat).

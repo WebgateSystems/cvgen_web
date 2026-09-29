@@ -32,6 +32,8 @@ gem "sidekiq", "~> 7.3", require: false
 group :development, :test do
   gem "debug", platforms: %i[ mri windows ], require: "debug/prelude"
 
+  gem "brakeman", require: false
+  gem "bundle-audit", require: false
   gem "rubocop-rails-omakase", require: false
 
   gem "rspec-rails", "~> 8.0"
@@ -39,10 +41,6 @@ group :development, :test do
 end
 
 group :development do
-  gem "brakeman", require: false
-  gem "bundle-audit", require: false
-
-  # Deploy with Capistrano
   gem "bot-notifier", "~> 3.1.0", github: "WebgateSystems/bot-notifier", require: false
   gem "cape"
   gem "capistrano3-puma", github: "seuros/capistrano-puma"
