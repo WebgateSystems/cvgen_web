@@ -30,6 +30,8 @@ Rails.application.routes.draw do
     resources :applications do
       resources :events, only: :create, controller: "application_events"
     end
+    resources :application_lookups, only: %i[create show]
+    resource :statistics, only: :show, controller: "statistics"
   end
 
   get "up" => "rails/health#show", as: :rails_health_check

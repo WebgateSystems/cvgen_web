@@ -3,6 +3,11 @@ pl:
   activerecord:
     errors:
       models:
+        application_lookup:
+          attributes:
+            source_url:
+              blank: nie może być puste
+              invalid: musi być adresem http lub https
         company:
           attributes:
             country:
@@ -238,16 +243,47 @@ pl:
         contract: Kontrakt
         full_time: Pełny etat
         part_time: Część etatu
-      empty: Brak aplikacji. Dodaj pierwszą ofertę, żeby zacząć tracker.
+      empty: Brak ofert. Dodaj pierwszą, żeby zacząć tracker.
       event_created: Notatka dodana.
       event_kinds:
         message: Wiadomość
         status_change: Status
       expected_salary: Wynagrodzenie oczekiwane
       form_lead: Jedna oferta = jeden wiersz. Wynagrodzenie może być zakresem, np.
-        16 000 PLN netto.
-      lead: Śledź oferty jak w arkuszu — firma, status, widełki i link do ogłoszenia.
+        16 000 PLN netto. Treść ogłoszenia zostaje u Ciebie, nawet gdy link wygaśnie.
+      known_company_hint: Nazwa, identyfikatory i adres są z katalogu. Poprawka zapisze
+        się razem z aplikacją.
+      known_company_legend: Firma z katalogu
+      lead: Oferty, które zbierasz — firma, status, widełki, link i treść ogłoszenia.
       link: Link
+      lookup:
+        back: Wróć do formularza
+        errors:
+          blocked: Tego adresu nie można pobrać.
+          failed: Odczyt oferty nie powiódł się.
+          fetch: Nie udało się pobrać strony.
+          invalid_json: Odpowiedź modelu nie była poprawnym JSON-em.
+          invalid_url: Podaj pełny adres zaczynający się od http:// lub https://.
+          missing_key: Brak klucza API ChatGPT.
+        hint: Wklej link do ogłoszenia. Odczytamy stanowisko, warunki i treść, a firmę
+          podepniemy z katalogu albo uzupełnimy tym samym wyszukiwaniem co przy dodawaniu
+          firmy.
+        ready: Oferta odczytana. Sprawdź pola i zapisz.
+        ready_hint: Jeśli firmy nie było w katalogu, została dopisana w tle.
+        steps:
+          company: Szukanie firmy…
+          fetching: Pobieranie strony…
+          queued: Zadanie czeka w kolejce…
+          reading: Odczyt oferty…
+        submit: Odczytaj ofertę
+        title: Odczyt oferty
+        track:
+          company: Firma
+          fetching: Strona
+          queued: Kolejka
+          reading: Oferta
+          ready: Gotowe
+        url: Adres ogłoszenia
       message: Wiadomość
       new: Dodaj aplikację
       new_company: Nowa firma…
@@ -265,6 +301,27 @@ pl:
       save: Zapisz
       search: Szukaj
       search_placeholder: Firma lub stanowisko
+      sections:
+        add: Dodaj sekcję
+        body: Treść
+        cancel: Anuluj
+        confirm: Usuń
+        confirm_body: "„%{name}” zniknie z tej oferty. Po zapisaniu nie da się tego
+          cofnąć."
+        confirm_title: Usunąć sekcję?
+        custom: Własna nazwa
+        custom_placeholder: Nazwa sekcji
+        hint: Opis, wymagania, benefity. Zostają zapisane, gdy ogłoszenie zniknie.
+        key: Sekcja
+        keys:
+          description: Opis
+          other: Inne
+          perks: Benefity
+          process: Proces
+          requirements: Wymagania
+          responsibilities: Obowiązki
+        legend: Treść oferty
+        remove: Usuń sekcję
       show: Aplikacja
       status: Aktualny status
       status_note: Notatka do statusu
@@ -275,8 +332,11 @@ pl:
         rejected: Odrzucono
         reviewed: Zapoznano
         withdrawn: Wycofano
+      tabs:
+        manual: Ręcznie
+        url: Z oferty
       timeline: Wątek
-      title: Statystyka
+      title: Oferty
       total: Aplikacje
       updated: Aplikacja zaktualizowana.
       work_mode: Tryb pracy
@@ -423,6 +483,21 @@ pl:
         one: "%{count} wersja"
         other: "%{count} wersji"
     sidebar: Studio kandydata
+    statistics:
+      charts:
+        replies: Odpowiedzi w czasie
+        sent: Wysłane w czasie
+      interviews: Rozmowy
+      lead: Ile ofert wysłałeś w wybranym okresie i ile dostało odpowiedź. Wysłane
+        to przejście na status Wysłano. Odpowiedź to rozmowa, oferta albo odrzucenie.
+      offers: Oferty od firm
+      periods:
+        12m: 12 miesięcy
+        3m: 3 miesiące
+        4w: 4 tygodnie
+      replies: Odpowiedzi
+      sent: Wysłane
+      title: Statystyki
     themes:
       body_font: Czcionka treści
       clone: Klonuj

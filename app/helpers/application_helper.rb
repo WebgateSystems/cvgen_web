@@ -58,12 +58,17 @@ module ApplicationHelper
     end
   end
 
+  def section_title(section)
+    section["title"].presence || t("jobseeker.applications.sections.keys.#{section["key"]}")
+  end
+
   def nested_company_for(application)
-    if application.company.nil? || application.company.persisted?
-      Company.new(kind: :employer, country: "PL")
-    else
-      application.company
-    end
+    company = application.company
+    return Company.new(kind: :employer, country: "PL") if company.nil?
+    return Company.new(kind: :employer, country: "PL") if application.persisted? && company.persisted?
+
+    company.identifiers.load if company.persisted?
+    company
   end
 
   def user_avatar_tag(user, size: :sm)

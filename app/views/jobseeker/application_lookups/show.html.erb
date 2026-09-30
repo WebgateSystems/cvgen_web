@@ -1,0 +1,24 @@
+<% content_for :title, t("jobseeker.applications.lookup.title") %>
+<% if @lookup.pending? %>
+  <% content_for :head do %>
+    <meta http-equiv="refresh" content="2">
+  <% end %>
+<% end %>
+
+<h1 class="admin-h1"><%= t("jobseeker.applications.lookup.title") %></h1>
+<p class="text-secondary"><%= @lookup.source_url %></p>
+<%= render "steps", lookup: @lookup %>
+
+<% if @lookup.pending? %>
+  <p class="visually-hidden" role="status">
+    <%= t("jobseeker.applications.lookup.steps.#{@lookup.step.presence || "queued"}") %>
+  </p>
+<% elsif @lookup.status == "ready" %>
+  <div class="alert alert-success" role="status">
+    <%= t("jobseeker.applications.lookup.ready") %>
+  </div>
+  <p class="admin-lead"><%= t("jobseeker.applications.lookup.ready_hint") %></p>
+  <%= render "jobseeker/applications/form", application: @application %>
+<% else %>
+  <%= link_to t("jobseeker.applications.lookup.back"), new_jobseeker_application_path, class: "btn-ghost" %>
+<% end %>

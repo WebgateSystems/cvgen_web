@@ -25,6 +25,14 @@
           <% end %>
         </dl>
 
+        <% if application.sections.any? %>
+          <h3 class="h6 mt-4"><%= t("jobseeker.applications.sections.legend") %></h3>
+          <% application.sections.each do |section| %>
+            <h4 class="h6 mt-3"><%= section_title(section) %></h4>
+            <div class="offer-section__body"><%= simple_format(section["body"]) %></div>
+          <% end %>
+        <% end %>
+
         <h3 class="h6 mt-4"><%= t("jobseeker.applications.timeline") %></h3>
         <ol class="application-timeline">
           <% application.application_events.chronological.each do |event| %>

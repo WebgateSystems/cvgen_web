@@ -1,0 +1,27 @@
+<div class="lookup-track-wrap">
+<ol class="lookup-track" aria-label="<%= t("jobseeker.applications.lookup.title") %>">
+  <% ApplicationLookup::PROGRESS_STEPS.each_with_index do |key, index| %>
+    <% state = lookup.step_state(key) %>
+    <li class="lookup-track__step is-<%= state %>" <% if state == "current" %>aria-current="step"<% end %>>
+      <% if index.positive? %>
+        <span class="lookup-track__line" aria-hidden="true"></span>
+      <% end %>
+      <span class="lookup-track__mark" aria-hidden="true">
+        <% if state == "done" %>
+          <i class="bi bi-check-lg"></i>
+        <% elsif state == "failed" %>
+          <i class="bi bi-exclamation-lg"></i>
+        <% else %>
+          <%= index + 1 %>
+        <% end %>
+      </span>
+      <span class="lookup-track__label"><%= t("jobseeker.applications.lookup.track.#{key}") %></span>
+      <% if state == "failed" && lookup.error.present? %>
+        <p class="lookup-track__error"><%= lookup.error %></p>
+      <% elsif state == "current" %>
+        <p class="lookup-track__now"><%= t("jobseeker.applications.lookup.steps.#{key}") %></p>
+      <% end %>
+    </li>
+  <% end %>
+</ol>
+</div>

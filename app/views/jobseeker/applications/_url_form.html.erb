@@ -1,0 +1,24 @@
+<% lookup = local_assigns[:lookup] %>
+<%= form_with model: lookup || ApplicationLookup.new, url: jobseeker_application_lookups_path,
+      scope: :application_lookup, class: "admin-form admin-form--wide" do |f| %>
+  <% if lookup&.errors&.any? %>
+    <div class="alert alert-danger">
+      <ul class="mb-0">
+        <% lookup.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="mb-3">
+    <%= f.label :source_url, t("jobseeker.applications.lookup.url"), class: "form-label" %>
+    <%= f.url_field :source_url, required: true, class: "form-control", placeholder: "https://" %>
+    <p class="form-text"><%= t("jobseeker.applications.lookup.hint") %></p>
+  </div>
+
+  <div class="d-flex gap-2">
+    <%= f.submit t("jobseeker.applications.lookup.submit"), class: "btn-ink" %>
+    <%= link_to t("admin.users.cancel"), jobseeker_applications_path, class: "btn-ghost" %>
+  </div>
+<% end %>

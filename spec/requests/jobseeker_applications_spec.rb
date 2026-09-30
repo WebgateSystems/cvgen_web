@@ -65,7 +65,8 @@ RSpec.describe "Jobseeker applications", type: :request do
       position: "Regular Ruby Developer",
       company: ynd,
       expected_salary: "16 000 PLN",
-      email: "hr@ynd.example"
+      email: "hr@ynd.example",
+      sections: [ { "key" => "requirements", "body" => "3 years of Rails" } ]
     )
 
     get jobseeker_application_path(application)
@@ -75,6 +76,7 @@ RSpec.describe "Jobseeker applications", type: :request do
     expect(response.body).to include("16 000 PLN")
     expect(response.body).to include("hr@ynd.example")
     expect(response.body).to include(I18n.t("jobseeker.applications.timeline"))
+    expect(response.body).to include("3 years of Rails")
   end
 
   it "filters by status" do
@@ -84,6 +86,65 @@ RSpec.describe "Jobseeker applications", type: :request do
     get jobseeker_applications_path, params: { status: "applied" }
     expect(response.body).to include("Acme")
     expect(response.body).not_to include("YND")
+  end
+
+  it "stores a custom section name and drops a title on a preset" do
+    post jobseeker_applications_path, params: {
+      job_application: {
+        position: "Regular Ruby Developer",
+        company_id: ynd.id,
+        status: "reviewed",
+        sections_present: "1",
+        sections: {
+          "0" => { key: "custom", title: "Stack", body: "Rails, PostgreSQL" },
+          "1" => { key: "requirements", title: "ignored", body: "3 years of Rails" }
+        }
+      }
+    }
+
+    application = jobseeker.job_applications.order(:created_at).last
+    expect(application.sections).to eq([
+      { "key" => "other", "body" => "Rails, PostgreSQL", "title" => "Stack" },
+      { "key" => "requirements", "body" => "3 years of Rails" }
+    ])
+
+    get jobseeker_application_path(application)
+    expect(response.body).to include("Stack")
+    expect(response.body).to include(I18n.t("jobseeker.applications.sections.keys.requirements"))
+    expect(response.body).not_to include("ignored")
+  end
+
+  it "updates catalog company details submitted with the offer" do
+    company = create(:company, street: "Prosta 18", city: "Warsaw", postal_code: "00-850")
+    nip = company.identifiers.find_by!(kind: "nip")
+
+    post jobseeker_applications_path, params: {
+      job_application: {
+        position: "Regular Ruby Developer",
+        company_id: company.id,
+        status: "reviewed",
+        company_attributes: {
+          id: company.id,
+          official_name: company.official_name,
+          shortcut: company.shortcut,
+          kind: "employer",
+          country: "PL",
+          street: "sw. Marcin 29 lok. 8",
+          city: "Poznan",
+          postal_code: "61-625",
+          identifiers_attributes: {
+            "0" => { id: nip.id, kind: "nip", value: nip.value },
+            "1" => { kind: "regon", value: "369271291" }
+          }
+        }
+      }
+    }
+
+    expect(response).to redirect_to(jobseeker_applications_path)
+    expect(company.reload.street).to eq("sw. Marcin 29 lok. 8")
+    expect(company.city).to eq("Poznan")
+    expect(company.identifiers.find_by(kind: "regon").value).to eq("369271291")
+    expect(jobseeker.job_applications.order(:created_at).last.company).to eq(company)
   end
 
   it "creates an application against an existing company" do

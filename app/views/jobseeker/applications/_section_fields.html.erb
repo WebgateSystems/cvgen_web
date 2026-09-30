@@ -1,0 +1,32 @@
+<% chosen = section["title"].present? ? "custom" : section["key"].presence || "description" %>
+<article class="offer-section" data-offer-sections-target="row">
+  <div class="offer-section__head">
+    <select name="job_application[sections][<%= index %>][key]" class="form-select offer-section__kind"
+            data-offer-sections-target="kind" data-action="change->offer-sections#kindChanged"
+            aria-label="<%= t("jobseeker.applications.sections.key") %>">
+      <% JobApplication::SECTION_KEYS.each do |key| %>
+        <option value="<%= key %>" <%= "selected" if chosen == key %>>
+          <%= t("jobseeker.applications.sections.keys.#{key}") %>
+        </option>
+      <% end %>
+      <option value="custom" <%= "selected" if chosen == "custom" %>>
+        <%= t("jobseeker.applications.sections.custom") %>
+      </option>
+    </select>
+    <input type="text" name="job_application[sections][<%= index %>][title]"
+           value="<%= section["title"] %>"
+           class="form-control offer-section__title"
+           data-offer-sections-target="title"
+           placeholder="<%= t("jobseeker.applications.sections.custom_placeholder") %>"
+           aria-label="<%= t("jobseeker.applications.sections.custom_placeholder") %>"
+           <% unless chosen == "custom" %>hidden<% end %>>
+    <button type="button" class="admin-icon-btn btn btn-outline-secondary offer-section__remove"
+            data-action="offer-sections#remove"
+            aria-label="<%= t("jobseeker.applications.sections.remove") %>">
+      <i class="bi bi-trash" aria-hidden="true"></i>
+    </button>
+  </div>
+  <textarea name="job_application[sections][<%= index %>][body]" class="form-control offer-section__body-field" rows="8"
+            data-offer-sections-target="body" data-action="input->offer-sections#fitBody"
+            aria-label="<%= t("jobseeker.applications.sections.body") %>"><%= section["body"] %></textarea>
+</article>

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_09_29_233000) do
+ActiveRecord::Schema[8.1].define(version: 2026_09_30_001000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -27,6 +27,20 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_29_233000) do
     t.index ["job_application_id", "created_at"], name: "index_application_events_on_job_application_id_and_created_at"
     t.index ["job_application_id"], name: "index_application_events_on_job_application_id"
     t.index ["user_id"], name: "index_application_events_on_user_id"
+  end
+
+  create_table "application_lookups", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "company_id"
+    t.datetime "created_at", null: false
+    t.text "error"
+    t.jsonb "payload", default: {}, null: false
+    t.string "source_url", null: false
+    t.string "status", default: "queued", null: false
+    t.string "step"
+    t.datetime "updated_at", null: false
+    t.uuid "user_id", null: false
+    t.index ["company_id"], name: "index_application_lookups_on_company_id"
+    t.index ["user_id"], name: "index_application_lookups_on_user_id"
   end
 
   create_table "companies", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -132,6 +146,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_29_233000) do
     t.string "offered_salary"
     t.string "position", null: false
     t.date "posted_on"
+    t.jsonb "sections", default: [], null: false
     t.string "status", default: "reviewed", null: false
     t.datetime "updated_at", null: false
     t.uuid "user_id", null: false
@@ -191,6 +206,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_29_233000) do
 
   add_foreign_key "application_events", "job_applications"
   add_foreign_key "application_events", "users"
+  add_foreign_key "application_lookups", "companies"
+  add_foreign_key "application_lookups", "users"
   add_foreign_key "company_identifiers", "companies"
   add_foreign_key "company_lookups", "companies"
   add_foreign_key "company_lookups", "users"

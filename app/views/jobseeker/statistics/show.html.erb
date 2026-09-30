@@ -1,0 +1,45 @@
+<% content_for :title, t("jobseeker.statistics.title") %>
+
+<h1 class="admin-h1"><%= t("jobseeker.statistics.title") %></h1>
+<p class="admin-lead"><%= t("jobseeker.statistics.lead") %></p>
+
+<div class="d-flex flex-wrap gap-2 mb-4">
+  <% ApplicationStatistics::PERIODS.each_key do |period| %>
+    <%= link_to t("jobseeker.statistics.periods.#{period}"), jobseeker_statistics_path(period: period),
+          class: "btn btn-sm #{@stats.period == period ? "btn-dark" : "btn-outline-secondary"}" %>
+  <% end %>
+</div>
+
+<div class="row g-3 mb-4">
+  <% [
+    [ "sent", @stats.sent_total ],
+    [ "replies", @stats.replies_total ],
+    [ "interviews", @stats.interviews_total ],
+    [ "offers", @stats.offers_total ]
+  ].each do |key, value| %>
+    <div class="col-6 col-md-3">
+      <div class="admin-stat">
+        <span><%= t("jobseeker.statistics.#{key}") %></span>
+        <strong><%= value %></strong>
+      </div>
+    </div>
+  <% end %>
+</div>
+
+<div class="row g-4">
+  <% %i[sent replies].each do |series| %>
+    <div class="col-lg-6">
+      <h2 class="h6"><%= t("jobseeker.statistics.charts.#{series}") %></h2>
+      <div class="stat-chart" role="img" aria-label="<%= t("jobseeker.statistics.charts.#{series}") %>">
+        <% @stats.buckets.each do |bucket| %>
+          <% count = bucket.public_send(series) %>
+          <div class="stat-chart__col">
+            <span class="stat-chart__count"><%= count %></span>
+            <div class="stat-chart__bar" style="height: <%= (count * 100.0 / @stats.max_count).round %>%"></div>
+            <span class="stat-chart__label"><%= bucket.label %></span>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+</div>

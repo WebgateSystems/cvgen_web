@@ -2,6 +2,7 @@
 
 class JobApplication < ApplicationRecord
   STATUSES = %w[reviewed applied interview offer rejected withdrawn].freeze
+  SECTION_KEYS = %w[description requirements responsibilities perks process other].freeze
   WORK_MODES = %w[remote hybrid onsite].freeze
   EMPLOYMENT_TYPES = %w[full_time part_time contract].freeze
   CONTRACT_TYPES = %w[b2b employment mandate specific_task].freeze
@@ -61,6 +62,24 @@ class JobApplication < ApplicationRecord
 
   def company_label
     company&.display_name
+  end
+
+  def sections=(value)
+    cleaned = Array(value).filter_map { |item| self.class.clean_section(item) }.first(12)
+    super(cleaned)
+  end
+
+  def self.clean_section(item)
+    item = item.to_h.stringify_keys
+    key = item["key"].to_s
+    title = item["title"].to_s.strip
+    key = "other" if key == "custom"
+    body = item["body"].to_s.strip
+    return if body.blank? || SECTION_KEYS.exclude?(key)
+
+    section = { "key" => key, "body" => body.first(20_000) }
+    section["title"] = title.first(120) if key == "other" && title.present?
+    section
   end
 
   private

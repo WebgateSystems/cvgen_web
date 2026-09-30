@@ -1,6 +1,6 @@
 <%= form_with model: application,
       url: (application.persisted? ? jobseeker_application_path(application) : jobseeker_applications_path),
-      class: "admin-form admin-form--wide" do |f| %>
+      class: "application-form" do |f| %>
   <% if application.errors.any? %>
     <div class="alert alert-danger">
       <ul class="mb-0">
@@ -11,7 +11,7 @@
     </div>
   <% end %>
 
-  <div class="row g-3">
+  <div class="application-form__meta row g-3">
     <div class="col-md-6">
       <%= f.label :position, t("jobseeker.applications.position"), class: "form-label" %>
       <%= f.text_field :position, class: "form-control", required: true,
@@ -87,15 +87,58 @@
     </div>
   </div>
 
-  <fieldset class="company-fieldset mt-4">
-    <legend class="form-label"><%= t("jobseeker.applications.new_company_legend") %></legend>
-    <p class="form-text mt-0"><%= t("jobseeker.applications.new_company_hint") %></p>
-    <%= f.fields_for :company, nested_company_for(application) do |company_form| %>
+  <%= hidden_field_tag "job_application[sections_present]", "1" %>
+  <div data-controller="offer-sections"
+       data-offer-sections-confirm-message-value="<%= t("jobseeker.applications.sections.confirm_body") %>">
+  <fieldset class="offer-sections">
+    <legend class="form-label"><%= t("jobseeker.applications.sections.legend") %></legend>
+    <p class="form-text mt-0"><%= t("jobseeker.applications.sections.hint") %></p>
+    <% sections = application.sections.presence || [ { "key" => "description", "body" => "" } ] %>
+    <div class="d-grid gap-3" data-offer-sections-target="list">
+      <% sections.each_with_index do |section, index| %>
+        <%= render "jobseeker/applications/section_fields", index: index, section: section %>
+      <% end %>
+    </div>
+    <template data-offer-sections-target="template">
+      <%= render "jobseeker/applications/section_fields", index: "NEW_RECORD", section: { "key" => "description", "body" => "" } %>
+    </template>
+    <button type="button" class="btn-ghost mt-3" data-action="offer-sections#add" data-offer-sections-target="add">
+      <%= t("jobseeker.applications.sections.add") %>
+    </button>
+  </fieldset>
+  <dialog class="offer-confirm" data-offer-sections-target="confirm"
+          aria-labelledby="offer-section-confirm-title"
+          data-action="click->offer-sections#backdrop cancel->offer-sections#dismiss">
+    <div class="cv-modal__body">
+      <div class="offer-confirm__mark" aria-hidden="true"><i class="bi bi-trash"></i></div>
+      <h2 class="cv-modal__title" id="offer-section-confirm-title"><%= t("jobseeker.applications.sections.confirm_title") %></h2>
+      <p class="offer-confirm__text" data-offer-sections-target="confirmBody"></p>
+    </div>
+    <div class="cv-modal__footer">
+      <button type="button" class="btn-ghost" data-action="offer-sections#cancelRemove" data-offer-sections-target="cancel">
+        <%= t("jobseeker.applications.sections.cancel") %>
+      </button>
+      <button type="button" class="btn-danger" data-action="offer-sections#confirmRemove">
+        <%= t("jobseeker.applications.sections.confirm") %>
+      </button>
+    </div>
+  </dialog>
+  </div>
+
+  <% company = nested_company_for(application) %>
+  <fieldset class="company-fieldset application-form__meta mt-4">
+    <legend class="form-label">
+      <%= t("jobseeker.applications.#{company.persisted? ? "known_company_legend" : "new_company_legend"}") %>
+    </legend>
+    <p class="form-text mt-0">
+      <%= t("jobseeker.applications.#{company.persisted? ? "known_company_hint" : "new_company_hint"}") %>
+    </p>
+    <%= f.fields_for :company, company do |company_form| %>
       <%= render "shared/company_fields", f: company_form, required: false %>
     <% end %>
   </fieldset>
 
-  <div class="d-flex gap-2 mt-4">
+  <div class="application-form__meta d-flex gap-2 mt-4">
     <%= f.submit t("jobseeker.applications.save"), class: "btn-ink" %>
     <%= link_to t("admin.users.cancel"), jobseeker_applications_path, class: "btn-ghost" %>
   </div>
