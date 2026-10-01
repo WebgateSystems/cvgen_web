@@ -27,7 +27,7 @@ gem "cvgen", github: "WebgateSystems/cvgen"
 gem "openai", "~> 0.6.0"
 gem "pdf-reader", "~> 2.14"
 gem "rubyzip", "~> 3.0"
-gem "sidekiq", "~> 7.3", require: false
+gem "sidekiq", "~> 8.1", require: false
 
 group :development, :test do
   gem "debug", platforms: %i[ mri windows ], require: "debug/prelude"
