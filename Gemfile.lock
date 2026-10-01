@@ -487,7 +487,7 @@ GEM
     ruby_parser (3.22.0)
       racc (~> 1.5)
       sexp_processor (~> 4.16)
-    rubyzip (3.6.0)
+    rubyzip (3.7.0)
     securerandom (0.4.1)
     selenium-webdriver (4.49.0)
       base64 (~> 0.2)
@@ -605,7 +605,7 @@ DEPENDENCIES
   rails (~> 8.1.3, >= 8.1.3.1)
   rspec-rails (~> 8.0)
   rubocop-rails-omakase
-  rubyzip (~> 3.0)
+  rubyzip (~> 3.7)
   selenium-webdriver
   sidekiq (~> 7.3)
   simplecov (~> 0.22)
