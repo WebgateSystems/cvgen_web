@@ -2,7 +2,7 @@ source "https://rubygems.org"
 
 gem "config"
 gem "devise", "~> 5.0"
-gem "omniauth", "~> 2.1"
+gem "omniauth", "~> 2.3"
 gem "omniauth-rails_csrf_protection"
 gem "omniauth-google-oauth2"
 gem "omniauth-apple"
